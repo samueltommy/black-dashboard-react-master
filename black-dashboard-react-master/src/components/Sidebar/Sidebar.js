@@ -1,31 +1,15 @@
-/*!
-
-=========================================================
-* Black Dashboard React v1.2.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/black-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/black-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-/*eslint-disable*/
 import React from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
-// nodejs library to set properties for components
 import { PropTypes } from "prop-types";
-
-// javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
-
-// reactstrap components
-import { Nav, NavLink as ReactstrapNavLink } from "reactstrap";
+import {
+  Nav,
+  NavLink as ReactstrapNavLink,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 import {
   BackgroundColorContext,
   backgroundColors,
@@ -36,10 +20,19 @@ var ps;
 function Sidebar(props) {
   const location = useLocation();
   const sidebarRef = React.useRef(null);
-  // verifies if routeName is the one active (in browser input)
+  const [dropdownOpen, setDropdownOpen] = React.useState({});
+
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";
   };
+
+  const toggleDropdown = (name) => {
+    setDropdownOpen((prevState) => ({
+      ...prevState,
+      [name]: !prevState[name],
+    }));
+  };
+
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(sidebarRef.current, {
@@ -47,19 +40,22 @@ function Sidebar(props) {
         suppressScrollY: false,
       });
     }
-    // Specify how to clean up after this effect:
+
     return function cleanup() {
       if (navigator.platform.indexOf("Win") > -1) {
         ps.destroy();
       }
     };
   });
+
   const linkOnClick = () => {
     document.documentElement.classList.remove("nav-open");
   };
+
   const { routes, rtlActive, logo } = props;
   let logoImg = null;
   let logoText = null;
+
   if (logo !== undefined) {
     if (logo.outterLink !== undefined) {
       logoImg = (
@@ -107,6 +103,7 @@ function Sidebar(props) {
       );
     }
   }
+
   return (
     <BackgroundColorContext.Consumer>
       {({ color }) => (
@@ -121,23 +118,62 @@ function Sidebar(props) {
             <Nav>
               {routes.map((prop, key) => {
                 if (prop.redirect) return null;
-                return (
-                  <li
-                    className={
-                      activeRoute(prop.path) + (prop.pro ? " active-pro" : "")
-                    }
-                    key={key}
-                  >
-                    <NavLink
-                      to={prop.layout + prop.path}
-                      className="nav-link"
-                      onClick={props.toggleSidebar}
+                if (prop.children && prop.children.length > 0) {
+                  const isOpen = dropdownOpen[prop.name];
+                  return (
+                    <li className="nav-item" key={key}>
+                      <Dropdown
+                        nav
+                        isOpen={isOpen}
+                        toggle={() => toggleDropdown(prop.name)}
+                      >
+                        <DropdownToggle nav caret>
+                          <i className={prop.icon} />
+                          <p>{rtlActive ? prop.rtlName : prop.name}</p>
+                        </DropdownToggle>
+                        <DropdownMenu className="sidebar-dropdown-menu">
+                          {prop.children.map((childProp, childKey) => (
+                            <DropdownItem
+                              key={childKey}
+                              className={activeRoute(
+                                childProp.layout + childProp.path
+                              )}
+                              tag={NavLink}
+                              to={childProp.layout + childProp.path}
+                              onClick={props.toggleSidebar}
+                            >
+                              <i className={childProp.icon} />
+                              <p>
+                                {rtlActive
+                                  ? childProp.rtlName
+                                  : childProp.name}
+                              </p>
+                            </DropdownItem>
+                          ))}
+                        </DropdownMenu>
+                      </Dropdown>
+                    </li>
+                  );
+                } else {
+                  return (
+                    <li
+                      className={
+                        activeRoute(prop.layout + prop.path) +
+                        (prop.pro ? " active-pro" : "")
+                      }
+                      key={key}
                     >
-                      <i className={prop.icon} />
-                      <p>{rtlActive ? prop.rtlName : prop.name}</p>
-                    </NavLink>
-                  </li>
-                );
+                      <NavLink
+                        to={prop.layout + prop.path}
+                        className="nav-link"
+                        onClick={props.toggleSidebar}
+                      >
+                        <i className={prop.icon} />
+                        <p>{rtlActive ? prop.rtlName : prop.name}</p>
+                      </NavLink>
+                    </li>
+                  );
+                }
               })}
             </Nav>
           </div>

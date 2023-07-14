@@ -27,31 +27,53 @@ var routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-
     icon: "tim-icons icon-chart-pie-36",
     component: <Dashboard />,
     layout: "/admin",
   },
   {
-    path: "/icons",
-    name: "Daftar Pengguna Baru",
+    name: "Daftar",
     icon: "tim-icons icon-atom",
-    component: <Icons />,
     layout: "/admin",
+    children: [
+      {
+        path: "/icons",
+        name: "Pengguna Baru",
+        component: <Icons />,
+        layout: "/admin",
+      },
+      {
+        path: "/map",
+        name: "Puskesmas Baru",
+        component: <Map />,
+        layout: "/admin",
+      },
+    ],
   },
   {
-    path: "/map",
-    name: "Daftar Puskesmas Baru",
-    icon: "tim-icons icon-pin",
-    component: <Map />,
-    layout: "/admin",
-  },
-  {
-    path: "/notifications",
     name: "Pemantauan",
     icon: "tim-icons icon-bell-55",
-    component: <Notifications />,
     layout: "/admin",
+    children:[
+      {
+        path: "/notifications",
+        name: "Nasional",
+        component: <Notifications />,
+        layout: "/admin",
+      },
+      {
+        path: "/",
+        name: "Puskesmas",
+        component: <Notifications />,
+        layout: "/admin",
+      },
+      {
+        path: "/",
+        name: "Individu",
+        component: <Notifications />,
+        layout: "/admin",
+      },
+    ],
   },
   {
     path: "/user-profile",
@@ -75,4 +97,5 @@ var routes = [
     layout: "/admin",
   },
 ];
+
 export default routes;
