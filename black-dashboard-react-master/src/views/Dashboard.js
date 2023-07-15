@@ -21,6 +21,8 @@ import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar, Pie, Radar, Chart,  PolarArea} from "react-chartjs-2";
 
+import "assets/css/black-dashboard-react.css";
+
 // reactstrap components
 import {
   Button,
@@ -58,16 +60,24 @@ function Dashboard(props) {
   };
   return (
     <>
-      <div className="content">
-        <Container>
+      <div
+        className={classNames("content", { "mt-70": props.fixedNavbar })}
+        style={{ paddingTop: '80px' }}
+      >
+
+        <Container fluid>
           <Row>
             <Col xs="12">
               <Card className="card-chart">
                 <CardHeader>
                   <Row>
                     <Col className="text-left" sm="6">
-                      <h5 className="card-category">Perbandingan per Provinsi</h5>
-                      <CardTitle tag="h2">Perbandingan Anak Normal dan Tidak</CardTitle>
+                      <h5 className="card-category">
+                        Perbandingan per Provinsi
+                      </h5>
+                      <CardTitle tag="h2">
+                        Perbandingan Anak Normal dan Tidak
+                      </CardTitle>
                     </Col>
                   </Row>
                 </CardHeader>
@@ -168,9 +178,7 @@ function Dashboard(props) {
                   </Row>
                 </CardHeader>
                 <CardBody>
-                  <div className="chart-area">
-
-                  </div>
+                  <div className="chart-area">{/* Add your chart here */}</div>
                 </CardBody>
               </Card>
             </Col>

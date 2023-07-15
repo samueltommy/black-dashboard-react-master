@@ -104,19 +104,12 @@ function Admin(props) {
           <div className="wrapper">
             <Sidebar
               routes={routes}
-              logo={{
-                path: "/dashboard",
-                text: "Puskesmas",
-                imgSrc: logo,
-              }}
               toggleSidebar={toggleSidebar}
             />
             <div className="main-panel" ref={mainPanelRef} data={color}>
               <AdminNavbar
-                brandText={getBrandText(location.pathname)}
-                toggleSidebar={toggleSidebar}
-                sidebarOpened={sidebarOpened}
-              />
+                  brandText={getBrandText(location.pathname)}
+                />
               <Routes>
                 {getRoutes(routes)}
                 <Route

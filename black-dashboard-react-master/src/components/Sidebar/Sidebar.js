@@ -5,6 +5,7 @@ import PerfectScrollbar from "perfect-scrollbar";
 import {
   Nav,
   NavLink as ReactstrapNavLink,
+  NavItem,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
@@ -109,12 +110,6 @@ function Sidebar(props) {
       {({ color }) => (
         <div className="sidebar" data={color}>
           <div className="sidebar-wrapper" ref={sidebarRef}>
-            {logoImg !== null || logoText !== null ? (
-              <div className="logo">
-                {logoImg}
-                {logoText}
-              </div>
-            ) : null}
             <Nav>
               {routes.map((prop, key) => {
                 if (prop.redirect) return null;

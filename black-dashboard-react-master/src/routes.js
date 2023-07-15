@@ -34,7 +34,6 @@ var routes = [
   {
     name: "Daftar",
     icon: "tim-icons icon-atom",
-    layout: "/admin",
     children: [
       {
         path: "/icons",
@@ -56,7 +55,7 @@ var routes = [
     layout: "/admin",
     children:[
       {
-        path: "/notifications",
+        path: "/notification",
         name: "Nasional",
         component: <Notifications />,
         layout: "/admin",
