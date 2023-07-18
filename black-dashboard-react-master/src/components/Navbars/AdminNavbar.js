@@ -1,8 +1,6 @@
 import React from "react";
 import classNames from "classnames";
 import {
-  Button,
-  Collapse,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
@@ -15,10 +13,12 @@ import {
   Nav,
   Container,
   Modal,
-  NavbarToggler,
   ModalHeader,
 } from "reactstrap";
 import logo from "assets/img/puskes.png";
+import stei from "assets/img/stei.png";
+import sith from "assets/img/sith.png";
+import kirei from "assets/img/kirei.png";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
@@ -41,19 +41,6 @@ function AdminNavbar(props) {
     }
   };
 
-  const toggleCollapse = () => {
-    if (collapseOpen) {
-      setcolor("");
-    } else {
-      setcolor("bg-white");
-    }
-    setcollapseOpen(!collapseOpen);
-  };
-
-  const toggleModalSearch = () => {
-    setmodalSearch(!modalSearch);
-  };
-
   return (
     <>
       <Navbar
@@ -70,59 +57,16 @@ function AdminNavbar(props) {
             />
             Puskesmas
           </NavbarBrand>
-          <NavbarToggler onClick={toggleCollapse} />
-          <Collapse navbar isOpen={collapseOpen}>
             <Nav className="ml-auto" navbar>
-              <UncontrolledDropdown nav>
-                <DropdownToggle
-                  caret
-                  color="default"
-                  nav
-                  onClick={(e) => e.preventDefault()}
-                >
                   <div className="photo">
-                    <img alt="..." src={require("assets/img/anime3.png")} />
+                    <img className="logo-kupu" alt="Logo kupu" src={kirei} />
                   </div>
-                  <b className="caret d-none d-lg-block d-xl-block" />
-                  <p className="d-lg-none">Log out</p>
-                </DropdownToggle>
-                <DropdownMenu className="dropdown-navbar" right tag="ul">
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Profile</DropdownItem>
-                  </NavLink>
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Settings</DropdownItem>
-                  </NavLink>
-                  <DropdownItem divider tag="li" />
-                  <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
-                  </NavLink>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-              <li className="separator d-lg-none" />
             </Nav>
-          </Collapse>
         </Container>
       </Navbar>
       <div>
         {/* Add your dashboard content here */}
       </div>
-      <Modal
-        modalClassName="modal-search"
-        isOpen={modalSearch}
-        toggle={toggleModalSearch}
-      >
-        <ModalHeader>
-          <Input placeholder="SEARCH" type="text" />
-          <button
-            aria-label="Close"
-            className="close"
-            onClick={toggleModalSearch}
-          >
-            <i className="tim-icons icon-simple-remove" />
-          </button>
-        </ModalHeader>
-      </Modal>
     </>
   );
 }

@@ -51,24 +51,37 @@ import {
   chartExample2,
   chartExample3,
   chartExample4,
+  chartExample5,
+  chartExample6
 } from "variables/charts.js";
 
+import LandingPage from "./LandingPage.js";
+
 function Dashboard(props) {
-  const [bigChartData, setbigChartData] = React.useState("data1");
+  const [bigChartData, setBigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
-    setbigChartData(name);
+    setBigChartData(name);
   };
+
   return (
     <>
       <div
         className={classNames("content", { "mt-70": props.fixedNavbar })}
-        style={{ paddingTop: '80px' }}
+        style={{ paddingTop: "80px", minHeight: "100vh" }} // Added minHeight property
       >
-
         <Container fluid>
           <Row>
             <Col xs="12">
               <Card className="card-chart">
+                <CardBody>
+                  <LandingPage />
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs="12">
+              <Card>
                 <CardHeader>
                   <Row>
                     <Col className="text-left" sm="6">
@@ -179,6 +192,44 @@ function Dashboard(props) {
                 </CardHeader>
                 <CardBody>
                   <div className="chart-area">{/* Add your chart here */}</div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="6">
+              <Card className="card-chart">
+                <CardHeader>
+                  <h5 className="card-category">KMS TB</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-bell-55 text-info" /> 763,215
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area">
+                    <Line
+                      data={chartExample5.data}
+                      options={chartExample5.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="6">
+              <Card className="card-chart">
+                <CardHeader>
+                  <h5 className="card-category">KMS BB</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-send text-success" /> 12,100K
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area">
+                    <Line
+                      data={chartExample6.data}
+                      options={chartExample6.options}
+                    />
+                  </div>
                 </CardBody>
               </Card>
             </Col>
