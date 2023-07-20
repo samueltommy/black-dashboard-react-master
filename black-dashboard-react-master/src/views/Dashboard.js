@@ -22,6 +22,7 @@ import classNames from "classnames";
 import { Line, Bar, Pie, Radar, Chart,  PolarArea} from "react-chartjs-2";
 
 import "assets/css/black-dashboard-react.css";
+import maps from "assets/img/map.svg";
 
 // reactstrap components
 import {
@@ -52,7 +53,9 @@ import {
   chartExample3,
   chartExample4,
   chartExample5,
-  chartExample6
+  chartExample6,
+  chartExample7,
+  chartExample8,
 } from "variables/charts.js";
 
 import LandingPage from "./LandingPage.js";
@@ -191,7 +194,7 @@ function Dashboard(props) {
                   </Row>
                 </CardHeader>
                 <CardBody>
-                  <div className="chart-area">{/* Add your chart here */}</div>
+                  <img src={maps} alt ="map indo" />
                 </CardBody>
               </Card>
             </Col>
@@ -200,7 +203,7 @@ function Dashboard(props) {
             <Col lg="6">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">KMS Tinggi Badan Menurut Usia (Laki-Laki)</h5>
+                  <h5 className="card-category">KMS Panjang Badan Menurut Usia (Laki-Laki)</h5>
                   <CardTitle tag="h3">
                     <i className="tim-icons icon-bell-55 text-info" /> 0-24 Bulan
                   </CardTitle>
@@ -246,8 +249,8 @@ function Dashboard(props) {
                 <CardBody>
                   <div className="chart-area">
                     <Line
-                      data={chartExample5.data}
-                      options={chartExample5.options}
+                      data={chartExample7.data}
+                      options={chartExample7.options}
                     />
                   </div>
                 </CardBody>
@@ -264,8 +267,8 @@ function Dashboard(props) {
                 <CardBody>
                   <div className="chart-area">
                     <Line
-                      data={chartExample6.data}
-                      options={chartExample6.options}
+                      data={chartExample8.data}
+                      options={chartExample8.options}
                     />
                   </div>
                 </CardBody>
