@@ -200,9 +200,9 @@ function Dashboard(props) {
             <Col lg="6">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">KMS TB</h5>
+                  <h5 className="card-category">KMS Tinggi Badan Menurut Usia (Laki-Laki)</h5>
                   <CardTitle tag="h3">
-                    <i className="tim-icons icon-bell-55 text-info" /> 763,215
+                    <i className="tim-icons icon-bell-55 text-info" /> 0-24 Bulan
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
@@ -218,9 +218,85 @@ function Dashboard(props) {
             <Col lg="6">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">KMS BB</h5>
+                  <h5 className="card-category">KMS Berat Badan Menurut Usia (Laki-Laki)</h5>
                   <CardTitle tag="h3">
-                    <i className="tim-icons icon-send text-success" /> 12,100K
+                    <i className="tim-icons icon-send text-success" /> 0-24 Bulan
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area">
+                    <Line
+                      data={chartExample6.data}
+                      options={chartExample6.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="6">
+              <Card className="card-chart">
+                <CardHeader>
+                  <h5 className="card-category">KMS Tinggi Badan Menurut Usia (Laki-Laki)</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-bell-55 text-info" /> 24-60 Bulan
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area">
+                    <Line
+                      data={chartExample5.data}
+                      options={chartExample5.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="6">
+              <Card className="card-chart">
+                <CardHeader>
+                  <h5 className="card-category">KMS Berat Badan Menurut Usia (Laki-Laki)</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-send text-success" /> 24-60 Bulan
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area">
+                    <Line
+                      data={chartExample6.data}
+                      options={chartExample6.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="6">
+              <Card className="card-chart">
+                <CardHeader>
+                  <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (Laki-Laki)</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-bell-55 text-info" /> 0-24 Bulan
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area">
+                    <Line
+                      data={chartExample5.data}
+                      options={chartExample5.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="6">
+              <Card className="card-chart">
+                <CardHeader>
+                  <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (Laki-Laki)</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-send text-success" /> 24-60 Bulan
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
