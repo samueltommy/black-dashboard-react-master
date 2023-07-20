@@ -19,11 +19,15 @@ import React from "react";
 
 // reactstrap components
 import {
+  Button,
   Card,
   CardHeader,
   CardBody,
-  CardTitle,
-  Table,
+  CardFooter,
+  CardText,
+  FormGroup,
+  Form,
+  Input,
   Row,
   Col,
 } from "reactstrap";
@@ -33,130 +37,137 @@ function Tables() {
     <>
       <div className="content">
         <Row>
-          <Col md="12">
+          <Col md="8">
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle>
+                <h5 className="title">Pengisian Data Pengukuran</h5>
               </CardHeader>
               <CardBody>
-                <Table className="tablesorter" responsive>
-                  <thead className="text-primary">
-                    <tr>
-                      <th>Name</th>
-                      <th>Country</th>
-                      <th>City</th>
-                      <th className="text-center">Salary</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                      <td className="text-center">$36,738</td>
-                    </tr>
-                    <tr>
-                      <td>Minerva Hooper</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                      <td className="text-center">$23,789</td>
-                    </tr>
-                    <tr>
-                      <td>Sage Rodriguez</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                      <td className="text-center">$56,142</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td className="text-center">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Doris Greene</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                      <td className="text-center">$63,542</td>
-                    </tr>
-                    <tr>
-                      <td>Mason Porter</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$78,615</td>
-                    </tr>
-                    <tr>
-                      <td>Jon Porter</td>
-                      <td>Portugal</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$98,615</td>
-                    </tr>
-                  </tbody>
-                </Table>
+                <Form>
+                  <Row>
+                    <Col className="pr-md-1" md="5">
+                      <FormGroup>
+                        <label>Nama Anak</label>
+                        <Input
+                          placeholder="Masukkan nama lengkap anak..."
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-md-1" md="5">
+                      <FormGroup>
+                        <label>Tanggal Lahir</label>
+                        <Input
+                        placeholder="Masukkan tanggal lahir anak dalam format DD-MM-YY..."
+                        type="text" />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                     <Col className="px-md-1" md="5">
+                      <FormGroup>
+                        <label>NIK Anak</label>
+                        <Input
+                          placeholder="Masukkan 16 digit NIK anak..."
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pr-md-1" md="5">
+                      <FormGroup>
+                        <label>Username</label>
+                        <Input
+                          placeholder="Masukkan atau ganti username anak..."
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="pl-md-1" md="5">
+                      <FormGroup>
+                        <label>Nama Ayah</label>
+                        <Input
+                          placeholder="Masukkan nama lengkap Ayah..."
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pr-md-1" md="5">
+                      <FormGroup>
+                        <label>Nama Ibu</label>
+                        <Input
+                          placeholder="Masukkan nama lengkap Ibu..."
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                    </Row>
+                    <Row>
+                    <Col className="px-md-1" md="5">
+                      <FormGroup>
+                        <label>Email Orang Tua</label>
+                        <Input
+                          placeholder="Masukkan e-mail orang tua..."
+                          type="email"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-md-1" md="5">
+                      <FormGroup action="" method="">
+                        <label>Jenis Kelamin</label>
+                        <Input
+                          placeholder="Pilih jenis kelamin anak..."
+                          type="text"
+                        />
+                      </FormGroup>
+                    </Col>
+                    </Row><Row>
+                    <Col className="pl-md-1" md="5">
+                      <FormGroup>
+                        <label>Alamat</label>
+                        <Input
+                        placeholder="Masukkan alamat rumah yang kini ditinggali..."
+                        type="text" />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-md-1" md="5">
+                      <FormGroup>
+                        <label>Posyandu</label>
+                        <Input
+                        placeholder="Masukkan posyandu yang didatangi..."
+                        type="text" />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </Form>
               </CardBody>
+              <CardFooter>
+                <Button className="btn-fill" color="primary" type="submit">
+                  Save
+                </Button>
+              </CardFooter>
             </Card>
           </Col>
-          <Col md="12">
-            <Card className="card-plain">
-              <CardHeader>
-                <CardTitle tag="h4">Table on Plain Background</CardTitle>
-                <p className="category">Here is a subtitle for this table</p>
-              </CardHeader>
+          <Col md="4">
+            <Card className="card-user">
               <CardBody>
-                <Table className="tablesorter" responsive>
-                  <thead className="text-primary">
-                    <tr>
-                      <th>Name</th>
-                      <th>Country</th>
-                      <th>City</th>
-                      <th className="text-center">Salary</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                      <td className="text-center">$36,738</td>
-                    </tr>
-                    <tr>
-                      <td>Minerva Hooper</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                      <td className="text-center">$23,789</td>
-                    </tr>
-                    <tr>
-                      <td>Sage Rodriguez</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                      <td className="text-center">$56,142</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td className="text-center">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Doris Greene</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                      <td className="text-center">$63,542</td>
-                    </tr>
-                    <tr>
-                      <td>Mason Porter</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$78,615</td>
-                    </tr>
-                    <tr>
-                      <td>Jon Porter</td>
-                      <td>Portugal</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$98,615</td>
-                    </tr>
-                  </tbody>
-                </Table>
+                <CardText />
+                <div className="author">
+                  <div className="block block-one" />
+                  <div className="block block-two" />
+                  <div className="block block-three" />
+                  <div className="block block-four" />
+                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                    <img
+                      alt="..."
+                      className="avatar"
+                      src={require("assets/img/kosongan.png")}
+                    />
+                    <h5 className="title">Nama Pengguna</h5>
+                  </a>
+                  <p className="description">Pengguna</p>
+                </div>
               </CardBody>
             </Card>
           </Col>
