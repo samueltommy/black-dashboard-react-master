@@ -19,7 +19,7 @@ import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react plugin used to create charts
-import { Line, Bar, Pie, Radar, Chart,  PolarArea} from "react-chartjs-2";
+import { Line, Bar, Pie, PolarArea} from "react-chartjs-2";
 
 import "assets/css/black-dashboard-react.css";
 import maps from "assets/img/map.svg";
@@ -56,6 +56,7 @@ import {
   chartExample6,
   chartExample7,
   chartExample8,
+  chartExample9
 } from "variables/charts.js";
 
 import LandingPage from "./LandingPage.js";
@@ -199,9 +200,9 @@ function Dashboard(props) {
               </Card>
             </Col>
           </Row>
-          <Row>
+          <Row >
             <Col lg="6">
-              <Card className="card-chart">
+              <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}> {/* Add the 'soft-blue-card' class here */}
                 <CardHeader>
                   <h5 className="card-category">KMS Panjang Badan Menurut Usia (Laki-Laki)</h5>
                   <CardTitle tag="h3">
@@ -209,17 +210,17 @@ function Dashboard(props) {
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <div className="chart-area">
-                    <Line
-                      data={chartExample5.data}
-                      options={chartExample5.options}
-                    />
+                  <div className="chart-area" style={{ height: "500px" }}>
+                  <Line
+                    data={chartExample5.data}
+                    options={chartExample5.options}
+                  />
                   </div>
                 </CardBody>
               </Card>
             </Col>
             <Col lg="6">
-              <Card className="card-chart">
+              <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}> {/* Add the 'soft-blue-card' class here */}
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Usia (Laki-Laki)</h5>
                   <CardTitle tag="h3">
@@ -227,7 +228,7 @@ function Dashboard(props) {
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <div className="chart-area">
+                  <div className="chart-area" style={{ height: "500px" }}>
                     <Line
                       data={chartExample6.data}
                       options={chartExample6.options}
@@ -239,7 +240,7 @@ function Dashboard(props) {
           </Row>
           <Row>
             <Col lg="6">
-              <Card className="card-chart">
+              <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Tinggi Badan Menurut Usia (Laki-Laki)</h5>
                   <CardTitle tag="h3">
@@ -247,7 +248,7 @@ function Dashboard(props) {
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <div className="chart-area">
+                  <div className="chart-area" style={{ height: "500px" }}>
                     <Line
                       data={chartExample7.data}
                       options={chartExample7.options}
@@ -257,7 +258,7 @@ function Dashboard(props) {
               </Card>
             </Col>
             <Col lg="6">
-              <Card className="card-chart">
+              <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Usia (Laki-Laki)</h5>
                   <CardTitle tag="h3">
@@ -265,7 +266,7 @@ function Dashboard(props) {
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <div className="chart-area">
+                  <div className="chart-area" style={{ height: "500px" }}>
                     <Line
                       data={chartExample8.data}
                       options={chartExample8.options}
@@ -277,7 +278,7 @@ function Dashboard(props) {
           </Row>
           <Row>
             <Col lg="6">
-              <Card className="card-chart">
+              <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (Laki-Laki)</h5>
                   <CardTitle tag="h3">
@@ -285,7 +286,45 @@ function Dashboard(props) {
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <div className="chart-area">
+                  <div className="chart-area" style={{ height: "500px" }}>
+                    <Line
+                      data={chartExample9.data}
+                      options={chartExample9.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="6">
+              <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}>
+                <CardHeader>
+                  <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (Laki-Laki)</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-send text-success" /> 24-60 Bulan
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area" style={{ height: "500px" }}>
+                    <Line
+                      data={chartExample6.data}
+                      options={chartExample6.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="6">
+              <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}> {/* Add the 'soft-blue-card' class here */}
+                <CardHeader>
+                  <h5 className="card-category">KMS Panjang Badan Menurut Usia (perempuan)</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-bell-55 text-info" /> 0-24 Bulan
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                 <div className="chart-area" style={{ height: "500px" }}>
                     <Line
                       data={chartExample5.data}
                       options={chartExample5.options}
@@ -295,15 +334,91 @@ function Dashboard(props) {
               </Card>
             </Col>
             <Col lg="6">
-              <Card className="card-chart">
+              <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}> {/* Add the 'soft-blue-card' class here */}
                 <CardHeader>
-                  <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (Laki-Laki)</h5>
+                  <h5 className="card-category">KMS Berat Badan Menurut Usia (perempuan)</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-send text-success" /> 0-24 Bulan
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area" style={{ height: "500px" }}>
+                    <Line
+                      data={chartExample6.data}
+                      options={chartExample6.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="6">
+              <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}>
+                <CardHeader>
+                  <h5 className="card-category">KMS Tinggi Badan Menurut Usia (perempuan)</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-bell-55 text-info" /> 24-60 Bulan
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                 <div className="chart-area" style={{ height: "500px" }}>
+                    <Line
+                      data={chartExample7.data}
+                      options={chartExample7.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="6">
+              <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}>
+                <CardHeader>
+                  <h5 className="card-category">KMS Berat Badan Menurut Usia (perempuan)</h5>
                   <CardTitle tag="h3">
                     <i className="tim-icons icon-send text-success" /> 24-60 Bulan
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <div className="chart-area">
+                  <div className="chart-area" style={{ height: "500px" }}>
+                    <Line
+                      data={chartExample8.data}
+                      options={chartExample8.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg="6">
+              <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}>
+                <CardHeader>
+                  <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (perempuan)</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-bell-55 text-info" /> 0-24 Bulan
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area" style={{ height: "500px" }}>
+                    <Line
+                      data={chartExample9.data}
+                      options={chartExample9.options}
+                    />
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col lg="6">
+              <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}>
+                <CardHeader>
+                  <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (perempuan)</h5>
+                  <CardTitle tag="h3">
+                    <i className="tim-icons icon-send text-success" /> 24-60 Bulan
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area" style={{ height: "500px" }}>
                     <Line
                       data={chartExample6.data}
                       options={chartExample6.options}

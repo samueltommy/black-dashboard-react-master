@@ -15,6 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import LoginPage from "views/LoginPage.js";
 import Dashboard from "views/Dashboard.js";
 import Icons from "views/Icons.js";
 import Map from "views/Map.js";
@@ -24,6 +25,12 @@ import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
 
 var routes = [
+  {
+    path: "/login",
+    name:"Login",
+    component: <LoginPage />,
+    layout: "/admin",
+  },
   {
     path: "/dashboard",
     name: "Dashboard",

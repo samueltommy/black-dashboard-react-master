@@ -28,7 +28,7 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import logo from "assets/img/react-logo.png";
+import logo from "assets/img/puskes.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 var ps;
@@ -97,31 +97,19 @@ function Admin(props) {
     }
     return "Brand";
   };
+
+  // Check if the current route is the login page
+  const isLoginPage = location.pathname === "/admin/login";
+
   return (
     <BackgroundColorContext.Consumer>
       {({ color, changeColor }) => (
         <React.Fragment>
-          <div className="wrapper">
-            <Sidebar
-              routes={routes}
-              toggleSidebar={toggleSidebar}
-            />
-            <div className="main-panel" ref={mainPanelRef} data={color}>
-              <AdminNavbar
-                  brandText={getBrandText(location.pathname)}
-                />
-              <Routes>
-                {getRoutes(routes)}
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
-              </Routes>
-              {
-                // we don't want the Footer to be rendered on map page
-                location.pathname === "/admin/maps" ? null : <Footer fluid />
-              }
-            </div>
+          {isLoginPage ? null : <Sidebar routes={routes} toggleSidebar={toggleSidebar} />}
+          <div className="main-panel" ref={mainPanelRef} data={color}>
+            {!isLoginPage && <AdminNavbar brandText={getBrandText(location.pathname)} />}
+            <Routes>{getRoutes(routes)}</Routes>
+            {!isLoginPage && location.pathname !== "/admin/maps" && <Footer fluid />}
           </div>
           <FixedPlugin bgColor={color} handleBgClick={changeColor} />
         </React.Fragment>

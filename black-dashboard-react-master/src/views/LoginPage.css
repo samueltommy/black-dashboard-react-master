@@ -1,0 +1,321 @@
+.login-page {
+  background-color: #d7d7d7;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.login-page .div {
+  background-color: #d7d7d7;
+  border: 1px none;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  width: 1920px;
+}
+
+.login-page .small-team {
+  align-items: center;
+  background-color: #ffffff;
+  display: flex;
+  gap: 10px;
+  height: 759px;
+  justify-content: center;
+  left: 616px;
+  mix-blend-mode: color-burn;
+  padding: 0px 88px;
+  position: absolute;
+  top: 50px;
+  width: 1500px;
+}
+
+.login-page .logo-puskesmas {
+  height: 632.92px;
+  min-width: 616px;
+  object-fit: cover;
+  position: relative;
+}
+
+.login-page .div-wrapper {
+  height: 633px;
+  left: 300px;
+  position: absolute;
+  top: 100px;
+  width: 505px;
+}
+
+.login-page .group-2 {
+  background-color: #ffffff;
+  border: 0.5px solid;
+  border-color: #868686;
+  border-radius: 10px;
+  box-shadow: 0px 4px 64px #0000000d;
+  height: 633px;
+}
+
+.login-page .group-3 {
+  height: 497px;
+  left: 34px;
+  position: relative;
+  top: 32px;
+  width: 425px;
+}
+
+.login-page .group-4 {
+  height: 70px;
+  left: 0;
+  position: absolute;
+  top: 45px;
+  width: 319px;
+}
+
+.login-page .text-wrapper {
+  color: #000000;
+  font-family: "Poppins-Medium", Helvetica;
+  font-size: 31px;
+  font-weight: 500;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  width: 0px;
+}
+
+.login-page .text-wrapper-2 {
+  color: #000000;
+  font-family: "Poppins-Regular", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 60px;
+  width: 315px;
+}
+
+.login-page .text-wrapper-3 {
+  color: #000000;
+  font-family: "Poppins-Light", Helvetica;
+  font-size: 25px;
+  font-weight: 300;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  width: 231px;
+}
+
+.login-page .group-5 {
+  height: 329px;
+  left: 0;
+  position: absolute;
+  top: 168px;
+  width: 423px;
+}
+
+.login-page .group-21 {
+  left: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+.login-page .overlap-group-wrapper {
+  height: 83px;
+  left: 0;
+  position: absolute;
+  top: 117px;
+  width: 423px;
+}
+
+.login-page .overlap-group {
+  height: 83px;
+  position: relative;
+}
+
+.login-page .invisible {
+  height: 19px;
+  left: 374px;
+  position: absolute;
+  top: 47px;
+  width: 21px;
+}
+
+.login-page .group-6 {
+  height: 16px;
+  left: 0;
+  position: absolute;
+  top: 221px;
+  width: 427px;
+}
+
+.login-page .rectangle {
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: #000000;
+  height: 14px;
+  left: 0;
+  position: absolute;
+  top: 3px;
+  width: 15px;
+}
+
+.login-page .text-wrapper-4 {
+  color: #000000;
+  font-family: "Poppins-Light", Helvetica;
+  font-size: 12px;
+  font-weight: 300;
+  left: 25px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  width: 90px;
+}
+
+.login-page .checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.login-page .checkbox-input {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  margin-right: 6px;
+  position: relative;
+  cursor: pointer;
+}
+
+.login-page .checkbox-input:checked::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background-color: #000000;
+  border-radius: 2px;
+}
+
+.login-page .checkbox-label {
+  font-size: 12px;
+  color: #000000;
+  cursor: pointer;
+}
+
+.login-page .forgot-password-link {
+  font-size: 12px;
+  color: #4c4c4c;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-page .forgot-password-link:hover {
+  color: #000000;
+}
+
+.login-page .text-wrapper-5 {
+  color: #4c4c4c;
+  font-family: "Poppins-Light", Helvetica;
+  font-size: 12px;
+  font-weight: 300;
+  left: 315px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 0;
+  width: 108px;
+}
+
+.login-page .overlap-wrapper {
+  height: 57px;
+  left: 0;
+  position: absolute;
+  top: 272px;
+  width: 425px;
+}
+
+button.login-button {
+  padding: 13px 20px;
+  background-color: #46cb4f;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-top: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.login-button:hover {
+  background-color: #0ab941;
+}
+
+.login-page .text-wrapper-6 {
+  color: #ffffff;
+  font-family: "Poppins-Medium", Helvetica;
+  font-size: 16px;
+  font-weight: 500;
+  left: 182px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 18px;
+  width: 58px;
+}
+
+.login-page .overlap-2 {
+  height: 32px;
+  left: 20px;
+  position: absolute;
+  top: 20px;
+  width: 292px;
+}
+
+.login-page .group-7 {
+  height: 32px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 292px;
+}
+
+.login-page .stei-itb {
+  height: 32px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 140px;
+}
+
+.login-page .logo-kupu {
+  height: 32px;
+  left: 264px;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 28px;
+}
+
+.login-page .logo-SITH-FC {
+  height: 32px;
+  left: 159px;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 86px;
+}
+
+p.error-message {
+  color: #ff0000;
+  font-size: 16px;
+  margin-top: 20px;
+}

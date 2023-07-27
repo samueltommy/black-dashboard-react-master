@@ -16,36 +16,41 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-
-// reactstrap components
+import React, { useEffect, useRef } from "react";
 import { Container } from "reactstrap";
 
-// core components
-
 function LandingPageHeader() {
-  let pageHeader = React.createRef();
+  const pageHeader = useRef(null);
 
-  React.useEffect(() => {
-    if (window.innerWidth < 991) {
-      const updateScroll = () => {
-        let windowScrollTop = window.pageYOffset / 3;
-        pageHeader.current.style.transform =
-          "translate3d(0," + windowScrollTop + "px,0)";
-      };
-      window.addEventListener("scroll", updateScroll);
-      return function cleanup() {
-        window.removeEventListener("scroll", updateScroll);
-      };
+  useEffect(() => {
+    function handleResize() {
+      if (pageHeader.current) {
+        const bgImage = new Image();
+        bgImage.src = require("assets/img/bg5.jpg");
+        const imageAspectRatio = bgImage.width / bgImage.height;
+
+        const headerWidth = window.innerWidth;
+        const headerHeight = headerWidth / imageAspectRatio;
+
+        pageHeader.current.style.height = headerHeight + "px";
+      }
     }
-  });
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
       <div
         style={{
-          backgroundImage:
-            "url(" + require("assets/img/wallpaper.jpg") + ")",
+          backgroundImage: "url(" + require("assets/img/bg5.jpg") + ")",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
         className="page-header"
         data-parallax={true}
@@ -63,12 +68,9 @@ function LandingPageHeader() {
             <br />
             <br />
             <br />
-            <h1>Example page</h1>
-            <h3>
-                Start designing your landing page here. ijifsnfjisdfjokjdsadfjsknfjsnfskdfisjdf kdkfdsnfsdjfksjfkdsflksjdfalkjsakfjoirajsfkajsfj sfjkdsfidkfdkfmskjfisfjkl
-                jsdfjasdf sdiafjks.dfniusd sdajfsdfs dsfljdsljafdsf sdfjsdfnsljdfds
-                sjdflsakjdfoidsjf sdifjsifdjsfd dsoifjdskmfclisa
-                sdifjsoidfjisdfjsjdf osidfjoisadjfisjdf iajdofsajdofijoisfj
+            <h1 style={{ color: "#fafafa" }}>Apa itu Kartu Menuju Sehat (KMS)?</h1>
+            <h3 style={{ color: "#fcfcfc" }}>
+                Kartu Menuju Sehat (KMS) adalah catatan grafik perkembangan anak yang diukur berdasarkan umur, berat badan, dan jenis kelamin. 
                 <br />
                 <br />
                 <br />
