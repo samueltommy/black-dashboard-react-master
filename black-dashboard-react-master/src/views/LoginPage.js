@@ -10,7 +10,6 @@ import visible from "assets/img/visible.png";
 
 import { useFormik } from "formik";
 import AuthService from "../services/auth";
-import apiClient from "../utils/api"
 
 import axios from "axios";
 import { useSignIn } from 'react-auth-kit'
@@ -27,6 +26,8 @@ const LoginPage = () => {
   };
 
   const handleSubmit = async (loginPayload) => {
+    setIsLoading(true); // Set isLoading to true when the button is pressed
+    setError(''); // Clear any previous error message
     console.log(loginPayload, "ini payload");
     try {
       const response = await AuthService.signIn(loginPayload);
@@ -53,7 +54,10 @@ const LoginPage = () => {
         // Handle other types of errors
         console.log('An error occurred during login.');
         console.error(error);
-      }
+      } 
+      
+      setIsLoading(false); // Set isLoading back to false after API call is done
+      
     }
   };
 
@@ -97,50 +101,50 @@ const LoginPage = () => {
               </div>
               <div className="text-wrapper-3">Selamat Datang !</div>
               <form onSubmit={formik.handleSubmit}>
-              <div className="group-5">
-                <div className="group-21">
-                  <label className="group-text">Masukkan ID Pengguna</label>
-                  <input
-                    type="text"
-                    className="text-input"
-                    value={formik.values.username}
-                    onChange={formik.handleChange}
-                    name="username"
-                    placeholder="ID Pengguna"
-                    required
-                  />
-                </div>
-                <div className="overlap-group-wrapper">
-                  <div className="overlap-group">
-                    <div className="group-21">
-                      <label className="group-text">Masukkan kata sandi</label>
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        className="text-input"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        name="password"
-                        placeholder="Kata Sandi"
-                        required
-                      />
-                    </div>
-                    <img
-                      className="invisible"
-                      alt={showPassword ? "Visible" : "Invisible"}
-                      src={showPassword ? visible : invisible}
-                      onClick={togglePasswordVisibility}
+                <div className="group-5">
+                  <div className="group-21">
+                    <label className="group-text">Masukkan ID Pengguna</label>
+                    <input
+                      type="text"
+                      className="text-input"
+                      value={formik.values.username}
+                      onChange={formik.handleChange}
+                      name="username"
+                      placeholder="ID Pengguna"
+                      required
                     />
                   </div>
-                </div>
-                <div className="overlap-wrapper">
-                  <div className="overlap">
-                    <button className="login-button" type="submit" disabled={isLoading}>
-                      {isLoading ? 'Logging in...' : 'Masuk'}
-                    </button>
-                    {error && <p className="error-message">{error}</p>}
+                  <div className="overlap-group-wrapper">
+                    <div className="overlap-group">
+                      <div className="group-21">
+                        <label className="group-text">Masukkan kata sandi</label>
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          className="text-input"
+                          value={formik.values.password}
+                          onChange={formik.handleChange}
+                          name="password"
+                          placeholder="Kata Sandi"
+                          required
+                        />
+                      </div>
+                      <img
+                        className="invisible"
+                        alt={showPassword ? "Visible" : "Invisible"}
+                        src={showPassword ? visible : invisible}
+                        onClick={togglePasswordVisibility}
+                      />
+                    </div>
+                  </div>
+                  <div className="overlap-wrapper">
+                    <div className="overlap">
+                      <button className="login-button" type="submit" disabled={isLoading}>
+                        {isLoading ? 'Logging in...' : 'Masuk'}
+                      </button>
+                      {error && <p className="error-message">{error}</p>}
+                    </div>
                   </div>
                 </div>
-              </div>
               </form>
             </div>
           </div>

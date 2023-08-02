@@ -39,11 +39,13 @@ var routes = [
     layout: "/admin",
   },
   {
+    path: "/daftar",
     name: "Daftar",
     icon: "tim-icons icon-atom",
+    layout: "/admin",
     children: [
       {
-        path: "/icons",
+        path: "/daftar/icons",
         name: "Pengguna Baru",
         component: <Icons />,
         layout: "/admin",

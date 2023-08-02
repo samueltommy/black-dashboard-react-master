@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState } from "react";
 
 // reactstrap components
 import {
@@ -24,7 +24,6 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  CardText,
   FormGroup,
   Form,
   Input,
@@ -32,7 +31,71 @@ import {
   Col,
 } from "reactstrap";
 
-function UserProfile() {
+import { useFormik } from "formik";
+import MonitorService from "../services/monitoring";
+import AuthService from "../services/auth";
+
+import { useSignIn } from 'react-auth-kit'
+
+const UserProfile=() =>{
+  const signIn=useSignIn();
+
+  const handleSubmit = async (userPayload) => {
+    console.log(userPayload, "ini payload");
+    try {
+      const authResponse = await AuthService.signIn(userPayload);
+      const authData = authResponse.data;
+      console.log(authData, "ini hasil auth request");
+      const accessToken = authData.accessToken;
+      console.log(accessToken, "ini token");
+      localStorage.setItem('accessToken', accessToken);
+
+      // Next, use the accessToken to make a request to MonitorService
+      const monitorResponse = await MonitorService.monitor(userPayload, accessToken);
+      const monitorData = monitorResponse.data;
+      console.log(monitorData, "ini hasil monitor request");
+
+      // If the authentication and monitoring requests are successful, sign in the user
+      signIn({
+        auth: accessToken,
+        expiresIn: 3600, // Set your desired expiration time
+        tokenType: "Bearer",
+        authState: { loginPayload: userPayload }
+      });
+
+      fetchdata();
+    } catch (error) {
+      if (error.response && (error.response.status === 404 || error.response.status === 401)) {
+        console.error(error);
+      } else {
+        // Handle other types of errors
+        console.log('An error occurred during upload.');
+        console.error(error);
+      }
+    }
+  };
+
+  const fetchdata = () => {
+    var config = {
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    };
+    // You can use axios or fetch here to make your API call with the proper authorization header
+  }
+
+  const formik = useFormik({
+    initialValues: {
+      baby_id: "",
+      body_height: "",
+      body_weight: "",
+      head_circumference: "",
+      arm_circumference: "",
+    },
+    onSubmit: handleSubmit,
+  });
+
   return (
     <>
       <div className="content">
@@ -43,82 +106,63 @@ function UserProfile() {
                 <h5 className="title">Pengisian Data Pengukuran</h5>
               </CardHeader>
               <CardBody>
-                <Form>
+                <form onSubmit={formik.handleSubmit}>
                   <Row>
                     <Col className="pr-md-1" md="5">
-                      <FormGroup>
-                        <label>Nama Anak</label>
+                        <label>ID Anak</label>
                         <Input
-                          placeholder="Masukkan nama lengkap anak..."
                           type="text"
+                          className="text-input"
+                          value={formik.values.baby_id}
+                          onChange={formik.handleChange}
+                          name="baby_id"
+                          placeholder="ID anak"
+                          required
                         />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label>NIK Anak</label>
-                        <Input
-                        placeholder="Masukkan 16 digit NIK anak..."
-                        type="email" />
-                      </FormGroup>
                     </Col>
                   </Row>
                   <Row>
                      <Col className="px-md-1" md="5">
                       <FormGroup>
-                        <label>Tanggal Lahir</label>
+                        <label>Tinggi</label>
                         <Input
-                          placeholder="Masukkan tanggal lahir anak dalam format DD-MM-YY..."
-                          type="text"
+                          type="number"
+                          className="number-input"
+                          value={formik.values.body_height}
+                          onChange={formik.handleChange}
+                          name="body_height"
+                          placeholder="Tinggi anak"
+                          required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="pr-md-1" md="5">
                       <FormGroup>
-                        <label>Tanggal Pemeriksaan</label>
+                        <label>Berat Anak</label>
                         <Input
-                          placeholder="Masukkan tanggal pemeriksaan terakhir anak dalam format DD-MM-YY..."
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-md-1" md="10">
-                      <FormGroup>
-                        <label>Username</label>
-                        <Input
-                          placeholder="Masukkan username baru untuk pergantian username..."
-                          type="text"
+                          type="number"
+                          className="number-input"
+                          value={formik.values.body_weight}
+                          onChange={formik.handleChange}
+                          name="body_weight"
+                          placeholder="Berat anak"
+                          required
                         />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
-                    <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label>Berat Badan</label>
-                        <Input
-                          placeholder="Masukkan berat badan anak dalam kg..."
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pr-md-1" md="5">
-                      <FormGroup>
-                        <label>Tinggi Badan</label>
-                        <Input
-                          placeholder="Masukkan tinggi badan anak dalam cm..."
-                          type="number"
-                        />
-                      </FormGroup>
-                    </Col>
-                    </Row>
-                    <Row>
                     <Col className="px-md-1" md="5">
                       <FormGroup>
                         <label>Lingkar Lengan</label>
                         <Input
-                          placeholder="Masukkan lingkar lengan anak dalam cm..."
-                          type="text"
+                          type="number"
+                          className="number-input"
+                          value={formik.values.arm_circumference}
+                          onChange={formik.handleChange}
+                          name="arm_circumference"
+                          placeholder="Lingkar lengan"
+                          required
                         />
                       </FormGroup>
                     </Col>
@@ -126,35 +170,22 @@ function UserProfile() {
                       <FormGroup>
                         <label>Lingkar Kepala</label>
                         <Input
-                        placeholder="Masukkan lingkar kepala anak dalam cm..."
-                        type="number" />
+                          type="number"
+                          className="number-input"
+                          value={formik.values.head_circumference}
+                          onChange={formik.handleChange}
+                          name="head_circumference"
+                          placeholder="Lingkar kepala"
+                          required
+                        />
                       </FormGroup>
                     </Col>
-                    </Row><Row>
-                    <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label>Vaksinasi yang Diberikan</label>
-                        <Input
-                        placeholder="Masukkan vaksinasi yang telah diterima anak..."
-                        type="number" />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label>Obat yang Diberikan </label>
-                        <Input
-                        placeholder="Masukkan preskribsi yang telah diterima anak..."
-                        type="number" />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                </Form>
+                    </Row>
+                    <Button className="login-button" type="submit">
+                      Save
+                    </Button>
+                </form>
               </CardBody>
-              <CardFooter>
-                <Button className="btn-fill" color="primary" type="submit">
-                  Save
-                </Button>
-              </CardFooter>
             </Card>
           </Col>
         </Row>

@@ -26,6 +26,10 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
+import Icons from "views/Icons.js";
+import Map from "views/Map.js";
+import Notifications from "views/Notifications.js";
+
 import routes from "routes.js";
 
 import logo from "assets/img/puskes.png";
@@ -78,12 +82,32 @@ function Admin(props) {
     document.documentElement.classList.toggle("nav-open");
     setsidebarOpened(!sidebarOpened);
   };
+
+  const daftarChildrenRoutes = [
+    {
+      path: "/admin/daftar/icons",
+      name: "Pengguna Baru",
+      component: Icons,
+      layout: "/admin",
+    },
+    {
+      path: "/admin/daftar/map",
+      name: "Puskesmas Baru",
+      component: Map,
+      layout: "/admin",
+    },
+  ];
+
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
           <Route path={prop.path} element={prop.component} key={key} exact />
         );
+      } else if (prop.children && prop.layout === "/admin") {
+        return (
+          <Route path={prop.path} element={prop.component} key={key} exact />
+        ); // Recursively call getRoutes for nested children
       } else {
         return null;
       }

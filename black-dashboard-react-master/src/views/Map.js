@@ -16,303 +16,217 @@
 
 */
 import React from "react";
+// react plugin for creating notifications over the dashboard
+import NotificationAlert from "react-notification-alert";
 
 // reactstrap components
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import {
+  Alert,
+  UncontrolledAlert,
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  Row,
+  Col,
+} from "reactstrap";
 
-const MapWrapper = () => {
-  const mapRef = React.useRef(null);
-  React.useEffect(() => {
-    let google = window.google;
-    let map = mapRef.current;
-    let lat = "40.748817";
-    let lng = "-73.985428";
-    const myLatlng = new google.maps.LatLng(lat, lng);
-    const mapOptions = {
-      scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-      styles: [
-        {
-          elementType: "geometry",
-          stylers: [
-            {
-              color: "#1d2c4d",
-            },
-          ],
-        },
-        {
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#8ec3b9",
-            },
-          ],
-        },
-        {
-          elementType: "labels.text.stroke",
-          stylers: [
-            {
-              color: "#1a3646",
-            },
-          ],
-        },
-        {
-          featureType: "administrative.country",
-          elementType: "geometry.stroke",
-          stylers: [
-            {
-              color: "#4b6878",
-            },
-          ],
-        },
-        {
-          featureType: "administrative.land_parcel",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#64779e",
-            },
-          ],
-        },
-        {
-          featureType: "administrative.province",
-          elementType: "geometry.stroke",
-          stylers: [
-            {
-              color: "#4b6878",
-            },
-          ],
-        },
-        {
-          featureType: "landscape.man_made",
-          elementType: "geometry.stroke",
-          stylers: [
-            {
-              color: "#334e87",
-            },
-          ],
-        },
-        {
-          featureType: "landscape.natural",
-          elementType: "geometry",
-          stylers: [
-            {
-              color: "#023e58",
-            },
-          ],
-        },
-        {
-          featureType: "poi",
-          elementType: "geometry",
-          stylers: [
-            {
-              color: "#283d6a",
-            },
-          ],
-        },
-        {
-          featureType: "poi",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#6f9ba5",
-            },
-          ],
-        },
-        {
-          featureType: "poi",
-          elementType: "labels.text.stroke",
-          stylers: [
-            {
-              color: "#1d2c4d",
-            },
-          ],
-        },
-        {
-          featureType: "poi.park",
-          elementType: "geometry.fill",
-          stylers: [
-            {
-              color: "#023e58",
-            },
-          ],
-        },
-        {
-          featureType: "poi.park",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#3C7680",
-            },
-          ],
-        },
-        {
-          featureType: "road",
-          elementType: "geometry",
-          stylers: [
-            {
-              color: "#304a7d",
-            },
-          ],
-        },
-        {
-          featureType: "road",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#98a5be",
-            },
-          ],
-        },
-        {
-          featureType: "road",
-          elementType: "labels.text.stroke",
-          stylers: [
-            {
-              color: "#1d2c4d",
-            },
-          ],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry",
-          stylers: [
-            {
-              color: "#2c6675",
-            },
-          ],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry.fill",
-          stylers: [
-            {
-              color: "#9d2a80",
-            },
-          ],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "geometry.stroke",
-          stylers: [
-            {
-              color: "#9d2a80",
-            },
-          ],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#b0d5ce",
-            },
-          ],
-        },
-        {
-          featureType: "road.highway",
-          elementType: "labels.text.stroke",
-          stylers: [
-            {
-              color: "#023e58",
-            },
-          ],
-        },
-        {
-          featureType: "transit",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#98a5be",
-            },
-          ],
-        },
-        {
-          featureType: "transit",
-          elementType: "labels.text.stroke",
-          stylers: [
-            {
-              color: "#1d2c4d",
-            },
-          ],
-        },
-        {
-          featureType: "transit.line",
-          elementType: "geometry.fill",
-          stylers: [
-            {
-              color: "#283d6a",
-            },
-          ],
-        },
-        {
-          featureType: "transit.station",
-          elementType: "geometry",
-          stylers: [
-            {
-              color: "#3a4762",
-            },
-          ],
-        },
-        {
-          featureType: "water",
-          elementType: "geometry",
-          stylers: [
-            {
-              color: "#0e1626",
-            },
-          ],
-        },
-        {
-          featureType: "water",
-          elementType: "labels.text.fill",
-          stylers: [
-            {
-              color: "#4e6d70",
-            },
-          ],
-        },
-      ],
+function Notifications() {
+  const notificationAlertRef = React.useRef(null);
+  const notify = (place) => {
+    var color = Math.floor(Math.random() * 5 + 1);
+    var type;
+    switch (color) {
+      case 1:
+        type = "primary";
+        break;
+      case 2:
+        type = "success";
+        break;
+      case 3:
+        type = "danger";
+        break;
+      case 4:
+        type = "warning";
+        break;
+      case 5:
+        type = "info";
+        break;
+      default:
+        break;
+    }
+    var options = {};
+    options = {
+      place: place,
+      message: (
+        <div>
+          <div>
+            Welcome to <b>Black Dashboard React</b> - a beautiful freebie for
+            every web developer.
+          </div>
+        </div>
+      ),
+      type: type,
+      icon: "tim-icons icon-bell-55",
+      autoDismiss: 7,
     };
-
-    map = new google.maps.Map(map, mapOptions);
-
-    const marker = new google.maps.Marker({
-      position: myLatlng,
-      map: map,
-      animation: google.maps.Animation.DROP,
-      title: "BLK Design System PRO React!",
-    });
-
-    const contentString =
-      '<div class="info-window-content"><h2>BLK Dashboard React</h2>' +
-      "<p>A freebie Admin for ReactStrap, Bootstrap, React, and React Hooks.</p></div>";
-
-    const infowindow = new google.maps.InfoWindow({
-      content: contentString,
-    });
-
-    google.maps.event.addListener(marker, "click", function () {
-      infowindow.open(map, marker);
-    });
-  }, []);
-  return <div ref={mapRef} />;
-};
-
-function Map() {
+    notificationAlertRef.current.notificationAlert(options);
+  };
   return (
     <>
       <div className="content">
+        <div className="react-notification-alert-container">
+          <NotificationAlert ref={notificationAlertRef} />
+        </div>
         <Row>
-          <Col md="12">
-            <Card className="card-plain">
-              <CardHeader>Google Maps</CardHeader>
+          <Col md="6">
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h4">Notifications Style</CardTitle>
+              </CardHeader>
               <CardBody>
-                <div
-                  id="map"
-                  className="map"
-                  style={{ position: "relative", overflow: "hidden" }}
-                >
-                  <MapWrapper />
+                <Alert color="info">
+                  <span>This is a plain notification</span>
+                </Alert>
+                <UncontrolledAlert color="info">
+                  <span>This is a notification with close button.</span>
+                </UncontrolledAlert>
+                <UncontrolledAlert className="alert-with-icon" color="info">
+                  <span className="tim-icons icon-bell-55" data-notify="icon" />
+                  <span data-notify="message">
+                    This is a notification with close button and icon.
+                  </span>
+                </UncontrolledAlert>
+                <UncontrolledAlert className="alert-with-icon" color="info">
+                  <span className="tim-icons icon-bell-55" data-notify="icon" />
+                  <span data-notify="message">
+                    This is a notification with close button and icon and have
+                    many lines. You can see that the icon and the close button
+                    are always vertically aligned. This is a beautiful
+                    notification. So you don't have to worry about the style.
+                  </span>
+                </UncontrolledAlert>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col md="6">
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h4">Notification states</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <UncontrolledAlert color="primary">
+                  <span>
+                    <b>Primary - </b>
+                    This is a regular notification made with ".alert-primary"
+                  </span>
+                </UncontrolledAlert>
+                <UncontrolledAlert color="info">
+                  <span>
+                    <b>Info - </b>
+                    This is a regular notification made with ".alert-info"
+                  </span>
+                </UncontrolledAlert>
+                <UncontrolledAlert color="success">
+                  <span>
+                    <b>Success - </b>
+                    This is a regular notification made with ".alert-success"
+                  </span>
+                </UncontrolledAlert>
+                <UncontrolledAlert color="warning">
+                  <span>
+                    <b>Warning - </b>
+                    This is a regular notification made with ".alert-warning"
+                  </span>
+                </UncontrolledAlert>
+                <UncontrolledAlert color="danger">
+                  <span>
+                    <b>Danger - </b>
+                    This is a regular notification made with ".alert-danger"
+                  </span>
+                </UncontrolledAlert>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col md="12">
+            <Card>
+              <CardBody>
+                <div className="places-buttons">
+                  <Row>
+                    <Col className="ml-auto mr-auto text-center" md="6">
+                      <CardTitle tag="h4">
+                        Notifications Places
+                        <p className="category">Click to view notifications</p>
+                      </CardTitle>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="ml-auto mr-auto" lg="8">
+                      <Row>
+                        <Col md="4">
+                          <Button
+                            block
+                            color="primary"
+                            onClick={() => notify("tl")}
+                          >
+                            Top Left
+                          </Button>
+                        </Col>
+                        <Col md="4">
+                          <Button
+                            block
+                            color="primary"
+                            onClick={() => notify("tc")}
+                          >
+                            Top Center
+                          </Button>
+                        </Col>
+                        <Col md="4">
+                          <Button
+                            block
+                            color="primary"
+                            onClick={() => notify("tr")}
+                          >
+                            Top Right
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="ml-auto mr-auto" lg="8">
+                      <Row>
+                        <Col md="4">
+                          <Button
+                            block
+                            color="primary"
+                            onClick={() => notify("bl")}
+                          >
+                            Bottom Left
+                          </Button>
+                        </Col>
+                        <Col md="4">
+                          <Button
+                            block
+                            color="primary"
+                            onClick={() => notify("bc")}
+                          >
+                            Bottom Center
+                          </Button>
+                        </Col>
+                        <Col md="4">
+                          <Button
+                            block
+                            color="primary"
+                            onClick={() => notify("br")}
+                          >
+                            Bottom Right
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
                 </div>
               </CardBody>
             </Card>
@@ -323,4 +237,4 @@ function Map() {
   );
 }
 
-export default Map;
+export default Notifications;
