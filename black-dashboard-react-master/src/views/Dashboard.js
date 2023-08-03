@@ -71,6 +71,7 @@ const Dashboard = (props) =>{
     setBigChartData(name);
   };
   const [summaryData, setSummaryData] = useState({ total_satker: 0, total_nakes: 0 });
+  const [babyData, setBabyData] = useState({totalItems: 0});
   const signIn = useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
 
@@ -95,11 +96,17 @@ const Dashboard = (props) =>{
       const responseData = await response.json();
       console.log('Data fetched:', responseData);
 
+      const respon = await fetch('https://staging-antro.srv.kirei.co.id/baby', config)
+      const responData = await respon.json();
+      console.log('Data fetched:', responData);
+
       // Extract the total_satker and total_nakes from the response data
       const { total_satker, total_nakes } = responseData.data;
+      const { totalItems } = responData.data.meta;
 
       // Set the summaryData state with the extracted data
       setSummaryData({ total_satker, total_nakes });
+      setBabyData({totalItems});
 
     } catch (error) {
       // Handle errors here
@@ -202,7 +209,8 @@ const Dashboard = (props) =>{
                 <CardHeader>
                   <h5 className="card-category">Jumlah Anak</h5>
                   <CardTitle tag="h3">
-                    <i className="tim-icons icon-send text-success" /> 12,100K
+                    <i className="tim-icons icon-send text-success" />
+                    {babyData.totalItems} Anak
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
@@ -221,7 +229,7 @@ const Dashboard = (props) =>{
                   <h5 className="card-category">Jenis Kelamin</h5>
                   <CardTitle tag="h3">
                     <i className="tim-icons icon-delivery-fast text-primary" />{" "}
-                    1000 Anak
+                    {babyData.totalItems} Anak
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
