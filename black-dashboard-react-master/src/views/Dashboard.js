@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect, useState } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react plugin used to create charts
@@ -59,13 +59,61 @@ import {
   chartExample9
 } from "variables/charts.js";
 
+import summaryService from "../services/summary";
+
+import { useSignIn } from 'react-auth-kit'
+
 import LandingPage from "./LandingPage.js";
 
-function Dashboard(props) {
+const Dashboard = (props) =>{
   const [bigChartData, setBigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
     setBigChartData(name);
   };
+  const [summaryData, setSummaryData] = useState({ total_satker: 0, total_nakes: 0 });
+  const signIn = useSignIn();
+  const [initialAuthDone, setInitialAuthDone] = useState(false);
+
+  const fetchdata = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        console.error('Access token not found. Please login first.');
+        return;
+      }
+
+      var config = {
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
+        }
+      };
+
+      // Make your API call using Axios or Fetch here
+      // For example:
+      const response = await fetch('https://staging-antro.srv.kirei.co.id/summary/faskes', config);
+      const responseData = await response.json();
+      console.log('Data fetched:', responseData);
+
+      // Extract the total_satker and total_nakes from the response data
+      const { total_satker, total_nakes } = responseData.data;
+
+      // Set the summaryData state with the extracted data
+      setSummaryData({ total_satker, total_nakes });
+
+    } catch (error) {
+      // Handle errors here
+      console.error('An error occurred during API call.', error);
+    }
+  };
+
+  useEffect(() => {
+    // If the initial authentication is not done, trigger the fetchdata function
+    if (!initialAuthDone) {
+      fetchdata();
+      setInitialAuthDone(true);
+    }
+  }, [initialAuthDone]);
 
   return (
     <>
@@ -115,7 +163,8 @@ function Dashboard(props) {
                 <CardHeader>
                   <h5 className="card-category">Jumlah Puskesmas</h5>
                   <CardTitle tag="h3">
-                    <i className="tim-icons icon-bell-55 text-info" /> 763,215
+                  <i className="tim-icons icon-send text-success" />{" "}
+                  {summaryData.total_satker} Satuan Kerja
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
@@ -132,8 +181,10 @@ function Dashboard(props) {
               <Card className="card-chart">
                 <CardHeader>
                   <h5 className="card-category">Jumlah Nakes</h5>
+                  {/* Display the total_nakes value from summaryData */}
                   <CardTitle tag="h3">
-                    <i className="tim-icons icon-send text-success" /> 12,100K
+                    <i className="tim-icons icon-send text-success" />{" "}
+                    {summaryData.total_nakes} Nakes
                   </CardTitle>
                 </CardHeader>
                 <CardBody>

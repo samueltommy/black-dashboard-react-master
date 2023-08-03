@@ -44,6 +44,7 @@ const UserProfile=() =>{
     console.log(userPayload, "ini payload");
     try {
       const authResponse = await AuthService.signIn(userPayload);
+      console.log(authResponse, "ini hasil request");
       const authData = authResponse.data;
       console.log(authData, "ini hasil auth request");
       const accessToken = authData.accessToken;
@@ -54,14 +55,6 @@ const UserProfile=() =>{
       const monitorResponse = await MonitorService.monitor(userPayload, accessToken);
       const monitorData = monitorResponse.data;
       console.log(monitorData, "ini hasil monitor request");
-
-      // If the authentication and monitoring requests are successful, sign in the user
-      signIn({
-        auth: accessToken,
-        expiresIn: 3600, // Set your desired expiration time
-        tokenType: "Bearer",
-        authState: { loginPayload: userPayload }
-      });
 
       fetchdata();
     } catch (error) {
@@ -75,15 +68,32 @@ const UserProfile=() =>{
     }
   };
 
-  const fetchdata = () => {
-    var config = {
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+  const fetchdata = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        console.error('Access token not found. Please login first.');
+        return;
       }
-    };
-    // You can use axios or fetch here to make your API call with the proper authorization header
-  }
+  
+      var config = {
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
+        }
+      };
+  
+      // Make your API call using Axios or Fetch here
+      // For example:
+      const response = await fetch('https://staging-antro.srv.kirei.co.id/auth/login', config);
+      const data = await response.json();
+      console.log('Data fetched:', data);
+  
+    } catch (error) {
+      // Handle errors here
+      console.error('An error occurred during API call.', error);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
