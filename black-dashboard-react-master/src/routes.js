@@ -23,6 +23,7 @@ import Notifications from "views/Notifications.js";
 import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
+import TambahanNakes from "views/TambahanNakes.js"
 
 var routes = [
   {
@@ -35,25 +36,30 @@ var routes = [
     path: "/dashboard",
     name: "Dashboard",
     icon: "tim-icons icon-chart-pie-36",
-    component: <Dashboard />,
+    component: <Dashboard/>,
     layout: "/admin",
   },
   {
-    path: "/daftar",
     name: "Daftar",
     icon: "tim-icons icon-atom",
     layout: "/admin",
-    children: [
+    children:[
       {
-        path: "/daftar/icons",
+        path: "/daftaranak",
         name: "Pengguna Baru",
-        component: <Icons />,
+        component: <Icons/>,
         layout: "/admin",
       },
       {
-        path: "/map",
-        name: "Puskesmas Baru",
-        component: <Map />,
+        path: "/daftarnakes",
+        name:"Tenaga Kesehatan Baru",
+        component: <TambahanNakes/>,
+        layout: "/admin",
+      },
+      {
+        path: "/daftarsatker",
+        name: "Satuan Kerja Baru",
+        component: <Map/>,
         layout: "/admin",
       },
     ],
@@ -61,24 +67,24 @@ var routes = [
   {
     name: "Pemantauan",
     icon: "tim-icons icon-bell-55",
-    layout: "/admin",
+    layout: "/",
     children:[
       {
-        path: "/notification",
+        path: "/pantaunasional",
         name: "Nasional",
-        component: <Notifications />,
+        component: Notifications,
         layout: "/admin",
       },
       {
-        path: "/",
+        path: "/pantausatker",
         name: "Puskesmas",
-        component: <Notifications />,
+        component: Notifications,
         layout: "/admin",
       },
       {
-        path: "/",
+        path: "/pantauanak",
         name: "Individu",
-        component: <Notifications />,
+        component: Notifications,
         layout: "/admin",
       },
     ],
@@ -87,21 +93,21 @@ var routes = [
     path: "/user-profile",
     name: "Mengisi Pengukuran",
     icon: "tim-icons icon-single-02",
-    component: <UserProfile />,
+    component: <UserProfile/>,
     layout: "/admin",
   },
   {
     path: "/tables",
     name: "Data Pengguna",
     icon: "tim-icons icon-puzzle-10",
-    component: <TableList />,
+    component: <TableList/>,
     layout: "/admin",
   },
   {
     path: "/typography",
     name: "Typography",
     icon: "tim-icons icon-align-center",
-    component: <Typography />,
+    component: <Typography/>,
     layout: "/admin",
   },
 ];
