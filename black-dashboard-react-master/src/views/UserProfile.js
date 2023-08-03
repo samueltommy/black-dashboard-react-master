@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import {
@@ -39,34 +39,7 @@ import { useSignIn } from 'react-auth-kit'
 
 const UserProfile=() =>{
   const signIn=useSignIn();
-
-  const handleSubmit = async (userPayload) => {
-    console.log(userPayload, "ini payload");
-    try {
-      const authResponse = await AuthService.signIn(userPayload);
-      console.log(authResponse, "ini hasil request");
-      const authData = authResponse.data;
-      console.log(authData, "ini hasil auth request");
-      const accessToken = authData.accessToken;
-      console.log(accessToken, "ini token");
-      localStorage.setItem('accessToken', accessToken);
-
-      // Next, use the accessToken to make a request to MonitorService
-      const monitorResponse = await MonitorService.monitor(userPayload, accessToken);
-      const monitorData = monitorResponse.data;
-      console.log(monitorData, "ini hasil monitor request");
-
-      fetchdata();
-    } catch (error) {
-      if (error.response && (error.response.status === 404 || error.response.status === 401)) {
-        console.error(error);
-      } else {
-        // Handle other types of errors
-        console.log('An error occurred during upload.');
-        console.error(error);
-      }
-    }
-  };
+  const [initialAuthDone, setInitialAuthDone] = useState(false);
 
   const fetchdata = async () => {
     try {
@@ -85,7 +58,7 @@ const UserProfile=() =>{
   
       // Make your API call using Axios or Fetch here
       // For example:
-      const response = await fetch('https://staging-antro.srv.kirei.co.id/auth/login', config);
+      const response = await fetch('https://staging-antro.srv.kirei.co.id/monitoring', config);
       const data = await response.json();
       console.log('Data fetched:', data);
   
@@ -94,6 +67,34 @@ const UserProfile=() =>{
       console.error('An error occurred during API call.', error);
     }
   };
+
+  const handleSubmit = async (userPayload) => {
+    fetchdata();
+    console.log(userPayload, "ini payload");
+    try {
+      // Next, use the accessToken to make a request to MonitorService
+      const monitorResponse = await MonitorService.monitor(userPayload);
+      const monitorData = monitorResponse.data;
+      console.log(monitorData, "ini hasil monitor request");
+
+    } catch (error) {
+      if (error.response && (error.response.status === 404 || error.response.status === 401)) {
+        console.error(error);
+      } else {
+        // Handle other types of errors
+        console.log('An error occurred during upload.');
+        console.error(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    // If the initial authentication is not done, trigger the fetchdata function
+    if (!initialAuthDone) {
+      fetchdata();
+      setInitialAuthDone(true);
+    }
+  }, [initialAuthDone]);
 
   const formik = useFormik({
     initialValues: {
