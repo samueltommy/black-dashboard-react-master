@@ -2,7 +2,7 @@
 
 =========================================================
 * Black Dashboard React v1.2.2
-=========================================================
+========================================================
 
 * Product Page: https://www.creative-tim.com/product/black-dashboard-react
 * Copyright 2023 Creative Tim (https://www.creative-tim.com)
