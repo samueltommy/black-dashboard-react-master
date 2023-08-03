@@ -26,14 +26,14 @@ import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
-import Icons from "views/Icons.js";
-import Map from "views/Map.js";
-import Notifications from "views/Notifications.js";
-
 import routes from "routes.js";
 
 import logo from "assets/img/puskes.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
+import UserProfile from "views/UserProfile";
+import Icons from "views/Icons";
+import Map from "views/Map";
+import TambahanNakes from "views/TambahanNakes";
 
 var ps;
 
@@ -82,32 +82,12 @@ function Admin(props) {
     document.documentElement.classList.toggle("nav-open");
     setsidebarOpened(!sidebarOpened);
   };
-
-  const daftarChildrenRoutes = [
-    {
-      path: "/admin/daftar/icons",
-      name: "Pengguna Baru",
-      component: Icons,
-      layout: "/admin",
-    },
-    {
-      path: "/admin/daftar/map",
-      name: "Puskesmas Baru",
-      component: Map,
-      layout: "/admin",
-    },
-  ];
-
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
           <Route path={prop.path} element={prop.component} key={key} exact />
         );
-      } else if (prop.children && prop.layout === "/admin") {
-        return (
-          <Route path={prop.path} element={prop.component} key={key} exact />
-        ); // Recursively call getRoutes for nested children
       } else {
         return null;
       }
@@ -132,7 +112,54 @@ function Admin(props) {
           {isLoginPage ? null : <Sidebar routes={routes} toggleSidebar={toggleSidebar} />}
           <div className="main-panel" ref={mainPanelRef} data={color}>
             {!isLoginPage && <AdminNavbar brandText={getBrandText(location.pathname)} />}
-            <Routes>{getRoutes(routes)}</Routes>
+            <Routes>
+            {getRoutes(routes)}
+                <Route path={"/daftaranak"} element={<Icons/>} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/admin/dashboard" replace />}
+                />
+            </Routes>
+            <Routes>
+            {getRoutes(routes)}
+                <Route path={"/daftarnakes"} element={<TambahanNakes/>} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/admin/dashboard" replace />}
+                />
+            </Routes>
+            <Routes>
+                {getRoutes(routes)}
+                <Route path={"/daftarsatker"} element={<Map/>} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/admin/dashboard" replace />}
+                />
+              </Routes>
+              <Routes>
+                {getRoutes(routes)}
+                <Route path={"/pantaunasional"} element={<UserProfile/>} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/admin/dashboard" replace />}
+                />
+              </Routes>
+              <Routes>
+                {getRoutes(routes)}
+                <Route path={"/pantausatker"} element={<UserProfile/>} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/admin/dashboard" replace />}
+                />
+              </Routes>
+              <Routes>
+                {getRoutes(routes)}
+                <Route path={"/pantauanak"} element={<UserProfile/>} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/admin/dashboard" replace />}
+                />
+              </Routes>
             {!isLoginPage && location.pathname !== "/admin/maps" && <Footer fluid />}
           </div>
           <FixedPlugin bgColor={color} handleBgClick={changeColor} />
