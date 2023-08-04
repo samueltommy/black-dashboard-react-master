@@ -164,7 +164,7 @@ const Parents=() =>{
                           className="text-input"
                           value={formik.values.relation}
                           onChange={formik.handleChange}
-                          name="realtion"
+                          name="relation"
                           placeholder="Relasi dengan anak (m/f/o)"
                           required
                         />
@@ -244,21 +244,7 @@ const Parents=() =>{
                         />
                       </FormGroup>
                     </Col>
-                    <Col className="pr-md-1" md="5">
-                      <FormGroup>
-                        <label>Email</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.email}
-                          onChange={formik.handleChange}
-                          name="email"
-                          placeholder="Alamat email"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                      <Col className="pl-md-1" md="10">
+                    <Col className="pl-md-1" md="5">
                         <FormGroup>
                           <label>ID Satuan Kerja</label>
                           <Input
@@ -272,6 +258,20 @@ const Parents=() =>{
                           />
                         </FormGroup>
                       </Col>
+                    <Col className="pr-md-1" md="10">
+                      <FormGroup>
+                        <label>Email</label>
+                        <Input
+                          type="text"
+                          className="text-input"
+                          value={formik.values.email}
+                          onChange={formik.handleChange}
+                          name="email"
+                          placeholder="Alamat email"
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
                     </Row>
                     <Button className="btn-fill" color="primary" type="submit">
                       Save
