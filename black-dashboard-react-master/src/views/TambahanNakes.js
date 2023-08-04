@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import {
@@ -32,7 +32,88 @@ import {
   Col,
 } from "reactstrap";
 
-function Icons() {
+import { useFormik } from "formik";
+import UsersService from "../services/users";
+
+import { useSignIn } from 'react-auth-kit'
+
+const Users=() =>{
+  const signIn=useSignIn();
+  const [initialAuthDone, setInitialAuthDone] = useState(false);
+
+  const fetchdata = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        console.error('Access token not found. Please login first.');
+        return;
+      }
+  
+      var config = {
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
+        }
+      };
+  
+    } catch (error) {
+      // Handle errors here
+      console.error('An error occurred during API call.', error);
+    }
+  };
+
+  const handleSubmit = async (usersPayload) => {
+    fetchdata();
+    const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        console.error('Access token not found. Please login first.');
+        return;
+      }
+  
+      var config = {
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
+        }
+      };
+    console.log(usersPayload, "ini payload");
+    try {
+      // Next, use the accessToken to make a request to MonitorService
+      const usersResponse = await UsersService.users(usersPayload, config);
+      const usersData = usersResponse.data;
+      console.log(usersData, "ini hasil monitor post");
+
+    } catch (error) {
+      console.log('An error occurred during upload.');
+      console.error(error);
+      
+    }
+  };
+
+  useEffect(() => {
+    // If the initial authentication is not done, trigger the fetchdata function
+    if (!initialAuthDone) {
+      fetchdata();
+      setInitialAuthDone(true);
+    }
+  }, [initialAuthDone]);
+
+  const formik = useFormik({
+    initialValues: {
+      first_name: "",
+      last_name: "",
+      relation: "",
+      contact: "",
+      nik: "",
+      no_kk: "",
+      address: "",
+      date_of_birth: "",
+      satker_id: "",
+      email: "",
+    },
+    onSubmit: handleSubmit,
+  });
+
   return (
     <>
       <div className="content">
@@ -40,17 +121,22 @@ function Icons() {
           <Col md="8">
             <Card>
               <CardHeader>
-                <h5 className="title">Pendaftaran Tenaga Kesehatan Baru</h5>
+                <h5 className="title">Pendaftaran Pengguna Baru</h5>
               </CardHeader>
               <CardBody>
-                <Form>
+                <form onSubmit={formik.handleSubmit}>
                   <Row>
                     <Col className="pr-md-1" md="5">
                       <FormGroup>
                         <label>Nama Depan</label>
                         <Input
-                          placeholder="Masukkan nama depan anak..."
                           type="text"
+                          className="text-input"
+                          value={formik.values.first_name}
+                          onChange={formik.handleChange}
+                          name="first_name"
+                          placeholder="Nama depan"
+                          required
                         />
                       </FormGroup>
                     </Col>
@@ -58,67 +144,117 @@ function Icons() {
                       <FormGroup>
                         <label>Nama Belakang</label>
                         <Input
-                        placeholder="Masukkan nama belakang anak..."
-                        type="email" />
+                          type="text"
+                          className="text-input"
+                          value={formik.values.last_name}
+                          onChange={formik.handleChange}
+                          name="last_name"
+                          placeholder="Nama belakang"
+                          required
+                        />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
                      <Col className="px-md-1" md="5">
                       <FormGroup>
-                        <label>E-mail Orangtua</label>
+                        <label>Email</label>
                         <Input
-                          placeholder="Masukkan e-mail orangtua..."
                           type="text"
+                          className="text-input"
+                          value={formik.values.email}
+                          onChange={formik.handleChange}
+                          name="email"
+                          placeholder="Alamat email"
+                          required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="pr-md-1" md="5">
                       <FormGroup>
-                        <label>Kata Sandi</label>
+                        <label>Username</label>
                         <Input
-                          placeholder="Ketikkan posisi yang sesuai dengan pengguna..."
                           type="text"
+                          className="text-input"
+                          value={formik.values.username}
+                          onChange={formik.handleChange}
+                          name="username"
+                          placeholder="Username pengguna"
+                          required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="pl-md-1" md="10">
                       <FormGroup>
-                        <label>Posisi</label>
+                        <label>Role</label>
                         <Input
-                          placeholder="Masukkan atau ganti kata sandi..."
-                          type="text"
-                        />
+                          type="select" // Use type="select" for dropdown
+                          className="text-input"
+                          value={formik.values.role}
+                          onChange={formik.handleChange}
+                          name="role"
+                          placeholder="Role"
+                          required
+                        >
+                          <option value="1">1</option> {/* Add options with desired values */}
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                        </Input>
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
                     <Col className="pl-md-1" md="5">
                       <FormGroup>
-                        <label>NIP</label>
+                        <label>Password</label>
                         <Input
-                          placeholder="Masukkan NIP..."
                           type="text"
+                          className="text-input"
+                          value={formik.values.password}
+                          onChange={formik.handleChange}
+                          name="password"
+                          placeholder="Password"
+                          required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="pr-md-1" md="5">
                       <FormGroup>
-                        <label>NIK</label>
+                        <label>ID Satuan Kerja</label>
                         <Input
-                          placeholder="Masukkan 16 digit NIK anak..."
-                          type="number"
+                          type="text"
+                          className="text-input"
+                          value={formik.values.satker_id}
+                          onChange={formik.handleChange}
+                          name="satker_id"
+                          placeholder="ID satker"
+                          required
                         />
                       </FormGroup>
                     </Col>
                     </Row>
-                </Form>
+                    <Row>
+                    <Col className="pl-md-1" md="5">
+                      <FormGroup>
+                        <label>NIK</label>
+                        <Input
+                          type="text"
+                          className="text-input"
+                          value={formik.values.nik}
+                          onChange={formik.handleChange}
+                          name="nik"
+                          placeholder="NIK"
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
+                    </Row>
+                    <Button className="btn-fill" color="primary" type="submit">
+                      Save
+                    </Button>
+                </form>
               </CardBody>
-              <CardFooter>
-                <Button className="btn-fill" color="primary" type="submit">
-                  Save
-                </Button>
-              </CardFooter>
             </Card>
           </Col>
         </Row>
@@ -127,4 +263,4 @@ function Icons() {
   );
 }
 
-export default Icons;
+export default Users;

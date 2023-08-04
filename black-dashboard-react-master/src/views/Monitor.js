@@ -33,11 +33,10 @@ import {
 
 import { useFormik } from "formik";
 import MonitorService from "../services/monitoring";
-import AuthService from "../services/auth";
 
 import { useSignIn } from 'react-auth-kit'
 
-const UserProfile=() =>{
+const Monitor=() =>{
   const signIn=useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
 
@@ -56,12 +55,6 @@ const UserProfile=() =>{
         }
       };
   
-      // Make your API call using Axios or Fetch here
-      // For example:
-      const response = await fetch('https://staging-antro.srv.kirei.co.id/monitoring', config);
-      const data = await response.json();
-      console.log('Data fetched:', data);
-  
     } catch (error) {
       // Handle errors here
       console.error('An error occurred during API call.', error);
@@ -70,21 +63,29 @@ const UserProfile=() =>{
 
   const handleSubmit = async (userPayload) => {
     fetchdata();
+    const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        console.error('Access token not found. Please login first.');
+        return;
+      }
+  
+      var config = {
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
+        }
+      };
     console.log(userPayload, "ini payload");
     try {
       // Next, use the accessToken to make a request to MonitorService
-      const monitorResponse = await MonitorService.monitor(userPayload);
+      const monitorResponse = await MonitorService.monitor(userPayload, config);
       const monitorData = monitorResponse.data;
-      console.log(monitorData, "ini hasil monitor request");
+      console.log(monitorData, "ini hasil monitor post");
 
     } catch (error) {
-      if (error.response && (error.response.status === 404 || error.response.status === 401)) {
-        console.error(error);
-      } else {
-        // Handle other types of errors
-        console.log('An error occurred during upload.');
-        console.error(error);
-      }
+      console.log('An error occurred during upload.');
+      console.error(error);
+      
     }
   };
 
@@ -205,4 +206,4 @@ const UserProfile=() =>{
   );
 }
 
-export default UserProfile;
+export default Monitor;

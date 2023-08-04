@@ -17,12 +17,12 @@
 */
 import LoginPage from "views/LoginPage.js";
 import Dashboard from "views/Dashboard.js";
-import Icons from "views/Icons.js";
-import Map from "views/Map.js";
+import Parents from "views/Parents.js";
+import Satker from "views/Satker.js";
 import Notifications from "views/Notifications.js";
 import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
-import UserProfile from "views/UserProfile.js";
+import Monitor from "views/Monitor.js";
 import TambahanNakes from "views/TambahanNakes.js"
 
 var routes = [
@@ -45,9 +45,9 @@ var routes = [
     layout: "/admin",
     children:[
       {
-        path: "/daftaranak",
+        path: "/daftarortu",
         name: "Pengguna Baru",
-        component: <Icons/>,
+        component: <Parents/>,
         layout: "/admin",
       },
       {
@@ -59,7 +59,7 @@ var routes = [
       {
         path: "/daftarsatker",
         name: "Satuan Kerja Baru",
-        component: <Map/>,
+        component: <Satker/>,
         layout: "/admin",
       },
     ],
@@ -72,7 +72,7 @@ var routes = [
       {
         path: "/pantaunasional",
         name: "Nasional",
-        component: Notifications,
+        component: <Notifications/>,
         layout: "/admin",
       },
       {
@@ -90,10 +90,10 @@ var routes = [
     ],
   },
   {
-    path: "/user-profile",
+    path: "/monitor",
     name: "Mengisi Pengukuran",
     icon: "tim-icons icon-single-02",
-    component: <UserProfile/>,
+    component: <Monitor/>,
     layout: "/admin",
   },
   {

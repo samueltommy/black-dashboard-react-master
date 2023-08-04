@@ -30,10 +30,11 @@ import routes from "routes.js";
 
 import logo from "assets/img/puskes.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
-import UserProfile from "views/UserProfile";
-import Icons from "views/Icons";
-import Map from "views/Map";
+import Monitor from "views/Monitor";
+import Parents from "views/Parents";
+import Satker from "views/Satker";
 import TambahanNakes from "views/TambahanNakes";
+import Notifications from "views/Notifications.js";
 
 var ps;
 
@@ -114,7 +115,7 @@ function Admin(props) {
             {!isLoginPage && <AdminNavbar brandText={getBrandText(location.pathname)} />}
             <Routes>
             {getRoutes(routes)}
-                <Route path={"/daftaranak"} element={<Icons/>} />
+                <Route path={"/daftarortu"} element={<Parents/>} />
                 <Route
                   path="/"
                   element={<Navigate to="/admin/dashboard" replace />}
@@ -130,7 +131,7 @@ function Admin(props) {
             </Routes>
             <Routes>
                 {getRoutes(routes)}
-                <Route path={"/daftarsatker"} element={<Map/>} />
+                <Route path={"/daftarsatker"} element={<Satker/>} />
                 <Route
                   path="/"
                   element={<Navigate to="/admin/dashboard" replace />}
@@ -138,7 +139,7 @@ function Admin(props) {
               </Routes>
               <Routes>
                 {getRoutes(routes)}
-                <Route path={"/pantaunasional"} element={<UserProfile/>} />
+                <Route path={"/pantaunasional"} element={<Notifications/>} />
                 <Route
                   path="/"
                   element={<Navigate to="/admin/dashboard" replace />}
@@ -146,7 +147,7 @@ function Admin(props) {
               </Routes>
               <Routes>
                 {getRoutes(routes)}
-                <Route path={"/pantausatker"} element={<UserProfile/>} />
+                <Route path={"/pantausatker"} element={<Monitor/>} />
                 <Route
                   path="/"
                   element={<Navigate to="/admin/dashboard" replace />}
@@ -154,7 +155,7 @@ function Admin(props) {
               </Routes>
               <Routes>
                 {getRoutes(routes)}
-                <Route path={"/pantauanak"} element={<UserProfile/>} />
+                <Route path={"/pantauanak"} element={<Monitor/>} />
                 <Route
                   path="/"
                   element={<Navigate to="/admin/dashboard" replace />}

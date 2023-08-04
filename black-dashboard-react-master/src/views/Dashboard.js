@@ -59,8 +59,6 @@ import {
   chartExample9
 } from "variables/charts.js";
 
-import summaryService from "../services/summary";
-
 import { useSignIn } from 'react-auth-kit'
 
 import LandingPage from "./LandingPage.js";

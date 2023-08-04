@@ -22,9 +22,6 @@ import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from 'react-auth-kit'
 
 import AdminLayout from "layouts/Admin/Admin.js";
-import Icons from "views/Icons.js";
-import Map from "views/Map.js";
-import Notifications from "views/Notifications.js";
 
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
