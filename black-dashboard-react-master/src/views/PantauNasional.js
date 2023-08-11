@@ -20,6 +20,7 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar, Pie, PolarArea} from "react-chartjs-2";
+import moment from 'moment';
 
 // reactstrap components
 import {
@@ -68,13 +69,7 @@ const PantauAnak=() =>{
   const setBgChartData = (name) => {
     setBigChartData(name);
   };
-  const [namaDepanData, setNamaDepanData] = useState({ first_name: 0});
-  const [namaBelakangData, setNamaBelakangData] = useState({last_name: 0});
-  const [umurData, setUmurData] = useState({ created_at: 0 });
-  const [tbData, setTbData] = useState({body_height: 0});
-  const [bbData, setBbData] = useState({body_weight: 0});
-  const [headData, setHeadData] = useState({head_circumference: 0});
-  const [armData, setArmData] = useState({arm_circumference: 0});
+
   const signIn=useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -100,9 +95,8 @@ const PantauAnak=() =>{
     const responseData = await response.json();
     console.log('Data fetched:', responseData);
 
-    setData(responseData.data.data.data); // Set the data array to the state
+    setData(responseData.data.data); // Set the data array to the state
     setIsLoading(false); // Set isLoading to false after data is fetched
-    console.log('Data State:', data);
     console.log('isLoading:', isLoading);
   } catch (error) {
     console.error('An error occurred during API call.', error);
@@ -142,18 +136,24 @@ const PantauAnak=() =>{
                   </thead>
                   <tbody>
                     {data && data.length > 0 ? (
-                      data.map((item) => (
-                        <tr key={item.id}>
-                          <td>{item.first_name}</td>
-                          <td>{item.last_name}</td>
-                        {/* Calculate age based on date_of_birth and created_at */}
-                        <td>{item.created_at}</td>
-                        <td>{item.body_height}</td>
-                        <td>{item.body_weight}</td>
-                        <td>{item.head_circumference}</td>
-                        <td>{item.arm_circumference}</td>
-                      </tr>
-                    ))
+                      data.map((item) => {
+                        const birthDate = new Date(item.baby.created_at);
+                        const createdAt = new Date(item.created_at);
+                        const monthsDiff = (createdAt.getFullYear() - birthDate.getFullYear()) * 12 +
+                        (createdAt.getMonth() - birthDate.getMonth());
+
+                        return (
+                          <tr key={item.id}>
+                            <td>{item.baby.first_name}</td>
+                            <td>{item.baby.last_name}</td>
+                            <td>{monthsDiff} months</td> {/* Display age with two decimal places */}
+                            <td>{item.body_height}</td>
+                            <td>{item.body_weight}</td>
+                            <td>{item.head_circumference}</td>
+                            <td>{item.arm_circumference}</td>
+                        </tr>
+                        );
+                    })
                     ):(
                       <tr>
                         <td colSpan="7">{isLoading ? 'Loading...' : 'No data available.'}</td>
