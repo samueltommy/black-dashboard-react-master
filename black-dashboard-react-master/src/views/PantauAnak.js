@@ -50,11 +50,18 @@ import {
   chartExample2,
   chartExample3,
   chartExample4,
-  chartExample5,
-  chartExample6,
-  chartExample7,
-  chartExample8,
-  chartExample9
+  tbCo0,
+  tbCo24,
+  bbCo0,
+  bbCo24,
+  bbtbCo0,
+  bbtbCo24,
+  tbCe0,
+  tbCe24,
+  bbCe0,
+  bbCe24,
+  bbtbCe0,
+  bbtbCe24,
 } from "variables/charts.js";
 
 import { useFormik } from "formik";
@@ -177,8 +184,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                   <Line
-                    data={chartExample5.data}
-                    options={chartExample5.options}
+                    data={tbCo0.data}
+                    options={tbCo0.options}
                   />
                   </div>
                 </CardBody>
@@ -195,8 +202,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample6.data}
-                      options={chartExample6.options}
+                      data={bbCo0.data}
+                      options={bbCo0.options}
                     />
                   </div>
                 </CardBody>
@@ -215,8 +222,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample7.data}
-                      options={chartExample7.options}
+                      data={tbCo24.data}
+                      options={tbCo24.options}
                     />
                   </div>
                 </CardBody>
@@ -233,8 +240,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample8.data}
-                      options={chartExample8.options}
+                      data={bbCo24.data}
+                      options={bbCo24.options}
                     />
                   </div>
                 </CardBody>
@@ -253,8 +260,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample9.data}
-                      options={chartExample9.options}
+                      data={bbtbCo0.data}
+                      options={bbCo0.options}
                     />
                   </div>
                 </CardBody>
@@ -271,8 +278,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample6.data}
-                      options={chartExample6.options}
+                      data={bbtbCo24.data}
+                      options={bbtbCo24.options}
                     />
                   </div>
                 </CardBody>
@@ -291,8 +298,8 @@ const PantauAnak=() =>{
                 <CardBody>
                  <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample5.data}
-                      options={chartExample5.options}
+                      data={tbCe0.data}
+                      options={tbCe0.options}
                     />
                   </div>
                 </CardBody>
@@ -309,8 +316,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample6.data}
-                      options={chartExample6.options}
+                      data={bbCe0.data}
+                      options={bbCe0.options}
                     />
                   </div>
                 </CardBody>
@@ -329,8 +336,8 @@ const PantauAnak=() =>{
                 <CardBody>
                  <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample7.data}
-                      options={chartExample7.options}
+                      data={tbCe24.data}
+                      options={tbCe24.options}
                     />
                   </div>
                 </CardBody>
@@ -347,8 +354,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample8.data}
-                      options={chartExample8.options}
+                      data={bbCe24.data}
+                      options={bbCe24.options}
                     />
                   </div>
                 </CardBody>
@@ -367,8 +374,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample9.data}
-                      options={chartExample9.options}
+                      data={bbtbCe0.data}
+                      options={bbtbCe0.options}
                     />
                   </div>
                 </CardBody>
@@ -385,8 +392,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={chartExample6.data}
-                      options={chartExample6.options}
+                      data={bbtbCe24.data}
+                      options={bbtbCe24.options}
                     />
                   </div>
                 </CardBody>
