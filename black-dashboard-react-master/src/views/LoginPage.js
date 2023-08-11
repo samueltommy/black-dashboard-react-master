@@ -36,6 +36,12 @@ const LoginPage = () => {
       const accessToken = data.accessToken;
       console.log(accessToken, "ini token");
       localStorage.setItem('accessToken', accessToken);
+      const id = data.userData.id;
+      console.log(id, "ini id");
+      localStorage.setItem('id', id);
+      const role = data. userData.role;
+      console.log(role, "ini role");
+      localStorage.setItem('role', role);
       
       signIn({
         auth: accessToken,

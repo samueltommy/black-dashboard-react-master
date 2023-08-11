@@ -18,12 +18,16 @@
 import LoginPage from "views/LoginPage.js";
 import Dashboard from "views/Dashboard.js";
 import Parents from "views/Parents.js";
+import Baby from "views/Baby.js";
+import Users from "views/Users.js"
 import Satker from "views/Satker.js";
-import Notifications from "views/Notifications.js";
-import TableList from "views/TableList.js";
+import PantauNasional from "views/PantauNasional.js";
+import PantauSatker from "views/PantauSatker.js";
+import PantauAnak from "views/PantauAnak.js";
+import Settings from "views/Settings";
 import Typography from "views/Typography.js";
 import Monitor from "views/Monitor.js";
-import TambahanNakes from "views/TambahanNakes.js"
+
 
 var routes = [
   {
@@ -51,9 +55,15 @@ var routes = [
         layout: "/admin",
       },
       {
-        path: "/daftarnakes",
+        path: "/daftaranak",
+        name: "Anak Baru",
+        component: <Baby/>,
+        layout: "/admin",
+      },
+      {
+        path: "/daftaruser",
         name:"Tenaga Kesehatan Baru",
-        component: <TambahanNakes/>,
+        component: <Users/>,
         layout: "/admin",
       },
       {
@@ -72,19 +82,19 @@ var routes = [
       {
         path: "/pantaunasional",
         name: "Nasional",
-        component: <Notifications/>,
+        component: <PantauNasional/>,
         layout: "/admin",
       },
       {
         path: "/pantausatker",
         name: "Puskesmas",
-        component: Notifications,
+        component: <PantauSatker/>,
         layout: "/admin",
       },
       {
         path: "/pantauanak",
         name: "Individu",
-        component: Notifications,
+        component: <PantauAnak/>,
         layout: "/admin",
       },
     ],
@@ -97,10 +107,10 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/tables",
+    path: "/settings",
     name: "Data Pengguna",
     icon: "tim-icons icon-puzzle-10",
-    component: <TableList/>,
+    component: <Settings/>,
     layout: "/admin",
   },
   {
