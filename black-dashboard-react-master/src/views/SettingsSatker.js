@@ -33,11 +33,11 @@ import {
 } from "reactstrap";
 
 import { useFormik } from "formik";
-import SettingsParentService from "../services/settingsparent";
+import SettingsSatkerService from "../services/settingssatker";
 
 import { useSignIn } from 'react-auth-kit'
 
-const SettingsParent=() =>{
+const SettingsSatker=() =>{
   const signIn=useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
 
@@ -62,7 +62,7 @@ const SettingsParent=() =>{
     }
   };
 
-  const handleSubmit = async (settingsParentPayload) => {
+  const handleSubmit = async (settingsSatkerPayload) => {
     fetchdata();
     const accessToken = localStorage.getItem('accessToken');
       if (!accessToken) {
@@ -76,12 +76,12 @@ const SettingsParent=() =>{
           "Authorization": `Bearer ${accessToken}`
         }
       };
-    console.log(settingsParentPayload, "ini payload");
+    console.log(settingsSatkerPayload, "ini payload");
     try {
       // Next, use the accessToken to make a request to MonitorService
-      const settingsParentResponse = await SettingsParentService.settingsparent(settingsParentPayload, config);
-      const settingsParentData = settingsParentResponse.data;
-      console.log(settingsParentData, "ini hasil monitor post");
+      const settingsSatkerResponse = await SettingsSatkerService.settingssatker(settingsSatkerPayload, config);
+      const settingsSatkerData = settingsSatkerResponse.data;
+      console.log(settingsSatkerData, "ini hasil monitor post");
 
     } catch (error) {
       console.log('An error occurred during upload.');
@@ -100,14 +100,14 @@ const SettingsParent=() =>{
 
   const formik = useFormik({
     initialValues: {
-      first_name: "",
-      last_name: "",
-      relation: "",
-      contact: "",
-      nik: "",
-      no_kk: "",
+      name: "",
       address: "",
-      date_of_birth: "",
+      lat: "",
+      lon: "",
+      desa: "",
+      kecamatan: "",
+      kabupaten: "",
+      provinsi: "",
     },
     onSubmit: handleSubmit,
   });
@@ -119,100 +119,26 @@ const SettingsParent=() =>{
           <Col md="8">
             <Card>
               <CardHeader>
-                <h5 className="title">Pengaturan Orangtua</h5>
+                <h5 className="title">Pengaturan Satker</h5>
               </CardHeader>
               <CardBody>
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
                     <Col className="pr-md-1" md="5">
                       <FormGroup>
-                        <label>Nama Depan</label>
+                        <label>Nama</label>
                         <Input
                           type="text"
                           className="text-input"
-                          value={formik.values.first_name}
+                          value={formik.values.name}
                           onChange={formik.handleChange}
-                          name="first_name"
-                          placeholder="Nama depan"
+                          name="name"
+                          placeholder="Nama satker"
                           required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label>Nama Belakang</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.last_name}
-                          onChange={formik.handleChange}
-                          name="last_name"
-                          placeholder="Nama belakang"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                     <Col className="px-md-1" md="5">
-                      <FormGroup>
-                        <label>Relasi</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.relation}
-                          onChange={formik.handleChange}
-                          name="relation"
-                          placeholder="Relasi dengan anak (m/f/o)"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pr-md-1" md="5">
-                      <FormGroup>
-                        <label>Nomor Telepon</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.contact}
-                          onChange={formik.handleChange}
-                          name="contact"
-                          placeholder="Nomor telepon orang tua"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-md-1" md="10">
-                      <FormGroup>
-                        <label>NIK</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.nik}
-                          onChange={formik.handleChange}
-                          name="nik"
-                          placeholder="NIK"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label>No. Kartu Keluarga</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.no_kk}
-                          onChange={formik.handleChange}
-                          name="no_kk"
-                          placeholder="No. kartu keluarga"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pr-md-1" md="5">
                       <FormGroup>
                         <label>Alamat</label>
                         <Input
@@ -221,7 +147,67 @@ const SettingsParent=() =>{
                           value={formik.values.address}
                           onChange={formik.handleChange}
                           name="address"
-                          placeholder="Alamat"
+                          placeholder="Alamat satker"
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                     <Col className="px-md-1" md="5">
+                      <FormGroup>
+                        <label>Posisi Latitude</label>
+                        <Input
+                          type="text"
+                          className="text-input"
+                          value={formik.values.lat}
+                          onChange={formik.handleChange}
+                          name="lat"
+                          placeholder="Posisi latitude)"
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pr-md-1" md="5">
+                      <FormGroup>
+                        <label>Posisi Longitude</label>
+                        <Input
+                          type="text"
+                          className="text-input"
+                          value={formik.values.lon}
+                          onChange={formik.handleChange}
+                          name="lon"
+                          placeholder="Posisi longitude"
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="pl-md-1" md="5">
+                      <FormGroup>
+                        <label>Desa</label>
+                        <Input
+                          type="text"
+                          className="text-input"
+                          value={formik.values.desa}
+                          onChange={formik.handleChange}
+                          name="desa"
+                          placeholder="Desa satker"
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pr-md-1" md="5">
+                      <FormGroup>
+                        <label>Kecamatan</label>
+                        <Input
+                          type="text"
+                          className="text-input"
+                          value={formik.values.kecamatan}
+                          onChange={formik.handleChange}
+                          name="kecamatan"
+                          placeholder="Kecamatan satker"
                           required
                         />
                       </FormGroup>
@@ -230,14 +216,28 @@ const SettingsParent=() =>{
                     <Row>
                     <Col className="pl-md-1" md="5">
                       <FormGroup>
-                        <label>Tanggal Lahir</label>
+                        <label>Kabupaten</label>
                         <Input
                           type="text"
                           className="text-input"
-                          value={formik.values.date_of_birth}
+                          value={formik.values.kabupaten}
                           onChange={formik.handleChange}
-                          name="date_of_birth"
-                          placeholder="Tanggal lahir"
+                          name="kabupaten"
+                          placeholder="Kabupaen satker"
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pr-md-1" md="5">
+                      <FormGroup>
+                        <label>Provinsi</label>
+                        <Input
+                          type="text"
+                          className="text-input"
+                          value={formik.values.provinsi}
+                          onChange={formik.handleChange}
+                          name="provinsi"
+                          placeholder="Provinsi satker"
                           required
                         />
                       </FormGroup>
@@ -256,4 +256,4 @@ const SettingsParent=() =>{
   );
 }
 
-export default SettingsParent;
+export default SettingsSatker;

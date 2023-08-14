@@ -23,6 +23,17 @@ function Sidebar(props) {
   const sidebarRef = React.useRef(null);
   const [dropdownOpen, setDropdownOpen] = React.useState({});
 
+  const userRole = parseInt(localStorage.getItem("role"), 10);
+  const roleRoutes = {
+    // Define your role routes here
+    1: ["/admin/dashboard", "/admin/daftar", "/admin/pemantauan", "/admin/pengaturan","/admin/daftarortu", "/admin/daftaranak", "/admin/daftaruser", "/admin/daftarsatker", "/admin/pantaunasional", "/admin/pantausatker", "/admin/pantauanak", "/admin/settings", "/admin/settingsbaby", "/admin/settingsnakes", "/admin/settingssatker", "/admin/monitor"],
+    2: ["/admin/dashboard", "/admin/daftar", "/admin/pemantauan", "/admin/pengaturan", "/admin/pantausatker", "/admin/pantauanak", "/admin/daftarortu", "/admin/daftaranak", "/admin/daftaruser", "/admin/settings", "/admin/settingsbaby", "/admin/settingsnakes", "/admin/monitor"],
+    3: ["/admin/dashboard", "/admin/pemantauan", "/admin/pantausatker", "/admin/pantauanak", "/admin/monitor"],
+    4: ["/admin/dashboard", "/admin/pemantauan", "/admin/pantauanak"],
+  };
+
+  const allowedRoutes = roleRoutes[userRole] || [];
+
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";
   };
@@ -115,41 +126,47 @@ function Sidebar(props) {
                 if (prop.redirect) return null;
                 if (prop.children && prop.children.length > 0) {
                   const isOpen = dropdownOpen[prop.name];
-                  return (
-                    <li className="nav-item" key={key}>
-                      <Dropdown
-                        nav
-                        isOpen={isOpen}
-                        toggle={() => toggleDropdown(prop.name)}
-                      >
-                        <DropdownToggle nav caret>
-                          <i className={prop.icon} />
-                          <p>{rtlActive ? prop.rtlName : prop.name}</p>
-                        </DropdownToggle>
-                        <DropdownMenu className="sidebar-dropdown-menu">
-                          {prop.children.map((childProp, childKey) => (
-                            <DropdownItem
-                              key={childKey}
-                              className={activeRoute(
-                                childProp.layout + childProp.path
-                              )}
-                              tag={NavLink}
-                              to={childProp.layout + childProp.path}
-                              onClick={props.toggleSidebar}
-                            >
-                              <i className={childProp.icon} />
-                              <p>
-                                {rtlActive
-                                  ? childProp.rtlName
-                                  : childProp.name}
-                              </p>
-                            </DropdownItem>
-                          ))}
-                        </DropdownMenu>
-                      </Dropdown>
-                    </li>
-                  );
-                } else {
+                  if (allowedRoutes.includes(prop.layout + prop.path)) {
+                    return (
+                      <li className="nav-item" key={key}>
+                        <Dropdown
+                          nav
+                          isOpen={isOpen}
+                          toggle={() => toggleDropdown(prop.name)}
+                        >
+                          <DropdownToggle nav caret>
+                            <i className={prop.icon} />
+                            <p>{rtlActive ? prop.rtlName : prop.name}</p>
+                          </DropdownToggle>
+                          <DropdownMenu className="sidebar-dropdown-menu">
+                            {prop.children.map((childProp, childKey) => (
+                              allowedRoutes.includes(childProp.layout + childProp.path) && (
+                                <DropdownItem
+                                  key={childKey}
+                                  className={activeRoute(
+                                    childProp.layout + childProp.path
+                                  )}
+                                  tag={NavLink}
+                                  to={childProp.layout + childProp.path}
+                                  onClick={props.toggleSidebar}
+                                >
+                                  <i className={childProp.icon} />
+                                  <p>
+                                    {rtlActive
+                                      ? childProp.rtlName
+                                      : childProp.name}
+                                  </p>
+                                </DropdownItem>
+                              )
+                            ))}
+                          </DropdownMenu>
+                        </Dropdown>
+                      </li>
+                    );
+                  } else {
+                    return null;
+                  }
+                } else if (allowedRoutes.includes(prop.layout + prop.path)) {
                   return (
                     <li
                       className={
@@ -168,6 +185,8 @@ function Sidebar(props) {
                       </NavLink>
                     </li>
                   );
+                } else {
+                  return null;
                 }
               })}
             </Nav>

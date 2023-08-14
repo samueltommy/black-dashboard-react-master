@@ -25,6 +25,9 @@ import PantauNasional from "views/PantauNasional.js";
 import PantauSatker from "views/PantauSatker.js";
 import PantauAnak from "views/PantauAnak.js";
 import Settings from "views/Settings";
+import SettingsBaby from "views/SettingsBaby.js";
+import SettingsNakes from "views/SettingsNakes.js";
+import SettingsSatker from "views/SettingsSatker";
 import Typography from "views/Typography.js";
 import Monitor from "views/Monitor.js";
 
@@ -47,6 +50,7 @@ var routes = [
     name: "Daftar",
     icon: "tim-icons icon-atom",
     layout: "/admin",
+    path: "/daftar",
     children:[
       {
         path: "/daftarortu",
@@ -77,7 +81,8 @@ var routes = [
   {
     name: "Pemantauan",
     icon: "tim-icons icon-bell-55",
-    layout: "/",
+    layout: "/admin",
+    path: "/pemantauan",
     children:[
       {
         path: "/pantaunasional",
@@ -107,11 +112,36 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/settings",
-    name: "Data Pengguna",
+    name: "Pengaturan",
     icon: "tim-icons icon-puzzle-10",
-    component: <Settings/>,
     layout: "/admin",
+    path: "/pengaturan",
+    children: [
+      {
+        path: "/settings",
+        name: "Settings Parent",
+        component: <Settings/>,
+        layout: "/admin",
+      },
+      {
+        path: "/settingsbaby",
+        name: "Settings Baby",
+        component: <SettingsBaby/>,
+        layout: "/admin",
+      },
+      {
+        path: "/settingsnakes",
+        name: "Settings Nakes",
+        component: <SettingsNakes/>,
+        layout: "/admin",
+      },
+      {
+        path: "/settingssatker",
+        name: "Settings Satker",
+        component: <SettingsSatker/>,
+        layout: "/admin",
+      },
+    ]
   },
   {
     path: "/typography",

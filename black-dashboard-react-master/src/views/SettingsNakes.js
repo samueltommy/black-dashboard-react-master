@@ -33,11 +33,11 @@ import {
 } from "reactstrap";
 
 import { useFormik } from "formik";
-import SettingsParentService from "../services/settingsparent";
+import SettingsNakesService from "../services/settingsnakes";
 
 import { useSignIn } from 'react-auth-kit'
 
-const SettingsParent=() =>{
+const SettingsNakes=() =>{
   const signIn=useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
 
@@ -62,7 +62,7 @@ const SettingsParent=() =>{
     }
   };
 
-  const handleSubmit = async (settingsParentPayload) => {
+  const handleSubmit = async (settingsNakesPayload) => {
     fetchdata();
     const accessToken = localStorage.getItem('accessToken');
       if (!accessToken) {
@@ -76,12 +76,12 @@ const SettingsParent=() =>{
           "Authorization": `Bearer ${accessToken}`
         }
       };
-    console.log(settingsParentPayload, "ini payload");
+    console.log(settingsNakesPayload, "ini payload");
     try {
       // Next, use the accessToken to make a request to MonitorService
-      const settingsParentResponse = await SettingsParentService.settingsparent(settingsParentPayload, config);
-      const settingsParentData = settingsParentResponse.data;
-      console.log(settingsParentData, "ini hasil monitor post");
+      const settingsNakesResponse = await SettingsNakesService.settingsparent(settingsNakesPayload, config);
+      const settingsNakesData = settingsNakesResponse.data;
+      console.log(settingsNakesData, "ini hasil monitor post");
 
     } catch (error) {
       console.log('An error occurred during upload.');
@@ -102,12 +102,9 @@ const SettingsParent=() =>{
     initialValues: {
       first_name: "",
       last_name: "",
-      relation: "",
-      contact: "",
+      email: "",
+      password: "",
       nik: "",
-      no_kk: "",
-      address: "",
-      date_of_birth: "",
     },
     onSubmit: handleSubmit,
   });
@@ -119,7 +116,7 @@ const SettingsParent=() =>{
           <Col md="8">
             <Card>
               <CardHeader>
-                <h5 className="title">Pengaturan Orangtua</h5>
+                <h5 className="title">Pengaturan Nakes</h5>
               </CardHeader>
               <CardBody>
                 <form onSubmit={formik.handleSubmit}>
@@ -156,28 +153,28 @@ const SettingsParent=() =>{
                   <Row>
                      <Col className="px-md-1" md="5">
                       <FormGroup>
-                        <label>Relasi</label>
+                        <label>Email</label>
                         <Input
                           type="text"
                           className="text-input"
-                          value={formik.values.relation}
+                          value={formik.values.email}
                           onChange={formik.handleChange}
-                          name="relation"
-                          placeholder="Relasi dengan anak (m/f/o)"
+                          name="email"
+                          placeholder="Email"
                           required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="pr-md-1" md="5">
                       <FormGroup>
-                        <label>Nomor Telepon</label>
+                        <label>Password</label>
                         <Input
                           type="text"
                           className="text-input"
-                          value={formik.values.contact}
+                          value={formik.values.passwordt}
                           onChange={formik.handleChange}
-                          name="contact"
-                          placeholder="Nomor telepon orang tua"
+                          name="password"
+                          placeholder="Password"
                           required
                         />
                       </FormGroup>
@@ -197,52 +194,6 @@ const SettingsParent=() =>{
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label>No. Kartu Keluarga</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.no_kk}
-                          onChange={formik.handleChange}
-                          name="no_kk"
-                          placeholder="No. kartu keluarga"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pr-md-1" md="5">
-                      <FormGroup>
-                        <label>Alamat</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.address}
-                          onChange={formik.handleChange}
-                          name="address"
-                          placeholder="Alamat"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    </Row>
-                    <Row>
-                    <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label>Tanggal Lahir</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.date_of_birth}
-                          onChange={formik.handleChange}
-                          name="date_of_birth"
-                          placeholder="Tanggal lahir"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    </Row>
                     <Button className="btn-fill" color="primary" type="submit">
                       Save
                     </Button>
@@ -256,4 +207,4 @@ const SettingsParent=() =>{
   );
 }
 
-export default SettingsParent;
+export default SettingsNakes;

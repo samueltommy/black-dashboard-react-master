@@ -147,7 +147,7 @@ const Dashboard = (props) =>{
                         Perbandingan per Provinsi
                       </h5>
                       <CardTitle tag="h2">
-                        Perbandingan Anak Normal dan Tidak
+                        Visualisasi Perbandinan Jumlah Satker dan Bayi
                       </CardTitle>
                     </Col>
                   </Row>
@@ -173,14 +173,6 @@ const Dashboard = (props) =>{
                   {summaryData.total_satker} Satuan Kerja
                   </CardTitle>
                 </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <Line
-                      data={chartExample2.data}
-                      options={chartExample2.options}
-                    />
-                  </div>
-                </CardBody>
               </Card>
             </Col>
             <Col lg="3">
@@ -193,14 +185,6 @@ const Dashboard = (props) =>{
                     {summaryData.total_nakes} Nakes
                   </CardTitle>
                 </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <PolarArea
-                      data={chartExample4.data}
-                      options={chartExample4.options}
-                    />
-                  </div>
-                </CardBody>
               </Card>
             </Col>
             <Col lg="3">
@@ -212,14 +196,6 @@ const Dashboard = (props) =>{
                     {babyData.totalItems} Anak
                   </CardTitle>
                 </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <PolarArea
-                      data={chartExample4.data}
-                      options={chartExample4.options}
-                    />
-                  </div>
-                </CardBody>
               </Card>
             </Col>
             <Col lg="3">
@@ -231,14 +207,6 @@ const Dashboard = (props) =>{
                     {babyData.totalItems} Anak
                   </CardTitle>
                 </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <Pie
-                      data={chartExample3.data}
-                      options={chartExample3.options}
-                    />
-                  </div>
-                </CardBody>
               </Card>
             </Col>
           </Row>

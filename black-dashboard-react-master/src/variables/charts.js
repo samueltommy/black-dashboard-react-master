@@ -14,7 +14,11 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
+
 */
+
+import FetchChartData from "./fetchdata";
+
 // ##############################
 // // // Chart variables
 // #############################
@@ -366,11 +370,28 @@ const chartExample4 = {
 // #########################################
 const tbCo0 = {
   data: (canvas) => {
-    let ctx = canvas.getContext("2d");
+    const bodyHeightData = FetchChartData();
 
     return {
       labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,21,22,23,24],
       datasets: [
+        {
+          label: "Body Height",
+          fill: false,
+          backgroundColor: "rgba(0, 0, 0, 1)",
+          borderColor: "rgba(0, 0, 0, 1)",
+          borderWidth: 1,
+          borderDash: [],
+          borderDashOffset: 0.0,
+          pointBackgroundColor: "rgba(0, 0, 0, 1)",
+          pointBorderColor: "rgba(255, 255, 255, 0)",
+          pointHoverBackgroundColor: "rgba(0, 0, 0, 1)",
+          pointBorderWidth: 1,
+          pointHoverRadius: 1,
+          pointHoverBorderWidth: 1,
+          pointRadius: 1,
+          data: bodyHeightData,
+        },
         {
           label: "Median",
           fill: "false",
@@ -2516,7 +2537,7 @@ const bbtbCe24 = {
   },
 };
 
-module.exports = {
+export {
   chartExample1, // in src/views/Dashboard.js
   chartExample2, // in src/views/Dashboard.js
   chartExample3, // in src/views/Dashboard.js

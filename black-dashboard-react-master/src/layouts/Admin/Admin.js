@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, {useContext} from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
@@ -28,8 +28,8 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes from "routes.js";
 
-import logo from "assets/img/puskes.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
+import LoginPage from "views/LoginPage.js";
 import Parents from "views/Parents";
 import Baby from "views/Baby";
 import Users from "views/Users";
@@ -37,10 +37,16 @@ import Satker from "views/Satker";
 import PantauNasional from "views/PantauNasional";
 import PantauSatker from "views/PantauSatker.js";
 import PantauAnak from "views/PantauAnak.js";
+import Settings from "views/Settings";
+import SettingsBaby from "views/SettingsBaby";
+import SettingsNakes from "views/SettingsNakes";
+import SettingsSatker from "views/SettingsSatker";
 
 var ps;
 
-function Admin(props) {
+const userRole = parseInt(localStorage.getItem('role'), 10);
+function Admin(prop) {
+  
   const location = useLocation();
   const mainPanelRef = React.useRef(null);
   const [sidebarOpened, setsidebarOpened] = React.useState(
@@ -85,17 +91,45 @@ function Admin(props) {
     document.documentElement.classList.toggle("nav-open");
     setsidebarOpened(!sidebarOpened);
   };
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
-        return (
-          <Route path={prop.path} element={prop.component} key={key} exact />
-        );
-      } else {
-        return null;
-      }
-    });
+  const roleRoutes = {
+    1: ["/dashboard", "/daftarortu", "/daftaranak", "/daftaruser", "/daftarsatker", "/pantaunasional", "/pantausatker", "/pantauanak", "/settings", "/settingsbaby", "/settingsnakes", "/settingssatker", "/monitor"],
+    2: ["/dashboard", "/pantausatker", "/pantauanak", "/daftarortu", "/daftaranak", "/daftaruser", "/settings", "/settingsbaby", "/settingsnakes", "/settingssatker", "/monitor"],
+    3: ["/dashboard", "/pantausatker", "/pantauanak", "/monitor"],
+    4: ["/dashboard", "/pantauanak"],
   };
+  const getRoutes = (routes) => {
+    const allowedRoutes = roleRoutes[userRole];
+
+    console.log('userRole:', userRole);
+    console.log('allowedRoutes:', allowedRoutes);
+    // Example: Check if the correct role has access to the path
+    console.log('Allowed:', allowedRoutes.includes("/dashboard"));
+  
+    return (
+      <>
+        {routes.map((route, index) => {
+        if (route.layout === "/admin" && allowedRoutes.includes(route.path)) {
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={route.component}
+              exact
+            />
+          );
+        } else {
+          return null;
+        }
+      })}
+
+      <Route path={"/login"} element={<LoginPage />} />
+      </>
+    );
+  };
+  
+  
+
+  
   const getBrandText = (path) => {
     for (let i = 0; i < routes.length; i++) {
       if (location.pathname.indexOf(routes[i].layout + routes[i].path) !== -1) {
@@ -116,61 +150,23 @@ function Admin(props) {
           <div className="main-panel" ref={mainPanelRef} data={color}>
             {!isLoginPage && <AdminNavbar brandText={getBrandText(location.pathname)} />}
             <Routes>
-            {getRoutes(routes)}
-                <Route path={"/daftarortu"} element={<Parents/>} />
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
+              {getRoutes(routes)}
+              <Route path={"/daftarortu"} element={<Parents/>} />
+              <Route path={"/daftaranak"} element={<Baby/>} />
+              <Route path={"/daftaruser"} element={<Users/>} />
+              <Route path={"/daftarsatker"} element={<Satker/>} />
+              <Route path={"/pantaunasional"} element={<PantauNasional/>} />
+              <Route path={"/pantausatker"} element={<PantauSatker/>} />
+              <Route path={"/pantauanak"} element={<PantauAnak/>} />
+              <Route path={"/settings"} element={<Settings/>} />
+              <Route path={"/settingsnakes"} element={<SettingsNakes/>} />
+              <Route path={"/settingsbaby"} element={<SettingsBaby/>} />
+              <Route path={"/settingssatker"} element={<SettingsSatker/>} />
+              <Route
+                path="/"
+                element={<Navigate to="/admin/dashboard" replace />}
+              />
             </Routes>
-            <Routes>
-            {getRoutes(routes)}
-                <Route path={"/daftaranak"} element={<Baby/>} />
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
-            </Routes>
-            <Routes>
-            {getRoutes(routes)}
-                <Route path={"/daftaruser"} element={<Users/>} />
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
-            </Routes>
-            <Routes>
-                {getRoutes(routes)}
-                <Route path={"/daftarsatker"} element={<Satker/>} />
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
-              </Routes>
-              <Routes>
-                {getRoutes(routes)}
-                <Route path={"/pantaunasional"} element={<PantauNasional/>} />
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
-              </Routes>
-              <Routes>
-                {getRoutes(routes)}
-                <Route path={"/pantausatker"} element={<PantauSatker/>} />
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
-              </Routes>
-              <Routes>
-                {getRoutes(routes)}
-                <Route path={"/pantauanak"} element={<PantauAnak/>} />
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
-              </Routes>
             {!isLoginPage && location.pathname !== "/admin/maps" && <Footer fluid />}
           </div>
           <FixedPlugin bgColor={color} handleBgClick={changeColor} />
