@@ -1,7 +1,7 @@
 import apiClient from "../utils/api"
 
-const SettingsParentService = {
-    settingsparent: async (payload, config) => {
+const DeleteParentService = {
+    deleteparent: async (payload, config) => {
         const userId = localStorage.getItem('inputId'); // Update this line to use 'inputId'
 
         if (!userId) {
@@ -15,7 +15,7 @@ const SettingsParentService = {
             const redirectUrl = `https://staging-antro.srv.kirei.co.id/parent/${userId}`;
             console.log('Redirect URL:', redirectUrl);
 
-            const response = await apiClient.put(redirectUrl, payload, config);
+            const response = await apiClient.delete(redirectUrl, payload, config);
 
             return response.data;
         } else {
@@ -24,4 +24,4 @@ const SettingsParentService = {
     }
 }
 
-export default SettingsParentService;
+export default DeleteParentService;

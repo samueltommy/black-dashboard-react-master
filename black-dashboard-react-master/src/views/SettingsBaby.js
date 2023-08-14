@@ -34,6 +34,7 @@ import {
 
 import { useFormik } from "formik";
 import SettingsBabyService from "../services/settingsbaby";
+import DeleteBabyService from "../services/deletebaby";
 
 import { useSignIn } from 'react-auth-kit'
 
@@ -62,6 +63,15 @@ const SettingsBaby=() =>{
     }
   };
 
+  const handleIdChange = (event) => {
+    // Update the formik values
+    formik.setFieldValue("id", event.target.value);
+    
+    // Save the ID to local storage
+    localStorage.setItem("inputId", event.target.value);
+    console.log(event.target.value, "id")
+  };
+
   const handleSubmit = async (settingsBabyPayload) => {
     fetchdata();
     const accessToken = localStorage.getItem('accessToken');
@@ -87,6 +97,31 @@ const SettingsBaby=() =>{
       console.log('An error occurred during upload.');
       console.error(error);
       
+    }
+  };
+
+  const deleteSubmit = async () => {
+    fetchdata();
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      console.error('Access token not found. Please login first.');
+      return;
+    }
+
+    var config = {
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${accessToken}`
+      }
+    };
+    try {
+      const deleteBabyResponse = await DeleteBabyService.deletebaby(config);
+      console.log('Account deleted:', deleteBabyResponse); // Log the response if needed
+
+      // You might want to implement additional logic after the account is deleted, such as redirecting or showing a success message.
+    } catch (error) {
+      console.log('An error occurred during account deletion.');
+      console.error(error);
     }
   };
 
@@ -120,6 +155,22 @@ const SettingsBaby=() =>{
                 <h5 className="title">Pengaturan Bayi</h5>
               </CardHeader>
               <CardBody>
+                <Row>
+                  <Col md="12">
+                    <FormGroup>
+                      <label>ID</label>
+                        <Input
+                          type="text"
+                          className="text-input"
+                          value={formik.values.id}
+                          onChange={handleIdChange}
+                          name="id"
+                          placeholder="Enter ID"
+                          required
+                        />
+                      </FormGroup>
+                  </Col>
+                </Row>
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
                     <Col className="pr-md-1" md="5">
@@ -217,6 +268,9 @@ const SettingsBaby=() =>{
                       Save
                     </Button>
                 </form>
+                <Button className="btn-fill" color="danger" type="button" onClick={deleteSubmit}>
+                  Delete
+                </Button>
               </CardBody>
             </Card>
           </Col>

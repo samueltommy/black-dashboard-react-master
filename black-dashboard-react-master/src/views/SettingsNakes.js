@@ -34,6 +34,7 @@ import {
 
 import { useFormik } from "formik";
 import SettingsNakesService from "../services/settingsnakes";
+import DeleteNakesService from "../services/deletenakes";
 
 import { useSignIn } from 'react-auth-kit'
 
@@ -62,6 +63,15 @@ const SettingsNakes=() =>{
     }
   };
 
+  const handleIdChange = (event) => {
+    // Update the formik values
+    formik.setFieldValue("id", event.target.value);
+    
+    // Save the ID to local storage
+    localStorage.setItem("inputId", event.target.value);
+    console.log(event.target.value, "id")
+  };
+
   const handleSubmit = async (settingsNakesPayload) => {
     fetchdata();
     const accessToken = localStorage.getItem('accessToken');
@@ -87,6 +97,31 @@ const SettingsNakes=() =>{
       console.log('An error occurred during upload.');
       console.error(error);
       
+    }
+  };
+
+  const deleteSubmit = async () => {
+    fetchdata();
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      console.error('Access token not found. Please login first.');
+      return;
+    }
+
+    var config = {
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${accessToken}`
+      }
+    };
+    try {
+      const deleteNakesResponse = await DeleteNakesService.deletenakes(config);
+      console.log('Account deleted:', deleteNakesResponse); // Log the response if needed
+
+      // You might want to implement additional logic after the account is deleted, such as redirecting or showing a success message.
+    } catch (error) {
+      console.log('An error occurred during account deletion.');
+      console.error(error);
     }
   };
 
@@ -119,6 +154,22 @@ const SettingsNakes=() =>{
                 <h5 className="title">Pengaturan Nakes</h5>
               </CardHeader>
               <CardBody>
+                <Row>
+                  <Col md="12">
+                    <FormGroup>
+                      <label>ID</label>
+                        <Input
+                          type="text"
+                          className="text-input"
+                          value={formik.values.id}
+                          onChange={handleIdChange}
+                          name="id"
+                          placeholder="Enter ID"
+                          required
+                        />
+                      </FormGroup>
+                  </Col>
+                </Row>
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
                     <Col className="pr-md-1" md="5">
@@ -198,6 +249,9 @@ const SettingsNakes=() =>{
                       Save
                     </Button>
                 </form>
+                <Button className="btn-fill" color="danger" type="button" onClick={deleteSubmit}>
+                  Delete
+                </Button>
               </CardBody>
             </Card>
           </Col>
