@@ -66,6 +66,8 @@ import moment from 'moment';
 const PantauAnak=() =>{
   const [data, setData] = useState([]);
   const [bigChartData, setBigChartData] = React.useState("data1");
+  const [satkerOptions, setSatkerOptions] = useState([]);
+  const [selectedSatkerId, setSelectedSatkerId] = useState("");
   const setBgChartData = (name) => {
     setBigChartData(name);
   };
@@ -92,12 +94,28 @@ const PantauAnak=() =>{
       // Make your API call using Axios or Fetch here
       // For example:
       const response = await fetch('https://staging-antro.srv.kirei.co.id/monitoring', config);
-    const responseData = await response.json();
-    console.log('Data fetched:', responseData);
+      const responseData = await response.json();
+      console.log('Data fetched:', responseData);
+
+      const userId = localStorage.getItem('id');
+  
+      const respon = await fetch('https://staging-antro.srv.kirei.co.id/satker', config);
+      const responData = await respon.json();
+      console.log('Data fetched:', responData);
+  
+      const matchingObject = responData.data.data.find(obj => obj.user_id === userId);
 
     setData(responseData.data.data); // Set the data array to the state
     setIsLoading(false); // Set isLoading to false after data is fetched
     console.log('isLoading:', isLoading);
+
+      if (matchingObject) {
+        const satker = matchingObject.satker;
+        setSatkerOptions(satker); // Set the baby objects to the state
+        setIsLoading(false); // Set isLoading to false after fetching baby options
+        return satker;
+      } 
+
   } catch (error) {
     console.error('An error occurred during API call.', error);
   }
@@ -115,6 +133,26 @@ const PantauAnak=() =>{
   return (
     <>
       <div className="content">
+        <Row>
+          <Col md="6">
+            <FormGroup>
+              <Label for="exampleSelect">Select a satker</Label>
+              <Input type="select" name="select" id="exampleSelect">
+                <option value="">Select</option>
+                {satkerOptions.map((satker) => (
+                  <option key={satker.id} value={satker.id}>
+                    {satker.name}
+                  </option>
+                ))}
+              </Input>
+            </FormGroup>
+          </Col>
+          <Col md="6">
+            <Button color="primary" type="submit">
+              Submit
+            </Button>
+          </Col>
+        </Row>
         <Row>
           <Col md="12">
             <Card>
@@ -136,25 +174,28 @@ const PantauAnak=() =>{
                   </thead>
                   <tbody>
                     {data && data.length > 0 ? (
-                      data.map((item) => {
-                        const birthDate = new Date(item.baby.created_at);
-                        const createdAt = new Date(item.created_at);
-                        const monthsDiff = (createdAt.getFullYear() - birthDate.getFullYear()) * 12 +
-                        (createdAt.getMonth() - birthDate.getMonth());
+                      data
+                        .filter((item) => item.satker.id === selectedSatkerId) // Filter data based on selected baby_id
+                        .map((item) => {
+                          const birthDate = new Date(item.baby.created_at);
+                          const createdAt = new Date(item.created_at);
+                          const monthsDiff =
+                            (createdAt.getFullYear() - birthDate.getFullYear()) * 12 +
+                            (createdAt.getMonth() - birthDate.getMonth());
 
-                        return (
-                          <tr key={item.id}>
-                            <td>{item.baby.first_name}</td>
-                            <td>{item.baby.last_name}</td>
-                            <td>{monthsDiff} months</td> {/* Display age with two decimal places */}
-                            <td>{item.body_height}</td>
-                            <td>{item.body_weight}</td>
-                            <td>{item.head_circumference}</td>
-                            <td>{item.arm_circumference}</td>
-                        </tr>
-                        );
-                    })
-                    ):(
+                          return (
+                            <tr key={item.id}>
+                              <td>{item.baby.first_name}</td>
+                              <td>{item.baby.last_name}</td>
+                              <td>{monthsDiff} months</td>
+                              <td>{item.body_height}</td>
+                              <td>{item.body_weight}</td>
+                              <td>{item.head_circumference}</td>
+                              <td>{item.arm_circumference}</td>
+                            </tr>
+                          );
+                        })
+                    ) : (
                       <tr>
                         <td colSpan="7">{isLoading ? 'Loading...' : 'No data available.'}</td>
                       </tr>
