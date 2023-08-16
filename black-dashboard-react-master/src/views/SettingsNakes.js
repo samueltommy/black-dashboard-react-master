@@ -182,7 +182,6 @@ const SettingsNakes=() =>{
                           onChange={formik.handleChange}
                           name="first_name"
                           placeholder="Nama depan"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -196,7 +195,6 @@ const SettingsNakes=() =>{
                           onChange={formik.handleChange}
                           name="last_name"
                           placeholder="Nama belakang"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -212,7 +210,6 @@ const SettingsNakes=() =>{
                           onChange={formik.handleChange}
                           name="email"
                           placeholder="Email"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -226,7 +223,6 @@ const SettingsNakes=() =>{
                           onChange={formik.handleChange}
                           name="password"
                           placeholder="Password"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -240,7 +236,6 @@ const SettingsNakes=() =>{
                           onChange={formik.handleChange}
                           name="nik"
                           placeholder="NIK"
-                          required
                         />
                       </FormGroup>
                     </Col>

@@ -63,11 +63,12 @@ import MonitorService from "../services/monitoring";
 import { useSignIn } from 'react-auth-kit'
 import moment from 'moment';
 
-const PantauAnak=() =>{
+const PantauSatker=() =>{
   const [data, setData] = useState([]);
   const [bigChartData, setBigChartData] = React.useState("data1");
   const [satkerOptions, setSatkerOptions] = useState([]);
   const [selectedSatkerId, setSelectedSatkerId] = useState("");
+  const [userData, setUserData] = useState([]);
   const setBgChartData = (name) => {
     setBigChartData(name);
   };
@@ -98,19 +99,23 @@ const PantauAnak=() =>{
       console.log('Data fetched:', responseData);
 
       const userId = localStorage.getItem('id');
+      console.log("ini id", userId);
+
+      const satkerId = localStorage.getItem('satker');
+      console.log("ini satker id", satkerId);
   
-      const respon = await fetch('https://staging-antro.srv.kirei.co.id/satker', config);
+      const respon = await fetch('https://staging-antro.srv.kirei.co.id/users', config);
       const responData = await respon.json();
       console.log('Data fetched:', responData);
   
-      const matchingObject = responData.data.data.find(obj => obj.user_id === userId);
+      const matchingObject = responData.data.data.find(obj => obj.satker_id === satkerId);
 
-    setData(responseData.data.data); // Set the data array to the state
-    setIsLoading(false); // Set isLoading to false after data is fetched
-    console.log('isLoading:', isLoading);
+      setData(responseData.data.data); // Set the data array to the state
+      setIsLoading(false); // Set isLoading to false after data is fetched
+      console.log('isLoading:', isLoading);
 
       if (matchingObject) {
-        const satker = matchingObject.satker;
+        const satker = matchingObject.id;
         setSatkerOptions(satker); // Set the baby objects to the state
         setIsLoading(false); // Set isLoading to false after fetching baby options
         return satker;
@@ -121,12 +126,46 @@ const PantauAnak=() =>{
   }
 };
 
+  const fetchUserData = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        console.error('Access token not found. Please login first.');
+        return;
+      }
+  
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        }
+      };
+  
+      const response = await fetch('https://staging-antro.srv.kirei.co.id/users', config);
+      const responseData = await response.json();
+      console.log('User data fetched:', responseData);
+  
+      return responseData.data.data;
+    } catch (error) {
+      console.error('An error occurred during API call.', error);
+      return [];
+    }
+  };  
 
   useEffect(() => {
-    // If the initial authentication is not done, trigger the fetchdata function
     if (!initialAuthDone) {
       fetchdata();
-      setInitialAuthDone(true);
+      fetchUserData().then((userData) => {
+        setUserData(userData);
+  
+        // Extract unique satker_ids from user data
+        const uniqueSatkerIds = Array.from(new Set(userData.map(user => user.satker_id)));
+  
+        // Set the satkerOptions with unique satker_ids
+        setSatkerOptions(uniqueSatkerIds);
+  
+        setInitialAuthDone(true);
+      });
     }
   }, [initialAuthDone]);
 
@@ -146,12 +185,7 @@ const PantauAnak=() =>{
                 ))}
               </Input>
             </FormGroup>
-          </Col>
-          <Col md="6">
-            <Button color="primary" type="submit">
-              Submit
-            </Button>
-          </Col>
+          </Col> 
         </Row>
         <Row>
           <Col md="12">
@@ -175,7 +209,10 @@ const PantauAnak=() =>{
                   <tbody>
                     {data && data.length > 0 ? (
                       data
-                        .filter((item) => item.satker.id === selectedSatkerId) // Filter data based on selected baby_id
+                        .filter((item) => {
+                          const user = userData.find(user => user.id === item.nakes_user_id);
+                          return user && user.satker_id === selectedSatkerId;
+                        })
                         .map((item) => {
                           const birthDate = new Date(item.baby.created_at);
                           const createdAt = new Date(item.created_at);
@@ -211,4 +248,4 @@ const PantauAnak=() =>{
   );
 }
 
-export default PantauAnak;
+export default PantauSatker;

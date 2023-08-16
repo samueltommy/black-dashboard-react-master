@@ -185,7 +185,6 @@ const SettingsSatker=() =>{
                           onChange={formik.handleChange}
                           name="name"
                           placeholder="Nama satker"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -199,7 +198,6 @@ const SettingsSatker=() =>{
                           onChange={formik.handleChange}
                           name="address"
                           placeholder="Alamat satker"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -215,7 +213,6 @@ const SettingsSatker=() =>{
                           onChange={formik.handleChange}
                           name="lat"
                           placeholder="Posisi latitude)"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -229,7 +226,6 @@ const SettingsSatker=() =>{
                           onChange={formik.handleChange}
                           name="lon"
                           placeholder="Posisi longitude"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -245,7 +241,6 @@ const SettingsSatker=() =>{
                           onChange={formik.handleChange}
                           name="desa"
                           placeholder="Desa satker"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -259,7 +254,6 @@ const SettingsSatker=() =>{
                           onChange={formik.handleChange}
                           name="kecamatan"
                           placeholder="Kecamatan satker"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -275,7 +269,6 @@ const SettingsSatker=() =>{
                           onChange={formik.handleChange}
                           name="kabupaten"
                           placeholder="Kabupaen satker"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -289,7 +282,6 @@ const SettingsSatker=() =>{
                           onChange={formik.handleChange}
                           name="provinsi"
                           placeholder="Provinsi satker"
-                          required
                         />
                       </FormGroup>
                     </Col>

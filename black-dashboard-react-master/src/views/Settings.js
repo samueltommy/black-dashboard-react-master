@@ -185,7 +185,6 @@ const SettingsParent=() =>{
                           onChange={formik.handleChange}
                           name="first_name"
                           placeholder="Nama depan"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -199,7 +198,6 @@ const SettingsParent=() =>{
                           onChange={formik.handleChange}
                           name="last_name"
                           placeholder="Nama belakang"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -215,7 +213,6 @@ const SettingsParent=() =>{
                           onChange={formik.handleChange}
                           name="relation"
                           placeholder="Relasi dengan anak (m/f/o)"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -229,7 +226,6 @@ const SettingsParent=() =>{
                           onChange={formik.handleChange}
                           name="contact"
                           placeholder="Nomor telepon orang tua"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -243,7 +239,6 @@ const SettingsParent=() =>{
                           onChange={formik.handleChange}
                           name="nik"
                           placeholder="NIK"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -259,7 +254,6 @@ const SettingsParent=() =>{
                           onChange={formik.handleChange}
                           name="no_kk"
                           placeholder="No. kartu keluarga"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -273,7 +267,6 @@ const SettingsParent=() =>{
                           onChange={formik.handleChange}
                           name="address"
                           placeholder="Alamat"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -289,7 +282,6 @@ const SettingsParent=() =>{
                           onChange={formik.handleChange}
                           name="date_of_birth"
                           placeholder="Tanggal lahir"
-                          required
                         />
                       </FormGroup>
                     </Col>

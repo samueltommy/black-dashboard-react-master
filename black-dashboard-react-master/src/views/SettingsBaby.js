@@ -183,7 +183,6 @@ const SettingsBaby=() =>{
                           onChange={formik.handleChange}
                           name="first_name"
                           placeholder="Nama depan"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -197,7 +196,6 @@ const SettingsBaby=() =>{
                           onChange={formik.handleChange}
                           name="last_name"
                           placeholder="Nama belakang"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -213,7 +211,6 @@ const SettingsBaby=() =>{
                           onChange={formik.handleChange}
                           name="nik"
                           placeholder="NIK"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -229,7 +226,6 @@ const SettingsBaby=() =>{
                           onChange={formik.handleChange}
                           name="no_kk"
                           placeholder="No. kartu keluarga"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -245,7 +241,6 @@ const SettingsBaby=() =>{
                           onChange={formik.handleChange}
                           name="date_of_birth"
                           placeholder="Tanggal lahir"
-                          required
                         />
                       </FormGroup>
                     </Col>
@@ -259,7 +254,6 @@ const SettingsBaby=() =>{
                           onChange={formik.handleChange}
                           name="parent_id"
                           placeholder="ID orangtua"
-                          required
                         />
                       </FormGroup>
                     </Col>

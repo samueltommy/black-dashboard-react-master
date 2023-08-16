@@ -137,7 +137,7 @@ const PantauAnak=() =>{
                   <tbody>
                     {data && data.length > 0 ? (
                       data.map((item) => {
-                        const birthDate = new Date(item.baby.created_at);
+                        const birthDate = new Date(item.baby.date_of_birth);
                         const createdAt = new Date(item.created_at);
                         const monthsDiff = (createdAt.getFullYear() - birthDate.getFullYear()) * 12 +
                         (createdAt.getMonth() - birthDate.getMonth());

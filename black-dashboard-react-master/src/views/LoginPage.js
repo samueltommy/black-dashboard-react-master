@@ -39,9 +39,12 @@ const LoginPage = () => {
       const id = data.userData.id;
       console.log(id, "ini id");
       localStorage.setItem('id', id);
-      const role = data. userData.role;
+      const role = data.userData.role;
       console.log(role, "ini role");
       localStorage.setItem('role', role);
+      const satker = data.userData.satker_id;
+      console.log("ini satker_id", satker);
+      localStorage.setItem("satker", satker);
       
       signIn({
         auth: accessToken,

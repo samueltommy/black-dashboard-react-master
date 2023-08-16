@@ -164,7 +164,7 @@ const Dashboard = (props) =>{
             </Col>
           </Row>
           <Row>
-            <Col lg="3">
+            <Col lg="4">
               <Card className="card-chart">
                 <CardHeader>
                   <h5 className="card-category">Jumlah Puskesmas</h5>
@@ -175,7 +175,7 @@ const Dashboard = (props) =>{
                 </CardHeader>
               </Card>
             </Col>
-            <Col lg="3">
+            <Col lg="4">
               <Card className="card-chart">
                 <CardHeader>
                   <h5 className="card-category">Jumlah Nakes</h5>
@@ -187,23 +187,12 @@ const Dashboard = (props) =>{
                 </CardHeader>
               </Card>
             </Col>
-            <Col lg="3">
+            <Col lg="4">
               <Card className="card-chart">
                 <CardHeader>
                   <h5 className="card-category">Jumlah Anak</h5>
                   <CardTitle tag="h3">
                     <i className="tim-icons icon-send text-success" />
-                    {babyData.totalItems} Anak
-                  </CardTitle>
-                </CardHeader>
-              </Card>
-            </Col>
-            <Col lg="3">
-              <Card className="card-chart">
-                <CardHeader>
-                  <h5 className="card-category">Jenis Kelamin</h5>
-                  <CardTitle tag="h3">
-                    <i className="tim-icons icon-delivery-fast text-primary" />{" "}
                     {babyData.totalItems} Anak
                   </CardTitle>
                 </CardHeader>

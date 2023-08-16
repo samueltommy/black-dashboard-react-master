@@ -67,7 +67,6 @@ import {
 import { useFormik } from "formik";
 import MonitorService from "../services/monitoring";
 import moment from 'moment';
-import MonitorAnakService from "../services/monitoranak";
 import apiClient from "../utils/api"
 
 import { useSignIn } from 'react-auth-kit'
@@ -223,7 +222,7 @@ const PantauAnak=() =>{
                             <tr key={item.id}>
                               <td>{item.baby.first_name}</td>
                               <td>{item.baby.last_name}</td>
-                              <td>{monthsDiff} months</td>
+                              <td>{monthsDiff} bulan</td>
                               <td>{item.body_height}</td>
                               <td>{item.body_weight}</td>
                               <td>{item.head_circumference}</td>
@@ -242,7 +241,7 @@ const PantauAnak=() =>{
             </Card>
           </Col>
         </Row>
-        {selectedBabyId && ( // Only render if a baby is selected
+        {selectedBabyId && dataTabel.length > 0 && ( // Only render if a baby is selected and there is data available
           <>
         <Row >
             <Col lg="6">
@@ -256,7 +255,7 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                   <Line
-                    data={tbCo0.data}
+                    data={() => tbCo0.data(null, dataTabel, selectedBabyId)}
                     options={tbCo0.options}
                   />
                   </div>
@@ -274,7 +273,7 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={bbCo0.data}
+                      data={() => bbCo0.data(null, dataTabel, selectedBabyId)}
                       options={bbCo0.options}
                     />
                   </div>
@@ -295,7 +294,7 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={tbCo24.data}
+                      data={() => tbCo24.data(null, dataTabel, selectedBabyId)}
                       options={tbCo24.options}
                     />
                   </div>
@@ -315,7 +314,7 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={bbCo24.data}
+                      data={() => bbCo24.data(null, dataTabel, selectedBabyId)}
                       options={bbCo24.options}
                     />
                   </div>
@@ -336,8 +335,8 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={bbtbCo0.data}
-                      options={bbCo0.options}
+                      data={() => bbtbCo0.data(null, dataTabel, selectedBabyId)}
+                      options={bbtbCo0.options}
                     />
                   </div>
                 </CardBody>
@@ -355,7 +354,7 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={bbtbCo24.data}
+                      data={() => bbtbCo24.data(null, dataTabel, selectedBabyId)}
                       options={bbtbCo24.options}
                     />
                   </div>
@@ -376,7 +375,7 @@ const PantauAnak=() =>{
                 <CardBody>
                  <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={tbCe0.data}
+                      data={() => tbCe0.data(null, dataTabel, selectedBabyId)}
                       options={tbCe0.options}
                     />
                   </div>
@@ -394,7 +393,7 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={bbCe0.data}
+                      data={() => bbCe0.data(null, dataTabel, selectedBabyId)}
                       options={bbCe0.options}
                     />
                   </div>
@@ -415,7 +414,7 @@ const PantauAnak=() =>{
                 <CardBody>
                  <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={tbCe24.data}
+                      data={() => tbCe24.data(null, dataTabel, selectedBabyId)}
                       options={tbCe24.options}
                     />
                   </div>
@@ -435,7 +434,7 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={bbCe24.data}
+                      data={() => bbCe24.data(null, dataTabel, selectedBabyId)}
                       options={bbCe24.options}
                     />
                   </div>
@@ -456,7 +455,7 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={bbtbCe0.data}
+                      data={() => bbtbCe0.data(null, dataTabel, selectedBabyId)}
                       options={bbtbCe0.options}
                     />
                   </div>
@@ -475,7 +474,7 @@ const PantauAnak=() =>{
                 <CardBody>
                   <div className="chart-area" style={{ height: "500px" }}>
                     <Line
-                      data={bbtbCe24.data}
+                      data={() => bbtbCe24.data(null, dataTabel, selectedBabyId)}
                       options={bbtbCe24.options}
                     />
                   </div>
