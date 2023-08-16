@@ -102,6 +102,7 @@ const Baby=() =>{
     initialValues: {
       first_name: "",
       last_name: "",
+      gender: "",
       nik: "",
       no_kk: "",
       date_of_birth: "",
@@ -152,7 +153,21 @@ const Baby=() =>{
                     </Col>
                   </Row>
                   <Row>
-                    <Col className="pl-md-1" md="10">
+                  <Col className="pl-md-1" md="5">
+                      <FormGroup>
+                        <label>Jenis Kelamin</label>
+                        <Input
+                          type="text"
+                          className="text-input"
+                          value={formik.values.gender}
+                          onChange={formik.handleChange}
+                          name="gender"
+                          placeholder="Jenis kelamin"
+                          required
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-md-1" md="5">
                       <FormGroup>
                         <label>NIK</label>
                         <Input

@@ -84,6 +84,7 @@ const PantauAnak=() =>{
     const today = new Date();
     const birthDate = new Date(birthdate);
     const ageInMonths = (today.getFullYear() - birthDate.getFullYear()) * 12 + (today.getMonth() - birthDate.getMonth());
+    console.log(ageInMonths, "ini umur");
     return ageInMonths;
   };
 
@@ -170,6 +171,10 @@ const PantauAnak=() =>{
     }
   }, [initialAuthDone]);
 
+  const selectedBaby = babyOptions.find(baby => baby.id === selectedBabyId);
+  const babyGender = selectedBaby ? selectedBaby.gender : null;
+  console.log("ini gender", babyGender);
+
   return (
     <>
       <div className="content">
@@ -200,6 +205,7 @@ const PantauAnak=() =>{
                     <tr>
                       <th>Nama Depan</th>
                       <th>Nama Belakang</th>
+                      <th>Jenis Kelamin</th>
                       <th>Umur</th>
                       <th>Tinggi Badan</th>
                       <th>Berat Badan</th>
@@ -222,6 +228,7 @@ const PantauAnak=() =>{
                             <tr key={item.id}>
                               <td>{item.baby.first_name}</td>
                               <td>{item.baby.last_name}</td>
+                              <td>{item.baby.gender}</td>
                               <td>{monthsDiff} bulan</td>
                               <td>{item.body_height}</td>
                               <td>{item.body_weight}</td>
@@ -245,6 +252,7 @@ const PantauAnak=() =>{
           <>
         <Row >
             <Col lg="6">
+            {babyGender === 'L' &&(
               <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}> {/* Add the 'soft-blue-card' class here */}
                 <CardHeader>
                   <h5 className="card-category">KMS Panjang Badan Menurut Usia (Laki-Laki)</h5>
@@ -261,8 +269,10 @@ const PantauAnak=() =>{
                   </div>
                 </CardBody>
               </Card>
+            )}
             </Col>
             <Col lg="6">
+            {babyGender === 'L' && (
               <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}> {/* Add the 'soft-blue-card' class here */}
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Usia (Laki-Laki)</h5>
@@ -279,11 +289,12 @@ const PantauAnak=() =>{
                   </div>
                 </CardBody>
               </Card>
+            )}
             </Col>
           </Row>
           <Row>
           <Col lg="6">
-            {calculateAge(selectedBabyId.birth_date) < 24 && (
+          {babyGender === 'L' && calculateAge(babyOptions.find(baby => baby.id === selectedBabyId)?.date_of_birth) > 24 && (
               <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Tinggi Badan Menurut Usia (Laki-Laki)</h5>
@@ -303,7 +314,7 @@ const PantauAnak=() =>{
               )}
             </Col>
             <Col lg="6">
-              {calculateAge(selectedBabyId.birth_date) < 24 && (
+            {babyGender === 'L' &&calculateAge(babyOptions.find(baby => baby.id === selectedBabyId)?.date_of_birth) > 24 && (
               <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Usia (Laki-Laki)</h5>
@@ -325,6 +336,7 @@ const PantauAnak=() =>{
           </Row>
           <Row>
             <Col lg="6">
+            {babyGender === 'L' && (
               <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (Laki-Laki)</h5>
@@ -341,9 +353,10 @@ const PantauAnak=() =>{
                   </div>
                 </CardBody>
               </Card>
+            )}
             </Col>
             <Col lg="6">
-              {calculateAge(selectedBabyId.birth_date) < 24 && (
+            {babyGender === 'L' && calculateAge(babyOptions.find(baby => baby.id === selectedBabyId)?.date_of_birth) > 24 && (
               <Card style={{ backgroundColor: 'rgb(173, 216, 230)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (Laki-Laki)</h5>
@@ -365,6 +378,7 @@ const PantauAnak=() =>{
           </Row>
           <Row>
             <Col lg="6">
+            {babyGender === 'P' && (
               <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}> {/* Add the 'soft-blue-card' class here */}
                 <CardHeader>
                   <h5 className="card-category">KMS Panjang Badan Menurut Usia (perempuan)</h5>
@@ -381,8 +395,10 @@ const PantauAnak=() =>{
                   </div>
                 </CardBody>
               </Card>
+            )}
             </Col>
             <Col lg="6">
+            {babyGender === 'P' && (
               <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}> {/* Add the 'soft-blue-card' class here */}
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Usia (perempuan)</h5>
@@ -399,11 +415,12 @@ const PantauAnak=() =>{
                   </div>
                 </CardBody>
               </Card>
+            )}
             </Col>
           </Row>
           <Row>
             <Col lg="6">
-              {calculateAge(selectedBabyId.birth_date) < 24 && (
+            {babyGender === 'P' && calculateAge(babyOptions.find(baby => baby.id === selectedBabyId)?.date_of_birth) > 24 && (
               <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Tinggi Badan Menurut Usia (perempuan)</h5>
@@ -423,7 +440,7 @@ const PantauAnak=() =>{
               )}
             </Col>
             <Col lg="6">
-              {calculateAge(selectedBabyId.birth_date) < 24 && (
+            {babyGender === 'P' && calculateAge(babyOptions.find(baby => baby.id === selectedBabyId)?.date_of_birth) > 24 && (
               <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Usia (perempuan)</h5>
@@ -445,6 +462,7 @@ const PantauAnak=() =>{
           </Row>
           <Row>
             <Col lg="6">
+            {babyGender === 'P' && (
               <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (perempuan)</h5>
@@ -461,9 +479,10 @@ const PantauAnak=() =>{
                   </div>
                 </CardBody>
               </Card>
+            )}
             </Col>
             <Col lg="6">
-              {calculateAge(selectedBabyId.birth_date) < 24 && (
+            {babyGender === 'P' && calculateAge(babyOptions.find(baby => baby.id === selectedBabyId)?.date_of_birth) > 24 && (
               <Card style={{ backgroundColor: 'rgb(255, 182, 193)' }}>
                 <CardHeader>
                   <h5 className="card-category">KMS Berat Badan Menurut Tinggi Badan (perempuan)</h5>
