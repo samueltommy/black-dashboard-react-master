@@ -41,6 +41,8 @@ import Settings from "views/Settings";
 import SettingsBaby from "views/SettingsBaby";
 import SettingsNakes from "views/SettingsNakes";
 import SettingsSatker from "views/SettingsSatker";
+import SettingsMonitor from "views/SettingsMonitor";
+import DataPengguna from "views/Pengguna";
 
 var ps;
 
@@ -92,13 +94,14 @@ function Admin(prop) {
     setsidebarOpened(!sidebarOpened);
   };
   const roleRoutes = {
-    1: ["/dashboard", "/daftarortu", "/daftaranak", "/daftaruser", "/daftarsatker", "/pantaunasional", "/pantausatker", "/pantauanak", "/settings", "/settingsbaby", "/settingsnakes", "/settingssatker", "/monitor"],
-    2: ["/dashboard", "/pantausatker", "/pantauanak", "/daftarortu", "/daftaranak", "/daftaruser", "/settings", "/settingsbaby", "/settingsnakes", "/settingssatker", "/monitor"],
-    3: ["/dashboard", "/pantausatker", "/pantauanak", "/monitor"],
+    1: ["/dashboard", "/daftarortu", "/daftaranak", "/daftaruser", "/daftarsatker", "/pantaunasional", "/pantausatker", "/pantauanak", "/settings", "/settingsbaby", "/settingsnakes", "/settingssatker", "/settingsmonitor", "/monitor", "/pengguna"],
+    2: ["/dashboard", "/pantausatker", "/pantauanak", "/daftarortu", "/daftaranak", "/daftaruser", "/settings", "/settingsbaby", "/settingsnakes", "/settingssatker", "/settingsmonitor", "/monitor"],
+    3: ["/dashboard", "/pantausatker", "/pantauanak", "/settingsmonitor", "/monitor"],
     4: ["/dashboard", "/pantauanak"],
   };
   const getRoutes = (routes) => {
-    const allowedRoutes = roleRoutes[userRole];
+
+    const allowedRoutes = isNaN(userRole) ? [] : (roleRoutes[userRole] || []);
 
     console.log('userRole:', userRole);
     console.log('allowedRoutes:', allowedRoutes);
@@ -162,6 +165,8 @@ function Admin(prop) {
               <Route path={"/settingsnakes"} element={<SettingsNakes/>} />
               <Route path={"/settingsbaby"} element={<SettingsBaby/>} />
               <Route path={"/settingssatker"} element={<SettingsSatker/>} />
+              <Route path={"/settingsmonitor"} element={<SettingsMonitor/>}/>
+              <Route path={"/pengguna"} element={<DataPengguna/>}/>
               <Route
                 path="/"
                 element={<Navigate to="/admin/dashboard" replace />}

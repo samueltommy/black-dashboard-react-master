@@ -33,11 +33,12 @@ import {
 } from "reactstrap";
 
 import { useFormik } from "formik";
-import ParentService from "../services/parent";
+import SettingsMonitorService from "../services/settingsmonitor";
+import DeleteMonitorService from "../services/deletemonitor";
 
 import { useSignIn } from 'react-auth-kit'
 
-const Parents=() =>{
+const SettingsMonitor=() =>{
   const signIn=useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -64,7 +65,16 @@ const Parents=() =>{
     }
   };
 
-  const handleSubmit = async (parentPayload) => {
+  const handleIdChange = (event) => {
+    // Update the formik values
+    formik.setFieldValue("id", event.target.value);
+    
+    // Save the ID to local storage
+    localStorage.setItem("inputId", event.target.value);
+    console.log(event.target.value, "id")
+  };
+
+  const handleSubmit = async (settingsMonitorPayload) => {
     fetchdata();
     const accessToken = localStorage.getItem('accessToken');
       if (!accessToken) {
@@ -78,16 +88,16 @@ const Parents=() =>{
           "Authorization": `Bearer ${accessToken}`
         }
       };
-    console.log(parentPayload, "ini payload");
+    console.log(settingsMonitorPayload, "ini payload");
     try {
       // Next, use the accessToken to make a request to MonitorService
-      const parentResponse = await ParentService.parent(parentPayload, config);
-      const parentData = parentResponse.data;
-      console.log(parentData, "ini hasil monitor post");
+      const settingsMonitorResponse = await SettingsMonitorService.settingsmonitor(settingsMonitorPayload, config);
+      const settingsMonitorData = settingsMonitorResponse.data;
+      console.log(settingsMonitorData, "ini hasil monitor post");
 
-      if (parentResponse.status === 201) {
+      if (settingsMonitorResponse.status === 201) {
         setIsSuccess(true);
-        setNotificationMessage('Account created successfully.');
+        setNotificationMessage('Account edited successfully.');
         formik.resetForm(); // Reset form fields
       } else {
         setIsSuccess(false);
@@ -99,7 +109,31 @@ const Parents=() =>{
       console.error(error);
       setIsSuccess(false);
       setNotificationMessage('Something went wrong. Please try again.');
-      
+    }
+  };
+
+  const deleteSubmit = async () => {
+    fetchdata();
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      console.error('Access token not found. Please login first.');
+      return;
+    }
+
+    var config = {
+      headers: {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${accessToken}`
+      }
+    };
+    try {
+      const deleteMonitorResponse = await DeleteMonitorService.deletemonitor(config);
+      console.log('Account deleted:', deleteMonitorResponse); // Log the response if needed
+
+      // You might want to implement additional logic after the account is deleted, such as redirecting or showing a success message.
+    } catch (error) {
+      console.log('An error occurred during account deletion.');
+      console.error(error);
     }
   };
 
@@ -115,14 +149,10 @@ const Parents=() =>{
     initialValues: {
       first_name: "",
       last_name: "",
-      relation: "",
-      contact: "",
       nik: "",
       no_kk: "",
-      address: "",
       date_of_birth: "",
-      satker_id: "",
-      email: "",
+      parent_id: "",
     },
     onSubmit: handleSubmit,
   });
@@ -134,153 +164,79 @@ const Parents=() =>{
           <Col md="8">
             <Card>
               <CardHeader>
-                <h5 className="title">Pendaftaran Orangtua Baru</h5>
+                <h5 className="title">Pengaturan Monitor</h5>
               </CardHeader>
               <CardBody>
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
                     <Col className="pr-md-1" md="5">
-                      <FormGroup>
-                        <label>Nama Depan</label>
+                        <label>ID Anak</label>
                         <Input
                           type="text"
                           className="text-input"
-                          value={formik.values.first_name}
+                          value={formik.values.baby_id}
                           onChange={formik.handleChange}
-                          name="first_name"
-                          placeholder="Nama depan"
+                          name="baby_id"
+                          placeholder="ID anak"
                           required
                         />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label>Nama Belakang</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.last_name}
-                          onChange={formik.handleChange}
-                          name="last_name"
-                          placeholder="Nama belakang"
-                          required
-                        />
-                      </FormGroup>
                     </Col>
                   </Row>
                   <Row>
                      <Col className="px-md-1" md="5">
                       <FormGroup>
-                        <label>Relasi</label>
+                        <label>Tinggi</label>
                         <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.relation}
+                          type="number"
+                          className="number-input"
+                          value={formik.values.body_height}
                           onChange={formik.handleChange}
-                          name="relation"
-                          placeholder="Relasi dengan anak (m/f/o)"
+                          name="body_height"
+                          placeholder="Tinggi anak"
                           required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="pr-md-1" md="5">
                       <FormGroup>
-                        <label>Nomor Telepon</label>
+                        <label>Berat Anak</label>
                         <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.contact}
+                          type="number"
+                          className="number-input"
+                          value={formik.values.body_weight}
                           onChange={formik.handleChange}
-                          name="contact"
-                          placeholder="Nomor telepon orang tua"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-md-1" md="10">
-                      <FormGroup>
-                        <label>NIK</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.nik}
-                          onChange={formik.handleChange}
-                          name="nik"
-                          placeholder="NIK"
+                          name="body_weight"
+                          placeholder="Berat anak"
                           required
                         />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
-                    <Col className="pl-md-1" md="5">
+                    <Col className="px-md-1" md="5">
                       <FormGroup>
-                        <label>No. Kartu Keluarga</label>
+                        <label>Lingkar Lengan</label>
                         <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.no_kk}
+                          type="number"
+                          className="number-input"
+                          value={formik.values.arm_circumference}
                           onChange={formik.handleChange}
-                          name="no_kk"
-                          placeholder="No. kartu keluarga"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pr-md-1" md="5">
-                      <FormGroup>
-                        <label>Alamat</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.address}
-                          onChange={formik.handleChange}
-                          name="address"
-                          placeholder="Alamat"
-                          required
-                        />
-                      </FormGroup>
-                    </Col>
-                    </Row>
-                    <Row>
-                    <Col className="pl-md-1" md="5">
-                      <FormGroup>
-                        <label>Tanggal Lahir</label>
-                        <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.date_of_birth}
-                          onChange={formik.handleChange}
-                          name="date_of_birth"
-                          placeholder="Tanggal lahir"
+                          name="arm_circumference"
+                          placeholder="Lingkar lengan"
                           required
                         />
                       </FormGroup>
                     </Col>
                     <Col className="pl-md-1" md="5">
-                        <FormGroup>
-                          <label>ID Satuan Kerja</label>
-                          <Input
-                            type="text"
-                            className="text-input"
-                            value={formik.values.satker_id}
-                            onChange={formik.handleChange}
-                            name="satker_id"
-                            placeholder="ID Satuan kerja"
-                            required
-                          />
-                        </FormGroup>
-                      </Col>
-                    <Col className="pr-md-1" md="10">
                       <FormGroup>
-                        <label>Email</label>
+                        <label>Lingkar Kepala</label>
                         <Input
-                          type="text"
-                          className="text-input"
-                          value={formik.values.email}
+                          type="number"
+                          className="number-input"
+                          value={formik.values.head_circumference}
                           onChange={formik.handleChange}
-                          name="email"
-                          placeholder="Alamat email"
+                          name="head_circumference"
+                          placeholder="Lingkar kepala"
                           required
                         />
                       </FormGroup>
@@ -300,6 +256,9 @@ const Parents=() =>{
                       Save
                     </Button>
                 </form>
+                <Button className="btn-fill" color="danger" type="button" onClick={deleteSubmit}>
+                  Delete
+                </Button>
               </CardBody>
             </Card>
           </Col>
@@ -309,4 +268,4 @@ const Parents=() =>{
   );
 }
 
-export default Parents;
+export default SettingsMonitor;

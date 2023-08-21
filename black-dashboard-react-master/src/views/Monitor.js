@@ -39,6 +39,8 @@ import { useSignIn } from 'react-auth-kit'
 const Monitor=() =>{
   const signIn=useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
 
   const fetchdata = async () => {
     try {
@@ -81,11 +83,20 @@ const Monitor=() =>{
       const monitorResponse = await MonitorService.monitor(userPayload, config);
       const monitorData = monitorResponse.data;
       console.log(monitorData, "ini hasil monitor post");
+      if (monitorResponse.status === 201) {
+        setIsSuccess(true);
+        setNotificationMessage('Data created successfully.');
+        formik.resetForm(); // Reset form fields
+      } else {
+        setIsSuccess(false);
+        setNotificationMessage('Something went wrong. Please try again.');
+      }
 
     } catch (error) {
       console.log('An error occurred during upload.');
       console.error(error);
-      
+      setIsSuccess(false);
+      setNotificationMessage('Something went wrong. Please try again.');
     }
   };
 
@@ -193,7 +204,17 @@ const Monitor=() =>{
                       </FormGroup>
                     </Col>
                     </Row>
-                    <Button className="login-button" type="submit">
+                    {isSuccess && (
+                      <div>
+                        {notificationMessage}
+                      </div>
+                    )}
+                    {!isSuccess && notificationMessage && (
+                      <div>
+                        {notificationMessage}
+                      </div>
+                    )}
+                    <Button className="btn-fill" color="primary" type="submit">
                       Save
                     </Button>
                 </form>

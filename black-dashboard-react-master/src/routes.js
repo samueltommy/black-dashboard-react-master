@@ -28,9 +28,10 @@ import Settings from "views/Settings";
 import SettingsBaby from "views/SettingsBaby.js";
 import SettingsNakes from "views/SettingsNakes.js";
 import SettingsSatker from "views/SettingsSatker";
+import SettingsMonitor from "views/SettingsMonitor";
 import Typography from "views/Typography.js";
 import Monitor from "views/Monitor.js";
-
+import DataPengguna from "views/Pengguna.js"
 
 var routes = [
   {
@@ -141,7 +142,20 @@ var routes = [
         component: <SettingsSatker/>,
         layout: "/admin",
       },
+      {
+        path: "/settingsmonitor",
+        name: "Settings Monitor",
+        component: <SettingsMonitor/>,
+        layout: "/admin",
+      },
     ]
+  },
+  {
+    path: "/pengguna",
+    name: "Data User",
+    icon: "tim-icons icon-align-center",
+    component: <DataPengguna/>,
+    layout: "/admin",
   },
   {
     path: "/typography",

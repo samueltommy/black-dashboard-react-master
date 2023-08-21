@@ -26,9 +26,9 @@ function Sidebar(props) {
   const userRole = parseInt(localStorage.getItem("role"), 10);
   const roleRoutes = {
     // Define your role routes here
-    1: ["/admin/dashboard", "/admin/daftar", "/admin/pemantauan", "/admin/pengaturan","/admin/daftarortu", "/admin/daftaranak", "/admin/daftaruser", "/admin/daftarsatker", "/admin/pantaunasional", "/admin/settings", "/admin/settingsbaby", "/admin/settingsnakes", "/admin/settingssatker", "/admin/monitor"],
-    2: ["/admin/dashboard", "/admin/daftar", "/admin/pemantauan", "/admin/pengaturan", "/admin/pantausatker", "/admin/daftarortu", "/admin/daftaranak", "/admin/daftaruser", "/admin/settings", "/admin/settingsbaby", "/admin/settingsnakes", "/admin/monitor"],
-    3: ["/admin/dashboard", "/admin/pemantauan", "/admin/pantausatker", "/admin/monitor"],
+    1: ["/admin/dashboard", "/admin/daftar", "/admin/pemantauan", "/admin/pengaturan","/admin/daftarortu", "/admin/daftaranak", "/admin/daftaruser", "/admin/daftarsatker", "/admin/pantaunasional", "/admin/settings", "/admin/settingsbaby", "/admin/settingsnakes", "/admin/settingssatker", "/admin/settingsmonitor", "/admin/monitor", "/admin/pengguna"],
+    2: ["/admin/dashboard", "/admin/daftar", "/admin/pemantauan", "/admin/pengaturan", "/admin/pantausatker", "/admin/daftarortu", "/admin/daftaranak", "/admin/daftaruser", "/admin/settings", "/admin/settingsbaby", "/admin/settingsnakes", "/admin/settingsmonitor", "/admin/monitor"],
+    3: ["/admin/dashboard", "/admin/pemantauan", "/admin/pantausatker", "/admin/pengaturan", "/admin/settingsmonitor", "/admin/monitor"],
     4: ["/admin/dashboard", "/admin/pemantauan", "/admin/pantauanak"],
   };
 
@@ -116,6 +116,8 @@ function Sidebar(props) {
     }
   }
 
+  const sidebarWidth = 270; // Set the width of your sidebar in pixels
+
   return (
     <BackgroundColorContext.Consumer>
       {({ color }) => (
@@ -138,18 +140,32 @@ function Sidebar(props) {
                           <i className={prop.icon} />
                           <p>{rtlActive ? prop.rtlName : prop.name}</p>
                         </DropdownToggle>
-                        <DropdownMenu className="sidebar-dropdown-menu">
+                        <DropdownMenu
+                          className="sidebar-dropdown-menu"
+                          style={{
+                            backgroundColor: color,
+                            width: sidebarWidth + "px", // Set the width of the dropdown
+                            maxHeight: "300px", // Adjust this height as needed
+                            overflowY: "auto", // Enable scrolling if content overflows
+                            overflowX: "hidden", // Prevent horizontal scrolling
+                            scrollbarWidth: "thin", // Add a thin scrollbar
+                            scrollbarColor: "#aaa #f4f4f4", // Customize scrollbar colors
+                          }}
+                        >
                           {prop.children.map((childProp, childKey) => (
                             allowedRoutes.includes(childProp.layout + childProp.path) && (
                               <NavLink
                                 key={childKey}
-                                className={activeRoute(
-                                  childProp.layout + childProp.path
-                                )}
+                                className={`nav-link ${activeRoute(childProp.layout + childProp.path)}`}
                                 to={childProp.layout + childProp.path}
                                 onClick={props.toggleSidebar}
                               >
-                                <DropdownItem>
+                                <DropdownItem
+                                  style={{
+                                    width: sidebarWidth + "px", // Set the width of the dropdown item
+                                    lineHeight: "2.5rem", // Adjust this value as needed
+                                  }}
+                                >
                                   <i className={childProp.icon} />
                                   <p>
                                     {rtlActive

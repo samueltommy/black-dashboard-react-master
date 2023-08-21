@@ -40,6 +40,8 @@ import { useSignIn } from 'react-auth-kit'
 const Baby=() =>{
   const signIn=useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
 
   const fetchdata = async () => {
     try {
@@ -83,10 +85,20 @@ const Baby=() =>{
       const babyData = babyResponse.data;
       console.log(babyData, "ini hasil monitor post");
 
+      if (babyResponse.status === 201) {
+        setIsSuccess(true);
+        setNotificationMessage('Account created successfully.');
+        formik.resetForm(); // Reset form fields
+      } else {
+        setIsSuccess(false);
+        setNotificationMessage('Something went wrong. Please try again.');
+      }
+
     } catch (error) {
       console.log('An error occurred during upload.');
       console.error(error);
-      
+      setIsSuccess(false);
+      setNotificationMessage('Something went wrong. Please try again.');
     }
   };
 
@@ -228,6 +240,16 @@ const Baby=() =>{
                         </FormGroup>
                       </Col>
                     </Row>
+                    {isSuccess && (
+                      <div>
+                        {notificationMessage}
+                      </div>
+                    )}
+                    {!isSuccess && notificationMessage && (
+                      <div>
+                        {notificationMessage}
+                      </div>
+                    )}
                     <Button className="btn-fill" color="primary" type="submit">
                       Save
                     </Button>

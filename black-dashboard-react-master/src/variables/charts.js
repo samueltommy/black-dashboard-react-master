@@ -128,7 +128,7 @@ let chartExample1 = {
       ],
       datasets: [
         {
-          label: "Normal",
+          label: "Satker",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#1f8ef1",
@@ -145,7 +145,7 @@ let chartExample1 = {
           data: [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100, 55,35,41,100,77,53,90,54,23,75,34,64,100,55,95,70,30,50,10,100,60,50,40,20,70,115,],
         },
         {
-          label: "Tidak Normal",
+          label: "Bayi",
           fill: true,
           backgroundColor: gradientStroke,
           borderColor: "#f8d458",

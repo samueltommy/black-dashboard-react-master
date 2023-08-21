@@ -41,6 +41,8 @@ import { useSignIn } from 'react-auth-kit'
 const SettingsSatker=() =>{
   const signIn=useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
 
   const fetchdata = async () => {
     try {
@@ -93,10 +95,20 @@ const SettingsSatker=() =>{
       const settingsSatkerData = settingsSatkerResponse.data;
       console.log(settingsSatkerData, "ini hasil monitor post");
 
+      if (settingsSatkerResponse.status === 201) {
+        setIsSuccess(true);
+        setNotificationMessage('Account edited successfully.');
+        formik.resetForm(); // Reset form fields
+      } else {
+        setIsSuccess(false);
+        setNotificationMessage('Something went wrong. Please try again.');
+      }
+
     } catch (error) {
       console.log('An error occurred during upload.');
       console.error(error);
-      
+      setIsSuccess(false);
+      setNotificationMessage('Something went wrong. Please try again.');
     }
   };
 
@@ -286,6 +298,16 @@ const SettingsSatker=() =>{
                       </FormGroup>
                     </Col>
                     </Row>
+                    {isSuccess && (
+                      <div>
+                        {notificationMessage}
+                      </div>
+                    )}
+                    {!isSuccess && notificationMessage && (
+                      <div>
+                        {notificationMessage}
+                      </div>
+                    )}
                     <Button className="btn-fill" color="primary" type="submit">
                       Save
                     </Button>

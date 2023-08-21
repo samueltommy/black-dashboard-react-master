@@ -18,6 +18,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [error, setError] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
+  const [warningMessage, setWarningMessage] = React.useState(''); // New state
   const navigate = useNavigate();
   const signIn=useSignIn();
 
@@ -28,6 +29,7 @@ const LoginPage = () => {
   const handleSubmit = async (loginPayload) => {
     setIsLoading(true); // Set isLoading to true when the button is pressed
     setError(''); // Clear any previous error message
+    setWarningMessage(''); // Clear any previous warning message
     console.log(loginPayload, "ini payload");
     try {
       const response = await AuthService.signIn(loginPayload);
@@ -54,16 +56,21 @@ const LoginPage = () => {
       })
       fetchdata();
     } catch (error) {
-      if (error.response && error.response.status === 400 || error.response.status === 404) {
-        // Unauthorized, clear token and show error message
-        localStorage.removeItem('accessToken');
-        console.log('Invalid username or password.');
-        console.error(error);
+      if (error.response) {
+        if (error.response.status === 400) {
+          localStorage.removeItem('accessToken');
+          setWarningMessage('Invalid password'); // Set the warning message
+        } else if (error.response.status === 404) {
+          localStorage.removeItem('accessToken');
+          setWarningMessage('Incorrect username'); // Set the warning message
+        } else {
+          console.log('An error occurred during login');
+          console.error(error);
+        }
       } else {
-        // Handle other types of errors
-        console.log('An error occurred during login.');
+        console.log('An error occurred during login');
         console.error(error);
-      } 
+      }
       
       setIsLoading(false); // Set isLoading back to false after API call is done
       
@@ -147,10 +154,11 @@ const LoginPage = () => {
                   </div>
                   <div className="overlap-wrapper">
                     <div className="overlap">
+                    {warningMessage && <p className="warning-message">{warningMessage}</p>} {/* Display warning message */}
+                      {error && <p className="error-message">{error}</p>}
                       <button className="login-button" type="submit" disabled={isLoading}>
                         {isLoading ? 'Logging in...' : 'Masuk'}
                       </button>
-                      {error && <p className="error-message">{error}</p>}
                     </div>
                   </div>
                 </div>

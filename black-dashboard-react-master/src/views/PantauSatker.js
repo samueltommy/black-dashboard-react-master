@@ -20,6 +20,7 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar, Pie, PolarArea} from "react-chartjs-2";
+import moment from 'moment';
 
 // reactstrap components
 import {
@@ -61,14 +62,13 @@ import { useFormik } from "formik";
 import MonitorService from "../services/monitoring";
 
 import { useSignIn } from 'react-auth-kit'
-import moment from 'moment';
 
 const PantauSatker=() =>{
   const [data, setData] = useState([]);
   const [bigChartData, setBigChartData] = React.useState("data1");
-  const [satkerOptions, setSatkerOptions] = useState([]);
-  const [selectedSatkerId, setSelectedSatkerId] = useState("");
-  const [userData, setUserData] = useState([]);
+  const [babyId, setBabyId] = useState(''); // State to hold the entered baby_id
+  const [filteredData, setFilteredData] = useState([]); // State to hold filtered data
+  const [isSubmitted, setIsSubmitted] = useState(false); // State to track submit button press
   const setBgChartData = (name) => {
     setBigChartData(name);
   };
@@ -95,97 +95,70 @@ const PantauSatker=() =>{
       // Make your API call using Axios or Fetch here
       // For example:
       const response = await fetch('https://staging-antro.srv.kirei.co.id/monitoring', config);
-      const responseData = await response.json();
-      console.log('Data fetched:', responseData);
+    const responseData = await response.json();
+    console.log('Data fetched:', responseData);
 
-      const userId = localStorage.getItem('id');
-      console.log("ini id", userId);
-
-      const satkerId = localStorage.getItem('satker');
-      console.log("ini satker id", satkerId);
-  
-      const respon = await fetch('https://staging-antro.srv.kirei.co.id/users', config);
-      const responData = await respon.json();
-      console.log('Data fetched:', responData);
-  
-      const matchingObject = responData.data.data.find(obj => obj.satker_id === satkerId);
-
-      setData(responseData.data.data); // Set the data array to the state
-      setIsLoading(false); // Set isLoading to false after data is fetched
-      console.log('isLoading:', isLoading);
-
-      if (matchingObject) {
-        const satker = matchingObject.id;
-        setSatkerOptions(satker); // Set the baby objects to the state
-        setIsLoading(false); // Set isLoading to false after fetching baby options
-        return satker;
-      } 
-
+    setData(responseData.data.data); // Set the data array to the state
+    setIsLoading(false); // Set isLoading to false after data is fetched
+    console.log('isLoading:', isLoading);
   } catch (error) {
     console.error('An error occurred during API call.', error);
   }
 };
 
-  const fetchUserData = async () => {
-    try {
-      const accessToken = localStorage.getItem('accessToken');
-      if (!accessToken) {
-        console.error('Access token not found. Please login first.');
-        return;
-      }
-  
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        }
-      };
-  
-      const response = await fetch('https://staging-antro.srv.kirei.co.id/users', config);
-      const responseData = await response.json();
-      console.log('User data fetched:', responseData);
-  
-      return responseData.data.data;
-    } catch (error) {
-      console.error('An error occurred during API call.', error);
-      return [];
-    }
-  };  
 
   useEffect(() => {
+    // If the initial authentication is not done, trigger the fetchdata function
     if (!initialAuthDone) {
       fetchdata();
-      fetchUserData().then((userData) => {
-        setUserData(userData);
-  
-        // Extract unique satker_ids from user data
-        const uniqueSatkerIds = Array.from(new Set(userData.map(user => user.satker_id)));
-  
-        // Set the satkerOptions with unique satker_ids
-        setSatkerOptions(uniqueSatkerIds);
-  
-        setInitialAuthDone(true);
-      });
+      setInitialAuthDone(true);
     }
   }, [initialAuthDone]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  
+    if (babyId.trim() === '') {
+      // If the babyId is empty, show all data
+      setIsSubmitted(true);
+      setFilteredData(data);
+    } else {
+      // Filter the data based on the entered baby_id
+      const filtered = data.filter((item) => item.baby.id === babyId);
+  
+      if (filtered.length > 0) {
+        setIsSubmitted(true);
+        setFilteredData(filtered);
+      } else {
+        setIsSubmitted(false); // No matching data found, reset isSubmitted
+        setFilteredData([]); // Clear filteredData
+      }
+    }
+  };
+  
 
   return (
     <>
       <div className="content">
         <Row>
-          <Col md="6">
-            <FormGroup>
-              <Label for="exampleSelect">Select a satker</Label>
-              <Input type="select" name="select" id="exampleSelect">
-                <option value="">Select</option>
-                {satkerOptions.map((satker) => (
-                  <option key={satker.id} value={satker.id}>
-                    {satker.name}
-                  </option>
-                ))}
-              </Input>
-            </FormGroup>
-          </Col> 
+          <CardBody>
+            <Form onSubmit={handleSubmit}>
+              <FormGroup>
+                <Label for="babyId">Baby ID:</Label>
+                <Input
+                  type="text"
+                  id="babyId"
+                  name="babyId"
+                  value={babyId}
+                  onChange={(e) => setBabyId(e.target.value)}
+                  placeholder="Enter Baby ID"
+                />
+              </FormGroup>
+              <Button color="primary" type="submit">
+                Submit
+              </Button>
+            </Form>
+          </CardBody>
         </Row>
         <Row>
           <Col md="12">
@@ -199,6 +172,7 @@ const PantauSatker=() =>{
                     <tr>
                       <th>Nama Depan</th>
                       <th>Nama Belakang</th>
+                      <th>Jenis Kelamin</th>
                       <th>Umur</th>
                       <th>Tinggi Badan</th>
                       <th>Berat Badan</th>
@@ -207,34 +181,32 @@ const PantauSatker=() =>{
                     </tr>
                   </thead>
                   <tbody>
-                    {data && data.length > 0 ? (
-                      data
-                        .filter((item) => {
-                          const user = userData.find(user => user.id === item.nakes_user_id);
-                          return user && user.satker_id === selectedSatkerId;
-                        })
-                        .map((item) => {
-                          const birthDate = new Date(item.baby.created_at);
-                          const createdAt = new Date(item.created_at);
-                          const monthsDiff =
-                            (createdAt.getFullYear() - birthDate.getFullYear()) * 12 +
-                            (createdAt.getMonth() - birthDate.getMonth());
+                    {filteredData.length > 0 ? (
+                      filteredData.map((item) => {
+                        const birthDate = new Date(item.baby.date_of_birth);
+                        const createdAt = new Date(item.created_at);
+                        const monthsDiff =
+                          (createdAt.getFullYear() - birthDate.getFullYear()) * 12 +
+                          (createdAt.getMonth() - birthDate.getMonth());
 
-                          return (
-                            <tr key={item.id}>
-                              <td>{item.baby.first_name}</td>
-                              <td>{item.baby.last_name}</td>
-                              <td>{monthsDiff} months</td>
-                              <td>{item.body_height}</td>
-                              <td>{item.body_weight}</td>
-                              <td>{item.head_circumference}</td>
-                              <td>{item.arm_circumference}</td>
-                            </tr>
-                          );
-                        })
+                        return (
+                          <tr key={item.id}>
+                            <td>{item.baby.first_name}</td>
+                            <td>{item.baby.last_name}</td>
+                            <td>{item.baby.gender}</td>
+                            <td>{monthsDiff} months</td>
+                            <td>{item.body_height}</td>
+                            <td>{item.body_weight}</td>
+                            <td>{item.head_circumference}</td>
+                            <td>{item.arm_circumference}</td>
+                          </tr>
+                        );
+                      })
                     ) : (
                       <tr>
-                        <td colSpan="7">{isLoading ? 'Loading...' : 'No data available.'}</td>
+                        <td colSpan="8">
+                          {isSubmitted ? 'No matching data found.' : isLoading ? 'Loading...' : 'No data available.'}
+                        </td>
                       </tr>
                     )}
                   </tbody>

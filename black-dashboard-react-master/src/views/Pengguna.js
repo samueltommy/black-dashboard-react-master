@@ -63,7 +63,7 @@ import MonitorService from "../services/monitoring";
 
 import { useSignIn } from 'react-auth-kit'
 
-const PantauNasional=() =>{
+const DataPengguna=() =>{
   const [data, setData] = useState([]);
   const [bigChartData, setBigChartData] = React.useState("data1");
   const [babyId, setBabyId] = useState(''); // State to hold the entered baby_id
@@ -220,4 +220,4 @@ const PantauNasional=() =>{
   );
 }
 
-export default PantauNasional;
+export default DataPengguna;
