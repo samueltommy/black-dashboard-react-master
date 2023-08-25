@@ -20,6 +20,8 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar, Pie, PolarArea} from "react-chartjs-2";
+import emilyz from "../assets/img/emilyz.jpg"
+import laki from "../assets/img/anime3.png"
 
 // reactstrap components
 import {
@@ -175,6 +177,8 @@ const PantauAnak=() =>{
   const babyGender = selectedBaby ? selectedBaby.gender : null;
   console.log("ini gender", babyGender);
 
+  const profilePicture = babyGender === 'P' ? emilyz : laki;
+
   return (
     <>
       <div className="content">
@@ -193,6 +197,8 @@ const PantauAnak=() =>{
             </FormGroup>
           </Col>
         </Row>
+        {selectedBabyId && (
+        <div>
         <Row>
           <Col md="12">
             <Card>
@@ -200,12 +206,101 @@ const PantauAnak=() =>{
                 <h4 className="title">Child Monitoring Data</h4>
               </CardHeader>
               <CardBody>
-                <Table responsive>
+              <Row>
+                  <Col md="4">
+                    {/* Center the profile picture */}
+                    {selectedBabyId && (
+                      <div
+                        className="profile-picture-frame"
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          width: "100%",
+                          height: "100%",
+                          border: "2px solid #000",
+                          borderRadius: "10%",
+                        }}
+                      >
+                        <img
+                          src={profilePicture} // Use the determined profile picture
+                          alt="Profile"
+                          style={{
+                            maxWidth: '100%',
+                            maxHeight: '100%',
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            display: 'block',
+                            borderRadius: "10%",
+                          }}
+                        />
+                      </div>
+                    )}
+                  </Col>
+                <Col md="8">
+                <div style={{ maxHeight: '500px', overflow: 'auto' }}>
+                  <Table responsive>
+                    <tbody>
+                      {dataTabel && dataTabel.length > 0 ? (
+                        <React.Fragment>
+                          {dataTabel
+                            .filter((item) => item.baby.id === selectedBabyId)
+                            .map((item) => (
+                              <React.Fragment key={item.id}>
+                                <tr>
+                                  <th>Nama Depan</th>
+                                  <td>{item.baby.first_name}</td>
+                                </tr>
+                                <tr>
+                                  <th>Nama Belakang</th>
+                                  <td>{item.baby.last_name}</td>
+                                </tr>
+                                <tr>
+                                  <th>Jenis Kelamin</th>
+                                  <td>{item.baby.gender}</td>
+                                </tr>
+                                <tr>
+                                  <th>Umur</th>
+                                  <td>{calculateAge(babyOptions.find(baby => baby.id === selectedBabyId)?.date_of_birth)} bulan</td>
+                                </tr>
+                                <tr>
+                                  <th>ID</th>
+                                  <td>{item.baby_id}</td>
+                                </tr>
+                                <tr>
+                                  <th>Tanggal Lahir</th>
+                                  <td>{moment(item.baby.date_of_birth).format("DD/MM/YYYY")}</td>
+                                </tr>
+                                <tr>
+                                  <th>NIK</th>
+                                  <td>{item.baby.nik}</td>
+                                </tr>
+                                <tr>
+                                  <th>No. KK</th>
+                                  <td>{item.baby.no_kk}</td>
+                                </tr>
+                              </React.Fragment>
+                            ))}
+                        </React.Fragment>
+                      ) : (
+                        <tr>
+                          <td colSpan="2">{isLoading ? 'Loading...' : 'No data available.'}</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </Table>
+                  </div>
+                  </Col>
+                </Row>
+                <div style={{ paddingTop: '30px' }} />
+                <Row>
+                <Col lg="12">
+                <div style={{ paddingLeft: '20px' }}>
+                  <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto', maxHeight: '500px', overflow: 'auto' }}>
+                    <Table responsive style={{ width: '100%' }}>
                   <thead className="text-primary">
                     <tr>
-                      <th>Nama Depan</th>
-                      <th>Nama Belakang</th>
-                      <th>Jenis Kelamin</th>
                       <th>Umur</th>
                       <th>Tinggi Badan</th>
                       <th>Berat Badan</th>
@@ -226,9 +321,6 @@ const PantauAnak=() =>{
 
                           return (
                             <tr key={item.id}>
-                              <td>{item.baby.first_name}</td>
-                              <td>{item.baby.last_name}</td>
-                              <td>{item.baby.gender}</td>
                               <td>{monthsDiff} bulan</td>
                               <td>{item.body_height}</td>
                               <td>{item.body_weight}</td>
@@ -244,6 +336,10 @@ const PantauAnak=() =>{
                     )}
                   </tbody>
                 </Table>
+                </div>
+                </div>
+                </Col>
+                </Row>
               </CardBody>
             </Card>
           </Col>
@@ -503,6 +599,8 @@ const PantauAnak=() =>{
             </Col>
           </Row>
           </>
+        )}
+        </div>
         )}
       </div>
     </>

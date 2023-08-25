@@ -172,7 +172,6 @@ function Admin(prop) {
                 element={<Navigate to="/admin/dashboard" replace />}
               />
             </Routes>
-            {!isLoginPage && location.pathname !== "/admin/maps" && <Footer fluid />}
           </div>
           <FixedPlugin bgColor={color} handleBgClick={changeColor} />
         </React.Fragment>

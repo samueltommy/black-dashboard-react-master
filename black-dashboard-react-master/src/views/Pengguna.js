@@ -59,14 +59,14 @@ import {
 } from "variables/charts.js";
 
 import { useFormik } from "formik";
-import MonitorService from "../services/monitoring";
+import PenggunaService from "../services/pengguna";
 
 import { useSignIn } from 'react-auth-kit'
 
 const DataPengguna=() =>{
   const [data, setData] = useState([]);
   const [bigChartData, setBigChartData] = React.useState("data1");
-  const [babyId, setBabyId] = useState(''); // State to hold the entered baby_id
+  const [parentId, setParentId] = useState(''); // State to hold the entered baby_id
   const [filteredData, setFilteredData] = useState([]); // State to hold filtered data
   const [isSubmitted, setIsSubmitted] = useState(false); // State to track submit button press
   const setBgChartData = (name) => {
@@ -94,7 +94,7 @@ const DataPengguna=() =>{
   
       // Make your API call using Axios or Fetch here
       // For example:
-      const response = await fetch('https://staging-antro.srv.kirei.co.id/monitoring', config);
+      const response = await fetch('https://staging-antro.srv.kirei.co.id/parent', config);
     const responseData = await response.json();
     console.log('Data fetched:', responseData);
 
@@ -118,13 +118,13 @@ const DataPengguna=() =>{
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    if (babyId.trim() === '') {
+    if (parentId.trim() === '') {
       // If the babyId is empty, show all data
       setIsSubmitted(true);
       setFilteredData(data);
     } else {
       // Filter the data based on the entered baby_id
-      const filtered = data.filter((item) => item.baby.id === babyId);
+      const filtered = data.filter((item) => item.id === parentId);
   
       if (filtered.length > 0) {
         setIsSubmitted(true);
@@ -144,14 +144,14 @@ const DataPengguna=() =>{
           <CardBody>
             <Form onSubmit={handleSubmit}>
               <FormGroup>
-                <Label for="babyId">Baby ID:</Label>
+                <Label for="parentId">Parent ID:</Label>
                 <Input
                   type="text"
-                  id="babyId"
-                  name="babyId"
-                  value={babyId}
-                  onChange={(e) => setBabyId(e.target.value)}
-                  placeholder="Enter Baby ID"
+                  id="parentId"
+                  name="parentId"
+                  value={parentId}
+                  onChange={(e) => setParentId(e.target.value)}
+                  placeholder="Enter Parent ID"
                 />
               </FormGroup>
               <Button color="primary" type="submit">
@@ -164,7 +164,7 @@ const DataPengguna=() =>{
           <Col md="12">
             <Card>
               <CardHeader>
-                <h4 className="title">Child Monitoring Data</h4>
+                <h4 className="title">Data Orangtua</h4>
               </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -172,33 +172,29 @@ const DataPengguna=() =>{
                     <tr>
                       <th>Nama Depan</th>
                       <th>Nama Belakang</th>
-                      <th>Jenis Kelamin</th>
-                      <th>Umur</th>
-                      <th>Tinggi Badan</th>
-                      <th>Berat Badan</th>
-                      <th>Lingkar Lengan</th>
-                      <th>Lingkar Kepala</th>
+                      <th>Relasi</th>
+                      <th>Kontak</th>
+                      <th>KK</th>
+                      <th>ID</th>
+                      <th>NIK</th>
+                      <th>Alamat</th>
+                      <th>Bayi</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredData.length > 0 ? (
                       filteredData.map((item) => {
-                        const birthDate = new Date(item.baby.date_of_birth);
-                        const createdAt = new Date(item.created_at);
-                        const monthsDiff =
-                          (createdAt.getFullYear() - birthDate.getFullYear()) * 12 +
-                          (createdAt.getMonth() - birthDate.getMonth());
 
                         return (
                           <tr key={item.id}>
-                            <td>{item.baby.first_name}</td>
-                            <td>{item.baby.last_name}</td>
-                            <td>{item.baby.gender}</td>
-                            <td>{monthsDiff} months</td>
-                            <td>{item.body_height}</td>
-                            <td>{item.body_weight}</td>
-                            <td>{item.head_circumference}</td>
-                            <td>{item.arm_circumference}</td>
+                            <td>{item.first_name}</td>
+                            <td>{item.last_name}</td>
+                            <td>{item.relation}</td>
+                            <td>{item.contact}</td>
+                            <td>{item.no_kk}</td>
+                            <td>{item.id}</td>
+                            <td>{item.nik}</td>
+                            <td>{item.address}</td>
                           </tr>
                         );
                       })
