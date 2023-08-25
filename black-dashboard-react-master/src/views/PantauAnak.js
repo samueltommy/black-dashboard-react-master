@@ -598,6 +598,26 @@ const PantauAnak=() =>{
               )}
             </Col>
           </Row>
+          <Row>
+              <Col md="12">
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+                  <Button color="primary">Click Me</Button>
+                </div>
+              </Col>
+            </Row>
+            <br/>
+            <Row>
+              <Col md="12">
+                <Card>
+                  <CardHeader>
+                    <h4 className="title">Analisis</h4>
+                  </CardHeader>
+                  <CardBody>
+                    {/* Add content for your additional card */}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
           </>
         )}
         </div>
