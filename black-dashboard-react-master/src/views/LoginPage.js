@@ -47,6 +47,18 @@ const LoginPage = () => {
       const satker = data.userData.satker_id;
       console.log("ini satker_id", satker);
       localStorage.setItem("satker", satker);
+
+      var config = {
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
+        }
+      };
+
+      const grafik = await fetch('https://staging-antro.srv.kirei.co.id/monitoring', config);
+      const grafikData = await grafik.json();
+      console.log('Data fetched:', grafikData);
+      localStorage.setItem("grafik", grafik);
       
       signIn({
         auth: accessToken,

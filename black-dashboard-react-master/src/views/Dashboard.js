@@ -49,9 +49,6 @@ import {
 // core components
 import {
   chartExample1,
-  chartExample2,
-  chartExample3,
-  chartExample4,
   bbCo0,
   bbCo24,
   tbCo0,
@@ -62,8 +59,6 @@ import {
 
 import { useSignIn } from 'react-auth-kit'
 
-import LandingPage from "./LandingPage.js";
-
 const Dashboard = (props) =>{
   const [bigChartData, setBigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
@@ -71,6 +66,7 @@ const Dashboard = (props) =>{
   };
   const [summaryData, setSummaryData] = useState({ total_satker: 0, total_nakes: 0 });
   const [babyData, setBabyData] = useState({totalItems: 0});
+  const [grafikData, setGrafikData] = useState([]);
   const signIn = useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
 
@@ -99,6 +95,10 @@ const Dashboard = (props) =>{
       const responData = await respon.json();
       console.log('Data fetched:', responData);
 
+      const grafik = await fetch('https://staging-antro.srv.kirei.co.id/monitoring', config)
+      const grafikData = await grafik.json();
+      console.log('Data fetched:', grafikData);
+
       // Extract the total_satker and total_nakes from the response data
       const { total_satker, total_nakes } = responseData.data;
       const { totalItems } = responData.data.meta;
@@ -106,6 +106,7 @@ const Dashboard = (props) =>{
       // Set the summaryData state with the extracted data
       setSummaryData({ total_satker, total_nakes });
       setBabyData({totalItems});
+      setGrafikData(grafikData.data.data); // Set the data array to the state
 
     } catch (error) {
       // Handle errors here
@@ -128,41 +129,6 @@ const Dashboard = (props) =>{
         style={{ paddingTop: "80px", minHeight: "100vh" }} // Added minHeight property
       >
         <Container fluid>
-          <Row>
-            <Col xs="12">
-              <Card className="card-chart">
-                <CardBody>
-                  <LandingPage />
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs="12">
-              <Card>
-                <CardHeader>
-                  <Row>
-                    <Col className="text-left" sm="6">
-                      <h5 className="card-category">
-                        Perbandingan per Provinsi
-                      </h5>
-                      <CardTitle tag="h2">
-                        Visualisasi Perbandinan Jumlah Satker dan Bayi
-                      </CardTitle>
-                    </Col>
-                  </Row>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-                    <Bar
-                      data={chartExample1[bigChartData]}
-                      options={chartExample1.options}
-                    />
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
           <Row>
             <Col lg="4">
               <Card className="card-chart">
@@ -196,6 +162,32 @@ const Dashboard = (props) =>{
                     {babyData.totalItems} Anak
                   </CardTitle>
                 </CardHeader>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs="12">
+              <Card>
+                <CardHeader>
+                  <Row>
+                    <Col className="text-left" sm="6">
+                      <h5 className="card-category">
+                        Jumlah Pengukuran
+                      </h5>
+                      <CardTitle tag="h2">
+                        Visualisasi Total Pengukuran per Bulan
+                      </CardTitle>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <div className="chart-area">
+                    <Line
+                      data={() => chartExample1.data(null, grafikData)}
+                      options={chartExample1.options}
+                    />
+                  </div>
+                </CardBody>
               </Card>
             </Col>
           </Row>
