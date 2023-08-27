@@ -70,6 +70,7 @@ import { useFormik } from "formik";
 import MonitorService from "../services/monitoring";
 import moment from 'moment';
 import apiClient from "../utils/api"
+import QRCode from 'qrcode.react';
 
 import { useSignIn } from 'react-auth-kit'
 
@@ -183,7 +184,7 @@ const PantauAnak=() =>{
     <>
       <div className="content">
         <Row>
-          <Col md="6">
+          <Col md="2">
             <FormGroup>
               <Label for="exampleSelect">Select a Baby</Label>
               <Input type="select" name="select" id="exampleSelect" onChange={handleIdChange}>
@@ -207,39 +208,39 @@ const PantauAnak=() =>{
               </CardHeader>
               <CardBody>
               <Row>
-                  <Col md="4">
-                    {/* Center the profile picture */}
-                    {selectedBabyId && (
-                      <div
-                        className="profile-picture-frame"
+                <Col md="3">
+                  {/* Center the profile picture */}
+                  {selectedBabyId && (
+                    <div
+                      className="profile-picture-frame"
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        height: "280px",
+                        border: "2px solid #000",
+                        borderRadius: "10%",
+                      }}
+                    >
+                      <img
+                        src={profilePicture} // Use the determined profile picture
+                        alt="Profile"
                         style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          width: "100%",
-                          height: "100%",
-                          border: "2px solid #000",
+                          maxWidth: '100%',
+                          maxHeight: '100%',
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
                           borderRadius: "10%",
                         }}
-                      >
-                        <img
-                          src={profilePicture} // Use the determined profile picture
-                          alt="Profile"
-                          style={{
-                            maxWidth: '100%',
-                            maxHeight: '100%',
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            display: 'block',
-                            borderRadius: "10%",
-                          }}
-                        />
-                      </div>
-                    )}
-                  </Col>
-                <Col md="8">
-                <div style={{ maxHeight: '500px', overflow: 'auto' }}>
+                      />
+                    </div>
+                  )}
+                </Col>
+                <Col md="6">
+                <div style={{ maxHeight: '500px', overflow: 'auto', marginLeft: '10px' }}>
                   <Table responsive>
                     <tbody>
                       {dataTabel && dataTabel.length > 0 ? (
@@ -265,20 +266,8 @@ const PantauAnak=() =>{
                                   <td>{calculateAge(babyOptions.find(baby => baby.id === selectedBabyId)?.date_of_birth)} bulan</td>
                                 </tr>
                                 <tr>
-                                  <th>ID</th>
-                                  <td>{item.baby_id}</td>
-                                </tr>
-                                <tr>
                                   <th>Tanggal Lahir</th>
                                   <td>{moment(item.baby.date_of_birth).format("DD/MM/YYYY")}</td>
-                                </tr>
-                                <tr>
-                                  <th>NIK</th>
-                                  <td>{item.baby.nik}</td>
-                                </tr>
-                                <tr>
-                                  <th>No. KK</th>
-                                  <td>{item.baby.no_kk}</td>
                                 </tr>
                               </React.Fragment>
                             ))}
@@ -292,6 +281,18 @@ const PantauAnak=() =>{
                   </Table>
                   </div>
                   </Col>
+                  {selectedBabyId && (
+                  <Col md="3">
+                    <Card>
+                      <CardBody>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '26px', marginRight: '30px' }}>
+                          {/* Generate QR code with the NIK data */}
+                          <QRCode value={selectedBaby.nik} size={200} />
+                        </div>
+                      </CardBody>
+                    </Card>
+                  </Col>
+                  )}
                 </Row>
                 <div style={{ paddingTop: '30px' }} />
                 <Row>
