@@ -64,9 +64,6 @@ function AdminNavbar(props) {
             </Nav>
         </Container>
       </Navbar>
-      <div>
-        {/* Add your dashboard content here */}
-      </div>
     </>
   );
 }

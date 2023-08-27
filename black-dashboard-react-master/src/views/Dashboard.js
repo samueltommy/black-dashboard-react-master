@@ -20,9 +20,12 @@ import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 // react plugin used to create charts
 import { Line, Bar, Pie, PolarArea} from "react-chartjs-2";
+import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
 import "assets/css/black-dashboard-react.css";
-import maps from "assets/img/map.svg";
+import points from "assets/img/point.png";
 
 // reactstrap components
 import {
@@ -67,6 +70,7 @@ const Dashboard = (props) =>{
   const [summaryData, setSummaryData] = useState({ total_satker: 0, total_nakes: 0 });
   const [babyData, setBabyData] = useState({totalItems: 0});
   const [grafikData, setGrafikData] = useState([]);
+  const [satkerData, setSatkerData] = useState([]);
   const signIn = useSignIn();
   const [initialAuthDone, setInitialAuthDone] = useState(false);
 
@@ -99,6 +103,10 @@ const Dashboard = (props) =>{
       const grafikData = await grafik.json();
       console.log('Data fetched:', grafikData);
 
+      const map = await fetch('https://staging-antro.srv.kirei.co.id/satker', config)
+      const mapData = await map.json();
+      console.log('Data fetched:', map);
+
       // Extract the total_satker and total_nakes from the response data
       const { total_satker, total_nakes } = responseData.data;
       const { totalItems } = responData.data.meta;
@@ -107,6 +115,7 @@ const Dashboard = (props) =>{
       setSummaryData({ total_satker, total_nakes });
       setBabyData({totalItems});
       setGrafikData(grafikData.data.data); // Set the data array to the state
+      setSatkerData(mapData.data.data);
 
     } catch (error) {
       // Handle errors here
@@ -122,6 +131,14 @@ const Dashboard = (props) =>{
     }
   }, [initialAuthDone]);
 
+  // Create a custom icon for the markers
+  const customIcon = L.icon({
+    iconUrl: points, // Replace with the actual path to your marker icon image
+    iconSize: [25, 32], // Adjust the size of the icon
+    iconAnchor: [16, 32], // Adjust the anchor point
+    popupAnchor: [0, -32] // Adjust the popup anchor
+  });
+
   return (
     <>
       <div
@@ -130,40 +147,60 @@ const Dashboard = (props) =>{
       >
         <Container fluid>
           <Row>
-            <Col lg="4">
-              <Card className="card-chart">
-                <CardHeader>
-                  <h5 className="card-category">Jumlah Puskesmas</h5>
-                  <CardTitle tag="h3">
-                  <i className="tim-icons icon-send text-success" />{" "}
+          <Col lg="4">
+            <Card className="card-chart" style={{ padding: '20px' }}>
+              <CardHeader>
+                <h5 className="card-category">Jumlah Puskesmas</h5>
+                <CardTitle
+                  tag="h3"
+                  style={{
+                    fontSize: '35px',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <i className="tim-icons icon-send text-success" style={{ marginRight: '10px' }} />
                   {summaryData.total_satker} Satuan Kerja
-                  </CardTitle>
-                </CardHeader>
-              </Card>
-            </Col>
-            <Col lg="4">
-              <Card className="card-chart">
-                <CardHeader>
-                  <h5 className="card-category">Jumlah Nakes</h5>
-                  {/* Display the total_nakes value from summaryData */}
-                  <CardTitle tag="h3">
-                    <i className="tim-icons icon-send text-success" />{" "}
-                    {summaryData.total_nakes} Nakes
-                  </CardTitle>
-                </CardHeader>
-              </Card>
-            </Col>
-            <Col lg="4">
-              <Card className="card-chart">
-                <CardHeader>
-                  <h5 className="card-category">Jumlah Anak</h5>
-                  <CardTitle tag="h3">
-                    <i className="tim-icons icon-send text-success" />
-                    {babyData.totalItems} Anak
-                  </CardTitle>
-                </CardHeader>
-              </Card>
-            </Col>
+                </CardTitle>
+              </CardHeader>
+            </Card>
+          </Col>
+          <Col lg="4">
+            <Card className="card-chart" style={{ padding: '20px' }}>
+              <CardHeader>
+                <h5 className="card-category">Jumlah Nakes</h5>
+                <CardTitle
+                  tag="h3"
+                  style={{
+                    fontSize: '35px',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <i className="tim-icons icon-send text-success" style={{ marginRight: '10px' }} />
+                  {summaryData.total_nakes} Nakes
+                </CardTitle>
+              </CardHeader>
+            </Card>
+          </Col>
+          <Col lg="4">
+            <Card className="card-chart" style={{ padding: '20px' }}>
+              <CardHeader>
+                <h5 className="card-category">Jumlah Anak</h5>
+                <CardTitle
+                  tag="h3"
+                  style={{
+                    fontSize: '35px',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <i className="tim-icons icon-send text-success" style={{ marginRight: '10px' }} />
+                  {babyData.totalItems} Anak
+                </CardTitle>
+              </CardHeader>
+            </Card>
+          </Col>
           </Row>
           <Row>
             <Col xs="12">
@@ -171,9 +208,9 @@ const Dashboard = (props) =>{
                 <CardHeader>
                   <Row>
                     <Col className="text-left" sm="6">
-                      <h5 className="card-category">
+                      <h3 className="card-category">
                         Jumlah Pengukuran
-                      </h5>
+                      </h3>
                       <CardTitle tag="h2">
                         Visualisasi Total Pengukuran per Bulan
                       </CardTitle>
@@ -192,20 +229,45 @@ const Dashboard = (props) =>{
             </Col>
           </Row>
           <Row>
-            <Col xs="12">
-              <Card className="card-chart">
-                <CardHeader>
-                  <Row>
-                    <Col className="text-left" sm="6">
-                      <CardTitle tag="h2">Visualisasi per Provinsi</CardTitle>
-                    </Col>
-                  </Row>
-                </CardHeader>
-                <CardBody>
-                  <img src={maps} alt ="map indo" />
-                </CardBody>
-              </Card>
-            </Col>
+          <Col xs="12">
+            <Card className="card-chart">
+              <CardHeader>
+                <Row>
+                  <Col className="text-left" sm="6">
+                    <CardTitle tag="h2">Persebaran Satuan Kerja</CardTitle>
+                  </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+              <div>
+              <MapContainer
+                className="map-container" // Apply the class here
+                center={[-2, 118]} // Center the map around Indonesia
+                zoom={5} // Set an appropriate zoom level
+                style={{ height: '600px', width: '100%' }}
+                zoomControl={false} // Disable zoom control
+                dragging={false} // Disable dragging
+                scrollWheelZoom={false}
+                doubleClickZoom={false} // Disable double-click zoom
+              >
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                />
+                  {satkerData.map((facility) => (
+                    <Marker
+                      key={facility.id}
+                      position={[parseFloat(facility.lat), parseFloat(facility.lon)]}
+                      icon={customIcon} // Provide the custom icon to the marker
+                    >
+                      <Popup>{facility.kabupaten}</Popup>
+                    </Marker>
+                  ))}
+                </MapContainer>
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
           </Row>
         </Container>
       </div>
