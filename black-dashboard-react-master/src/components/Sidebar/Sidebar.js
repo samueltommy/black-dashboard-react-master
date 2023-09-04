@@ -11,10 +11,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import {
-  BackgroundColorContext,
-  backgroundColors,
-} from "contexts/BackgroundColorContext";
 
 var ps;
 
@@ -29,7 +25,7 @@ function Sidebar(props) {
     1: ["/admin/dashboard", "/admin/daftar", "/admin/pemantauan", "/admin/pengaturan","/admin/daftarortu", "/admin/daftaranak", "/admin/daftaruser", "/admin/daftarsatker", "/admin/pantaunasional", "/admin/settings", "/admin/settingsbaby", "/admin/settingsnakes", "/admin/settingssatker", "/admin/settingsmonitor", "/admin/monitor", "/admin/pengguna"],
     2: ["/admin/dashboard", "/admin/daftar", "/admin/pemantauan", "/admin/pengaturan", "/admin/pantausatker", "/admin/daftarortu", "/admin/daftaranak", "/admin/daftaruser", "/admin/settings", "/admin/settingsbaby", "/admin/settingsnakes", "/admin/settingsmonitor", "/admin/monitor"],
     3: ["/admin/dashboard", "/admin/pemantauan", "/admin/pantausatker", "/admin/pengaturan", "/admin/settingsmonitor", "/admin/monitor"],
-    4: ["/admin/dashboard", "/admin/pemantauan", "/admin/pantauanak"],
+    4: ["/admin/pemantauan", "/admin/pantauanak"],
   };
 
   const allowedRoutes = roleRoutes[userRole] || [];
@@ -117,11 +113,10 @@ function Sidebar(props) {
   }
 
   const sidebarWidth = 270; // Set the width of your sidebar in pixels
+  const backgroundColor = "#57C5B6"; 
 
   return (
-    <BackgroundColorContext.Consumer>
-      {({ color }) => (
-        <div className="sidebar" data={color}>
+        <div className="sidebar" data={backgroundColor}>
           <div className="sidebar-wrapper" ref={sidebarRef}>
             <Nav>
               {routes.map((prop, key) => {
@@ -143,7 +138,7 @@ function Sidebar(props) {
                         <DropdownMenu
                           className="sidebar-dropdown-menu"
                           style={{
-                            backgroundColor: color,
+                            backgroundColor: backgroundColor,
                             width: sidebarWidth + "px", // Set the width of the dropdown
                             maxHeight: "300px", // Adjust this height as needed
                             overflowY: "auto", // Enable scrolling if content overflows
@@ -207,8 +202,5 @@ function Sidebar(props) {
           </div>
         </div>
       )}
-    </BackgroundColorContext.Consumer>
-  );
-}
 
 export default Sidebar;

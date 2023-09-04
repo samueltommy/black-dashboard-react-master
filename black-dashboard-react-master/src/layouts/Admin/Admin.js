@@ -97,7 +97,7 @@ function Admin(prop) {
     1: ["/dashboard", "/daftarortu", "/daftaranak", "/daftaruser", "/daftarsatker", "/pantaunasional", "/pantausatker", "/pantauanak", "/settings", "/settingsbaby", "/settingsnakes", "/settingssatker", "/settingsmonitor", "/monitor", "/pengguna"],
     2: ["/dashboard", "/pantausatker", "/pantauanak", "/daftarortu", "/daftaranak", "/daftaruser", "/settings", "/settingsbaby", "/settingsnakes", "/settingssatker", "/settingsmonitor", "/monitor"],
     3: ["/dashboard", "/pantausatker", "/pantauanak", "/settingsmonitor", "/monitor"],
-    4: ["/dashboard", "/pantauanak"],
+    4: ["/pantauanak"],
   };
   const getRoutes = (routes) => {
 
